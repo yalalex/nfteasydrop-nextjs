@@ -5,7 +5,7 @@ import Example from './Example';
 
 import { formStyles } from './styles/form.styles';
 
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Fade } from '@mui/material';
 
 import { ethers } from 'ethers';
 
@@ -75,8 +75,8 @@ const Form = ({ tokenType }) => {
   }, [defaultAccount, token]);
 
   const checkToken = async () => {
-    // if (chain === 'Unsupported')
-    //   return errorHandler(`${chain} is not supported`);
+    if (chain === 'Unsupported')
+      return errorHandler(`${chain} is not supported`);
     setApprovalLoading(true);
     try {
       const approval = await airdropContract.isApproved(token);
@@ -100,8 +100,8 @@ const Form = ({ tokenType }) => {
   const changeApprovalStatus = async (status) => {
     if (!defaultAccount)
       return errorHandler('Please connect your wallet first'); // make local error?
-    // if (chain === 'Unsupported')
-    //   return errorHandler(`${chain} is not supported`);
+    if (chain === 'Unsupported')
+      return errorHandler(`${chain} is not supported`);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
       setIsApproved(status);
@@ -122,8 +122,8 @@ const Form = ({ tokenType }) => {
     if (!isApproved) return errorHandler('Please approve before submit');
     if (!isChecked)
       return errorHandler('Please click CHECK DATA before submit');
-    // if (chain === 'Unsupported')
-    //   return errorHandler(`${chain} is not supported`);
+    if (chain === 'Unsupported')
+      return errorHandler(`${chain} is not supported`);
 
     const { addresses, ids, amounts } = drop;
 
@@ -220,7 +220,7 @@ const Form = ({ tokenType }) => {
         closeModal={() => setExampleModal(false)}
         modalStatus={exampleModal}
       />
-      <div className={classes.formContainer}>
+      <Fade in={true} {...{ timeout: 1000 }}>
         <form onSubmit={exec} className={classes.form}>
           <div className={classes.formElement}>
             <TextField
@@ -375,7 +375,7 @@ const Form = ({ tokenType }) => {
             </Button>
           </div>
         </form>
-      </div>
+      </Fade>
     </>
   );
 };

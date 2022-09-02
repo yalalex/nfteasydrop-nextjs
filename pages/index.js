@@ -30,6 +30,7 @@ const Home = () => {
         elevation={3}
         style={{
           maxWidth: 760,
+          minHeight: 270,
           textAlign: 'center',
           margin: 'auto',
           marginTop: 2,
