@@ -1,17 +1,20 @@
 import { useContext, useState } from 'react';
 
-import Link from 'next/link';
+import Dropdown from './Dropdown';
 
+import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { truncate } from '../utils/truncate';
 
 import { Context } from '../context/context';
 
-import { chainList } from '../config';
+import { chainList, langList } from '../config';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import TelegramIcon from '@mui/icons-material/Telegram';
 
 import {
   AppBar,
@@ -31,21 +34,27 @@ const drawerWidth = 240;
 
 const links = [
   { id: 1, path: '/', title: 'Home' },
-  { id: 2, path: '/subscribe', title: 'Subscription' },
+  { id: 2, path: '/subscribe', title: 'Subscribe' },
   { id: 3, path: '/tutorial', title: 'Tutorial' },
 ];
 
 const Navbar = () => {
-  // const classes = navbarStyles();
+  const router = useRouter();
 
   const {
     defaultAccount,
     chain,
     chainId,
+    lang,
     loading,
     connectWalletHandler,
     changeChain,
+    changeLang,
   } = useContext(Context);
+
+  const switchChain = (newChainId) => {
+    changeChain(chainId, newChainId);
+  };
 
   const connect = () => {
     if (defaultAccount) return;
@@ -69,11 +78,43 @@ const Navbar = () => {
           <ListItem key={link.id} disablePadding>
             <ListItemButton className='link-container'>
               <Link href={link.path} className='link'>
-                <ListItemText primary={link.title} />
+                <ListItemText
+                  primary={link.title}
+                  style={{
+                    textDecoration:
+                      router.pathname === link.path && 'underline',
+                  }}
+                />
               </Link>
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem>
+          <div className='drawer-icons'>
+            <Link href='https://twitter.com/nfteasydrop'>
+              <a target='_blank'>
+                <IconButton
+                  size='large'
+                  color='inherit'
+                  aria-label='visit twitter'
+                >
+                  <TwitterIcon />
+                </IconButton>
+              </a>
+            </Link>
+            <Link href=''>
+              <a target='_blank'>
+                <IconButton
+                  size='large'
+                  color='inherit'
+                  aria-label='open telegram'
+                >
+                  <TelegramIcon />
+                </IconButton>
+              </a>
+            </Link>
+          </div>
+        </ListItem>
       </List>
     </Box>
   );
@@ -103,42 +144,40 @@ const Navbar = () => {
             <div className='link-container'>
               {links.map((link) => (
                 <Link key={link.id} href={link.path}>
-                  <a className='navbar-link'>{link.title}</a>
+                  <a
+                    className='navbar-link'
+                    style={{
+                      color: router.pathname === link.path && '#fff',
+                    }}
+                  >
+                    {link.title}
+                  </a>
                 </Link>
               ))}
+              <Link href='https://twitter.com/nfteasydrop'>
+                <a target='_blank'>
+                  <IconButton color='inherit' aria-label='visit twitter'>
+                    <TwitterIcon />
+                  </IconButton>
+                </a>
+              </Link>
+              <Link href=''>
+                <a target='_blank'>
+                  <IconButton color='inherit' aria-label='open telegram'>
+                    <TelegramIcon />
+                  </IconButton>
+                </a>
+              </Link>
             </div>
           </Box>
           <div className='navbar-right'>
             {chain && (
-              <div className='dropdown'>
-                <Button
-                  className='nav-button'
-                  size='small'
-                  variant='contained'
-                  endIcon={<ArrowDropDownIcon />}
-                  sx={{
-                    mr: { xs: 0, sm: 2 },
-                    backgroundColor: '#3D3D90',
-                    '&:hover': {
-                      backgroundColor: '#191970',
-                    },
-                  }}
-                >
-                  {chain}
-                </Button>
-                <div className='dropdown-content'>
-                  {chainList
-                    .filter((selection) => selection.name !== chain)
-                    .map((chain) => (
-                      <div
-                        className='chain-container'
-                        key={chain.id}
-                        onClick={() => changeChain(chainId, chain.id)}
-                      >
-                        <div className='chain'>{chain.name.toUpperCase()}</div>
-                      </div>
-                    ))}
-                </div>
+              <div style={{ paddingRight: 10 }}>
+                <Dropdown
+                  array={chainList}
+                  current={chain}
+                  select={switchChain}
+                />
               </div>
             )}
             <Button
@@ -149,8 +188,16 @@ const Navbar = () => {
               variant='contained'
               disabled={loading}
             >
-              {defaultAccount ? truncate(defaultAccount) : 'Connect Wallet'}
+              {defaultAccount ? truncate(defaultAccount) : 'Connect'}
             </Button>
+            <div style={{ paddingLeft: 10 }}>
+              <Dropdown
+                array={langList}
+                current={lang}
+                select={changeLang}
+                btnWidth={64}
+              />
+            </div>
           </div>
         </Toolbar>
       </AppBar>

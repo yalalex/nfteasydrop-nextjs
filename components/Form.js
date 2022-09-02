@@ -24,7 +24,7 @@ const Form = ({ tokenType }) => {
     defaultAccount,
     loading,
     connectWalletHandler,
-    errorHandler,
+    setError,
     // setLoading,
   } = useContext(Context);
 
@@ -71,15 +71,14 @@ const Form = ({ tokenType }) => {
   }, [defaultAccount, token]);
 
   const checkToken = async () => {
-    if (chain === 'Unsupported')
-      return errorHandler(`${chain} is not supported`);
+    if (chain === 'Unsupported') return setError(`${chain} is not supported`);
     setApprovalLoading(true);
     try {
       const approval = await airdropContract.isApproved(token);
       approval ? setIsApproved(true) : setIsApproved(false);
       setApprovalLoading(false);
     } catch (error) {
-      errorHandler('Please check that token address is a valid NFT contract');
+      setError('Please check that token address is a valid NFT contract');
       setApprovalLoading(false);
     }
     // try {
@@ -89,37 +88,34 @@ const Form = ({ tokenType }) => {
     //   const image = `https://ipfs.io/ipfs/${imgPath}`;
     //   setImg(image); //SET_IMAGE
     // } catch (error) {
-    //   errorHandler('Can not get token image');
+    //   setError('Can not get token image');
     // }
   };
 
   const changeApprovalStatus = async (status) => {
-    if (!defaultAccount)
-      return errorHandler('Please connect your wallet first'); // make local error?
-    if (chain === 'Unsupported')
-      return errorHandler(`${chain} is not supported`);
+    if (!defaultAccount) return setError('Please connect your wallet first'); // make local error?
+    if (chain === 'Unsupported') return setError(`${chain} is not supported`);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
       setIsApproved(status);
     } catch (error) {
-      errorHandler('Something went wrong');
+      setError('Something went wrong');
     }
   };
 
   const checkData = () => {
     if (addressList) {
       parseAddressList(addressList);
-    } else errorHandler('Enter at least 1 address');
+    } else setError('Enter at least 1 address');
   };
 
   const sendToken = async () => {
     if (!ethers.utils.isAddress(token))
-      return errorHandler('Please enter valid NFT contract address');
-    if (!isApproved) return errorHandler('Please approve before submit');
+      return setError('Please enter valid NFT contract address');
+    if (!isApproved) return setError('Please approve before submit');
     if (!isChecked)
-      return errorHandler('Please click CHECK DATA before submit');
-    if (chain === 'Unsupported')
-      return errorHandler(`${chain} is not supported`);
+      return setError('Please click VALIDATE DATA button before submit');
+    if (chain === 'Unsupported') return setError(`${chain} is not supported`);
 
     const { addresses, ids, amounts } = drop;
 
@@ -135,7 +131,7 @@ const Form = ({ tokenType }) => {
       try {
         await airdropContract.airdrop721(token, addresses, ids, data);
       } catch (error) {
-        errorHandler('Something went wrong');
+        setError('Something went wrong');
       }
     }
 
@@ -143,7 +139,7 @@ const Form = ({ tokenType }) => {
       try {
         await airdropContract.airdrop1155(token, addresses, ids, amounts, data);
       } catch (error) {
-        errorHandler('Something went wrong');
+        setError('Something went wrong');
       }
     }
   };
@@ -154,7 +150,7 @@ const Form = ({ tokenType }) => {
     const [addresses, ids, amounts] = data;
 
     if (!addresses.length)
-      return errorHandler('Please enter valid data for selected token type');
+      return setError('Please enter valid data for selected token type');
 
     setListError(corruptedData);
 
@@ -354,7 +350,7 @@ const Form = ({ tokenType }) => {
             fullWidth
           >
             {!isChecked
-              ? 'Check Data'
+              ? 'Validate Data'
               : !defaultAccount
               ? 'Connect wallet'
               : 'Send'}

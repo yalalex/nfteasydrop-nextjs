@@ -9,7 +9,7 @@ import { Context } from '../context/context';
 import { plans } from '../config';
 
 const Subscribe = () => {
-  const { airdropContract, errorHandler } = useContext(Context);
+  const { airdropContract, setError } = useContext(Context);
 
   const [plan, setPlan] = useState('');
 
@@ -19,7 +19,7 @@ const Subscribe = () => {
         value: ethers.utils.parseEther(plan),
       });
     } catch (error) {
-      errorHandler('Something went wrong');
+      setError('Something went wrong');
     }
   };
 

@@ -18,3 +18,9 @@ export const chainList = [
   { id: '0x38', name: 'Binance' },
   { id: '0x4', name: 'Rinkeby' },
 ];
+
+export const langList = [
+  { id: 1, name: 'EN' },
+  { id: 2, name: 'CN' },
+  { id: 3, name: 'RU' },
+];

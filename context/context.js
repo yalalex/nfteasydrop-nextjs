@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   chainId: '',
   chain: 'Mainnet',
   airdropContract: null,
+  lang: 'EN',
   loading: false,
   errorMessage: '',
 };
@@ -22,6 +23,7 @@ const ACTION_TYPES = {
   SET_SIGNER: 'SET_SIGNER',
   SET_ACCOUNT: 'SET_ACCOUNT',
   SET_CHAIN: 'SET_CHAIN',
+  SET_LANG: 'SET_LANG',
   SET_ERROR: 'SET_ERROR',
   SET_LOADING: 'SET_LOADING',
 };
@@ -48,6 +50,11 @@ const walletReducer = (state, action) => {
         chain: payload.chain,
         loading: false,
       };
+    case ACTION_TYPES.SET_LANG:
+      return {
+        ...state,
+        lang: payload,
+      };
     case ACTION_TYPES.SET_ERROR:
       return {
         ...state,
@@ -69,6 +76,7 @@ export const Context = createContext({
   signer: null,
   chainId: '',
   chain: '',
+  lang: '',
   airdropContract: null,
   loading: false,
   errorMessage: '',
@@ -76,7 +84,8 @@ export const Context = createContext({
   accountChangedHandler: () => {},
   chainDetect: () => {},
   changeChain: () => {},
-  errorHandler: () => {},
+  changeLang: () => {},
+  setError: () => {},
   setLoading: () => {},
 });
 
@@ -89,6 +98,7 @@ export const Provider = ({ children }) => {
     chainId,
     chain,
     airdropContract,
+    lang,
     loading,
     errorMessage,
   } = state;
@@ -123,7 +133,7 @@ export const Provider = ({ children }) => {
       });
       accountChangedHandler(account);
     } else {
-      errorHandler('Please install MetaMask browser extension to interact');
+      setError('Please install MetaMask browser extension to interact');
     }
   };
 
@@ -135,7 +145,7 @@ export const Provider = ({ children }) => {
         type: ACTION_TYPES.SET_ACCOUNT,
         payload: newAccount,
       });
-    } else errorHandler('Please connect Metamask');
+    } else setError('Please connect Metamask');
   };
 
   const changeChain = async (chainId, newChainId) => {
@@ -148,13 +158,17 @@ export const Provider = ({ children }) => {
         });
       } catch (err) {
         if (err.code === 4902) {
-          errorHandler(`Please add ${chainDetector(newChainId)} to MetaMask`);
+          setError(`Please add ${chainDetector(newChainId)} to MetaMask`);
         }
       }
     }
   };
 
-  const errorHandler = (error) => {
+  const changeLang = (newLang) => {
+    dispatch({ type: ACTION_TYPES.SET_LANG, payload: newLang });
+  };
+
+  const setError = (error) => {
     // let err;
     // err = type === 'global' ? errorFormat(error) : error;
     dispatch({ type: ACTION_TYPES.SET_ERROR, payload: error });
@@ -174,13 +188,15 @@ export const Provider = ({ children }) => {
     chainId,
     chain,
     airdropContract,
+    lang,
     loading,
     errorMessage,
     chainDetect,
     changeChain,
     connectWalletHandler,
     accountChangedHandler,
-    errorHandler,
+    changeLang,
+    setError,
     setLoading,
   };
 

@@ -5,6 +5,13 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+}
+
 //alert
 
 .alert-container {
@@ -71,7 +78,7 @@ body {
   max-width: 760px;
   text-align: center;
   margin: auto;
-  margin-top: 2px;
+  margin-top: 1px;
   padding: 50px;
   .form {
     max-width: 640px;
@@ -134,6 +141,12 @@ body {
       text-decoration: none;
     }
   }
+
+  .drawer-icons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .link-container {
@@ -143,7 +156,11 @@ body {
   .navbar-link {
     padding: 10px;
     text-decoration: none;
-    color: #fff;
+    color: lightgray;
+
+    &:hover {
+      color: #fff;
+    }
   }
 }
 
@@ -155,7 +172,7 @@ body {
   justify-content: flex-end;
 
   .nav-button {
-    width: 150px;
+    width: 128px;
   }
 
   .dropdown {
@@ -166,6 +183,13 @@ body {
         visibility: visible;
         opacity: 1;
         transition-delay: 0s, 0s;
+      }
+    }
+
+    .button-dropdown {
+      background-color: #3d3d90;
+      &:hover {
+        background-color: #191970;
       }
     }
 
@@ -180,33 +204,43 @@ body {
       box-sizing: 'border-box';
       border-radius: 3px;
       font-size: 14px;
-      width: 150px;
+      width: 128px;
       box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 5;
+      border-top-style: groove;
+      border-width: 1px;
 
-      .chain-container {
+      .selection-container {
         display: block;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        // border-top-style: groove;
+        // border-width: 1px;
+
+        &:last-child {
+          padding-bottom: 5px;
+        }
 
         &:hover {
           cursor: pointer;
           background-color: #191970;
-          &:first-child {
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
-          }
+          // &:first-child {
+          //   border-top-left-radius: 3px;
+          //   border-top-right-radius: 3px;
+          // }
 
           &:last-child {
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
+            padding-bottom: 5px;
           }
         }
 
-        .chain {
-          margin-left: 30px;
-          font-size: 12px;
-          font-style: italic;
+        .selection {
+          text-align: center;
+          // margin-left: 30px;
+          font-size: 14px;
+          // font-style: italic;
         }
       }
     }
