@@ -33,33 +33,12 @@ const Subscribe = () => {
       alignItems='center'
       margin={'auto'}
       spacing={2}
+      className='grid-container'
     >
       {plans.map((selection) => (
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={3}
-          key={selection.price}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Card
-            elevation={3}
-            style={{
-              width: 195,
-              // width: '100%',
-              textAlign: 'center',
-              padding: 15,
-              display: 'flex',
-              flexDirection: 'column',
-              marginLeft: -24,
-            }}
-          >
-            <div style={{ paddingBottom: 10 }}>{selection.period}</div>
+        <Grid item xs={12} sm={6} md={3} key={selection.price} className='grid'>
+          <Card elevation={3} className='card'>
+            <div className='price'>{selection.period}</div>
             <div>{selection.price} Eth</div>
             <div>
               <Button

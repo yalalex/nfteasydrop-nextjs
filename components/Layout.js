@@ -1,14 +1,9 @@
 import { useContext, useEffect } from 'react';
 
 import Alert from './Alert';
+import Navbar from './Navbar';
 
 import { Context } from '../context/context';
-
-import dynamic from 'next/dynamic';
-
-const DynamicNavbar = dynamic(() => import('./Navbar'), {
-  ssr: false,
-});
 
 const Layout = ({ children }) => {
   const { chainDetect, accountChangedHandler } = useContext(Context);
@@ -32,9 +27,9 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <DynamicNavbar />
-      {children}
+      <Navbar />
       <Alert />
+      {children}
     </>
   );
 };

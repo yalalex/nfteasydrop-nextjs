@@ -3,9 +3,7 @@ import { useContext, useState, useEffect } from 'react';
 import CorruptedData from './Corrupted';
 import Example from './Example';
 
-import { formStyles } from './styles/form.styles';
-
-import { Button, TextField, Fade } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 import { ethers } from 'ethers';
 
@@ -20,8 +18,6 @@ const tokenAbi = [
 ];
 
 const Form = ({ tokenType }) => {
-  const classes = formStyles();
-
   const {
     signer,
     airdropContract,
@@ -220,136 +216,126 @@ const Form = ({ tokenType }) => {
         closeModal={() => setExampleModal(false)}
         modalStatus={exampleModal}
       />
-      <Fade in={true} {...{ timeout: 1000 }}>
-        <form onSubmit={exec} className={classes.form}>
-          <div className={classes.formElement}>
-            <TextField
-              id='outlined-basic'
-              label='NFT contract address'
-              value={token}
-              onChange={(e) => {
-                setToken(e.target.value);
-              }}
-              type='text'
-              variant='outlined'
-              autoComplete='off'
+      <form onSubmit={exec} className='form'>
+        <div className='form-element'>
+          <TextField
+            id='outlined-basic'
+            label='NFT contract address'
+            value={token}
+            onChange={(e) => {
+              setToken(e.target.value);
+            }}
+            type='text'
+            variant='outlined'
+            autoComplete='off'
+            fullWidth
+          />
+        </div>
+        {ethers.utils.isAddress(token) && (
+          <div className='form-element'>
+            <Button
+              variant='contained'
+              disabled={approvalLoading}
+              onClick={() => changeApprovalStatus(!isApproved)}
               fullWidth
-            />
+            >
+              {approvalLoading
+                ? 'Checking...'
+                : isApproved
+                ? 'Remove Approval'
+                : 'Approve'}
+            </Button>
           </div>
-          {ethers.utils.isAddress(token) && (
-            <div className={classes.formElement}>
-              <Button
-                variant='contained'
-                disabled={approvalLoading}
-                onClick={() => changeApprovalStatus(!isApproved)}
+        )}
+        {simple && tokenType === '1155' && (
+          <>
+            <div className='form-element'>
+              <TextField
+                id='outlined-basic'
+                label='Token ID'
+                value={simpleDrop.tokenId}
+                onChange={(e) => {
+                  setSimpleDrop({ ...simpleDrop, tokenId: e.target.value });
+                }}
+                type='text'
+                variant='outlined'
+                autoComplete='off'
                 fullWidth
-              >
-                {approvalLoading
-                  ? 'Checking...'
-                  : isApproved
-                  ? 'Remove Approval'
-                  : 'Approve'}
-              </Button>
+              />
             </div>
-          )}
-          {simple && tokenType === '1155' && (
-            <>
-              <div className={classes.formElement}>
-                <TextField
-                  id='outlined-basic'
-                  label='Token ID'
-                  value={simpleDrop.tokenId}
-                  onChange={(e) => {
-                    setSimpleDrop({ ...simpleDrop, tokenId: e.target.value });
-                  }}
-                  type='text'
-                  variant='outlined'
-                  autoComplete='off'
-                  fullWidth
-                />
-              </div>
-              <div className={classes.formElement}>
-                <TextField
-                  id='outlined-basic'
-                  label='Amount'
-                  value={simpleDrop.amount}
-                  onChange={(e) => {
-                    setSimpleDrop({ ...simpleDrop, amount: e.target.value });
-                  }}
-                  type='text'
-                  variant='outlined'
-                  autoComplete='off'
-                  fullWidth
-                />
-              </div>
-            </>
-          )}
-          {tokenType === '1155' && (
-            <div className={classes.formElement}>
-              <span
-                onClick={() => setSimple(!simple)}
-                className={`${classes.text} ${classes.pointer}`}
-              >
-                Switch to {simple ? 'standard mode' : 'single ID mode'}
-              </span>
+            <div className='form-element'>
+              <TextField
+                id='outlined-basic'
+                label='Amount'
+                value={simpleDrop.amount}
+                onChange={(e) => {
+                  setSimpleDrop({ ...simpleDrop, amount: e.target.value });
+                }}
+                type='text'
+                variant='outlined'
+                autoComplete='off'
+                fullWidth
+              />
             </div>
-          )}
-          {/* <div>
+          </>
+        )}
+        {tokenType === '1155' && (
+          <div className='form-element'>
+            <span onClick={() => setSimple(!simple)} className='text pointer'>
+              Switch to {simple ? 'standard mode' : 'single ID mode'}
+            </span>
+          </div>
+        )}
+        {/* <div>
           <img src={img} alt='' />
         </div> */}
-          <div className={classes.formElement}>
-            <TextField
-              id='outlined-multiline-static'
-              label='List of recipient addresses'
-              value={addressList}
-              onChange={(e) => {
-                setAddressList(e.target.value);
-                isChecked && setIsChecked(false);
-              }}
-              multiline
-              minRows={3}
-              maxRows={20}
+        <div className='form-element'>
+          <TextField
+            id='outlined-multiline-static'
+            label='List of recipient addresses'
+            value={addressList}
+            onChange={(e) => {
+              setAddressList(e.target.value);
+              isChecked && setIsChecked(false);
+            }}
+            multiline
+            minRows={3}
+            maxRows={20}
+            fullWidth
+          />
+        </div>
+        {((listError.invalidValues && listError.invalidValues.length > 0) ||
+          (listError.wrongValuesNumber &&
+            listError.wrongValuesNumber.length > 0)) && (
+          <div className='form-element text error'>
+            We removed rows with invalid format. Click{' '}
+            <span className='link' onClick={() => setErrorModal(true)}>
+              here
+            </span>{' '}
+            to view them
+          </div>
+        )}
+        <div style={{ display: 'flex' }} className='form-element'>
+          <div className='upload-button'>
+            <Button
+              variant='outlined'
+              component='label'
+              onChange={handleFileOnSubmit}
               fullWidth
-            />
-          </div>
-          {((listError.invalidValues && listError.invalidValues.length > 0) ||
-            (listError.wrongValuesNumber &&
-              listError.wrongValuesNumber.length > 0)) && (
-            <div
-              className={`${classes.formElement} ${classes.text}`}
-              style={{ color: '#F47174' }}
             >
-              We removed rows with invalid format. Click{' '}
-              <span
-                className={`${classes.link}`}
-                onClick={() => setErrorModal(true)}
-              >
-                here
-              </span>{' '}
-              to view them
-            </div>
-          )}
-          <div style={{ display: 'flex' }} className={classes.formElement}>
-            <div style={{ width: '80%' }}>
-              <Button
-                variant='outlined'
-                component='label'
-                onChange={handleFileOnSubmit}
-                fullWidth
-              >
-                Upload CSV / TXT File
-                <input type='file' accept='.csv, .txt' hidden />
-              </Button>
-            </div>
-            <div
-              className={`${classes.text} ${classes.pointer} ${classes.example}`}
-              onClick={() => setExampleModal(true)}
-            >
-              Show example
-            </div>
+              Upload CSV / TXT File
+              <input type='file' accept='.csv, .txt' hidden />
+            </Button>
           </div>
-          {/* {addressList.length > 1 && (
-            <div className={classes.formElement}>
+          <div
+            className='text pointer example'
+            onClick={() => setExampleModal(true)}
+          >
+            Show example
+          </div>
+        </div>
+        {/* {addressList.length > 1 && (
+            <div className='form-element'>
               <Button
                 variant='outlined'
                 // disabled={!addressList}
@@ -360,22 +346,21 @@ const Form = ({ tokenType }) => {
               </Button>
             </div>
           )} */}
-          <div className={classes.formElement}>
-            <Button
-              type='submit'
-              variant='contained'
-              disabled={loading}
-              fullWidth
-            >
-              {!isChecked
-                ? 'Check Data'
-                : !defaultAccount
-                ? 'Connect wallet'
-                : 'Send'}
-            </Button>
-          </div>
-        </form>
-      </Fade>
+        <div className='form-element'>
+          <Button
+            type='submit'
+            variant='contained'
+            disabled={loading}
+            fullWidth
+          >
+            {!isChecked
+              ? 'Check Data'
+              : !defaultAccount
+              ? 'Connect wallet'
+              : 'Send'}
+          </Button>
+        </div>
+      </form>
     </>
   );
 };

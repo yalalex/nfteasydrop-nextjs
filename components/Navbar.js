@@ -1,10 +1,6 @@
 import { useContext, useState } from 'react';
 
-import { navbarStyles } from './styles/navbar.styles';
-
 import Link from 'next/link';
-
-import logo from '../public/logo.png';
 
 import Image from 'next/image';
 
@@ -40,7 +36,7 @@ const links = [
 ];
 
 const Navbar = () => {
-  const classes = navbarStyles();
+  // const classes = navbarStyles();
 
   const {
     defaultAccount,
@@ -63,7 +59,7 @@ const Navbar = () => {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleDrawerToggle} className='drawer'>
       <div>
         <Image src='/logo.png' height='50' width='50' alt='' />
       </div>
@@ -71,11 +67,8 @@ const Navbar = () => {
       <List>
         {links.map((link) => (
           <ListItem key={link.id} disablePadding>
-            <ListItemButton style={{ textAlign: 'center' }}>
-              <Link
-                href={link.path}
-                style={{ color: 'black', textDecoration: 'none' }}
-              >
+            <ListItemButton className='link-container'>
+              <Link href={link.path} className='link'>
                 <ListItemText primary={link.title} />
               </Link>
             </ListItemButton>
@@ -107,19 +100,19 @@ const Navbar = () => {
             <Image src='/logo.png' height='60' width='60' alt='' />
           </div>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-            <div className={classes.linkContainer}>
+            <div className='link-container'>
               {links.map((link) => (
                 <Link key={link.id} href={link.path}>
-                  <a className={classes.navBarLink}>{link.title}</a>
+                  <a className='navbar-link'>{link.title}</a>
                 </Link>
               ))}
             </div>
           </Box>
-          <div className={classes.navbarRight}>
+          <div className='navbar-right'>
             {chain && (
-              <div className={classes.dropdown}>
+              <div className='dropdown'>
                 <Button
-                  className={classes.navButton}
+                  className='nav-button'
                   size='small'
                   variant='contained'
                   endIcon={<ArrowDropDownIcon />}
@@ -133,26 +126,23 @@ const Navbar = () => {
                 >
                   {chain}
                 </Button>
-                <div className={classes.dropdownContent}>
+                <div className='dropdown-content'>
                   {chainList
                     .filter((selection) => selection.name !== chain)
                     .map((chain) => (
                       <div
-                        className={classes.chainContainer}
+                        className='chain-container'
                         key={chain.id}
                         onClick={() => changeChain(chainId, chain.id)}
                       >
-                        <div className={classes.chain}>
-                          {chain.name.toUpperCase()}
-                        </div>
+                        <div className='chain'>{chain.name.toUpperCase()}</div>
                       </div>
                     ))}
                 </div>
               </div>
             )}
             <Button
-              className={classes.navButton}
-              // style={{ marginLeft: 20 }}
+              className='nav-button'
               size='small'
               onClick={connect}
               color='info'
