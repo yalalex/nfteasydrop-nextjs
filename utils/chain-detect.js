@@ -1,9 +1,10 @@
 import { chainList } from '../config';
 
 export const chainDetector = (chainId) => {
-  let match = 'Unsupported';
-  chainList.forEach((chain) => {
-    if (chainId === chain.id) match = chain.name;
-  });
-  return match;
+  const chain = chainList.find((chain) => chainId === chain.id) || {
+    id: 0,
+    name: 'Unsupported',
+    icon: '',
+  };
+  return chain;
 };

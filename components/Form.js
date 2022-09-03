@@ -223,7 +223,7 @@ const Form = ({ tokenType }) => {
             }}
             type='text'
             variant='outlined'
-            autoComplete='off'
+            autoComplete='do-not-autofill'
             fullWidth
           />
         </div>
@@ -255,7 +255,7 @@ const Form = ({ tokenType }) => {
                 }}
                 type='text'
                 variant='outlined'
-                autoComplete='off'
+                autoComplete='do-not-autofill'
                 fullWidth
               />
             </div>
@@ -269,7 +269,7 @@ const Form = ({ tokenType }) => {
                 }}
                 type='text'
                 variant='outlined'
-                autoComplete='off'
+                autoComplete='do-not-autofill'
                 fullWidth
               />
             </div>
@@ -294,6 +294,7 @@ const Form = ({ tokenType }) => {
               setAddressList(e.target.value);
               isChecked && setIsChecked(false);
             }}
+            autoComplete='do-not-autofill'
             multiline
             minRows={3}
             maxRows={20}

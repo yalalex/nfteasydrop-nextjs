@@ -44,7 +44,8 @@ const Navbar = () => {
   const {
     defaultAccount,
     chain,
-    chainId,
+    // chainId,
+    // chainIcon,
     lang,
     loading,
     connectWalletHandler,
@@ -53,7 +54,11 @@ const Navbar = () => {
   } = useContext(Context);
 
   const switchChain = (newChainId) => {
-    changeChain(chainId, newChainId);
+    changeChain(chain.id, newChainId);
+  };
+
+  const switchLang = (newLangId) => {
+    changeLang(newLangId);
   };
 
   const connect = () => {
@@ -91,28 +96,24 @@ const Navbar = () => {
         ))}
         <ListItem>
           <div className='drawer-icons'>
-            <Link href='https://twitter.com/nfteasydrop'>
-              <a target='_blank'>
-                <IconButton
-                  size='large'
-                  color='inherit'
-                  aria-label='visit twitter'
-                >
-                  <TwitterIcon />
-                </IconButton>
-              </a>
-            </Link>
-            <Link href=''>
-              <a target='_blank'>
-                <IconButton
-                  size='large'
-                  color='inherit'
-                  aria-label='open telegram'
-                >
-                  <TelegramIcon />
-                </IconButton>
-              </a>
-            </Link>
+            <a href='https://twitter.com/nfteasydrop' target='_blank'>
+              <IconButton
+                size='large'
+                color='inherit'
+                aria-label='visit twitter'
+              >
+                <TwitterIcon />
+              </IconButton>
+            </a>
+            <a href='' target='_blank'>
+              <IconButton
+                size='large'
+                color='inherit'
+                aria-label='open telegram'
+              >
+                <TelegramIcon />
+              </IconButton>
+            </a>
           </div>
         </ListItem>
       </List>
@@ -154,20 +155,16 @@ const Navbar = () => {
                   </a>
                 </Link>
               ))}
-              <Link href='https://twitter.com/nfteasydrop'>
-                <a target='_blank'>
-                  <IconButton color='inherit' aria-label='visit twitter'>
-                    <TwitterIcon />
-                  </IconButton>
-                </a>
-              </Link>
-              <Link href=''>
-                <a target='_blank'>
-                  <IconButton color='inherit' aria-label='open telegram'>
-                    <TelegramIcon />
-                  </IconButton>
-                </a>
-              </Link>
+              <a href='https://twitter.com/nfteasydrop' target='_blank'>
+                <IconButton color='inherit' aria-label='visit twitter'>
+                  <TwitterIcon />
+                </IconButton>
+              </a>
+              <a href='' target='_blank'>
+                <IconButton color='inherit' aria-label='open telegram'>
+                  <TelegramIcon />
+                </IconButton>
+              </a>
             </div>
           </Box>
           <div className='navbar-right'>
@@ -186,7 +183,7 @@ const Navbar = () => {
               onClick={connect}
               color='info'
               variant='contained'
-              disabled={loading}
+              // disabled={loading}
             >
               {defaultAccount ? truncate(defaultAccount) : 'Connect'}
             </Button>
@@ -194,7 +191,7 @@ const Navbar = () => {
               <Dropdown
                 array={langList}
                 current={lang}
-                select={changeLang}
+                select={switchLang}
                 btnWidth={64}
               />
             </div>

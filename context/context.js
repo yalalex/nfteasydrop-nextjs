@@ -6,15 +6,17 @@ import { chainDetector } from '../utils/chain-detect';
 
 import Airdrop from '../utils/AirdropABI.json';
 
-import { airdropContractAddress } from '../config';
+import { airdropContractAddress, chainList, langList } from '../config';
 
 const INITIAL_STATE = {
   defaultAccount: '',
   signer: null,
-  chainId: '',
-  chain: 'Mainnet',
+  chain: chainList[0],
+  // chainId: '',
+  // chain: 'Mainnet',
+  // chainIcon: '/ethereum.svg',
   airdropContract: null,
-  lang: 'EN',
+  lang: langList[0],
   loading: false,
   errorMessage: '',
 };
@@ -46,8 +48,10 @@ const walletReducer = (state, action) => {
     case ACTION_TYPES.SET_CHAIN:
       return {
         ...state,
-        chainId: payload.chainId,
-        chain: payload.chain,
+        chain: payload,
+        // chainId: payload.chainId,
+        // chain: payload.chain,
+        // chainIcon: payload.chainIcon,
         loading: false,
       };
     case ACTION_TYPES.SET_LANG:
@@ -74,9 +78,11 @@ const walletReducer = (state, action) => {
 export const Context = createContext({
   defaultAccount: '',
   signer: null,
-  chainId: '',
-  chain: '',
-  lang: '',
+  chain: null,
+  // chainId: '',
+  // chain: '',
+  // chainIcon: '',
+  lang: null,
   airdropContract: null,
   loading: false,
   errorMessage: '',
@@ -95,8 +101,9 @@ export const Provider = ({ children }) => {
   const {
     signer,
     defaultAccount,
-    chainId,
     chain,
+    // chainId,
+    // chainIcon,
     airdropContract,
     lang,
     loading,
@@ -105,10 +112,10 @@ export const Provider = ({ children }) => {
 
   const chainDetect = ({ chainId }) => {
     console.log('chainDetect');
-    const chainName = chainDetector(chainId);
+    const chain = chainDetector(chainId);
     dispatch({
       type: ACTION_TYPES.SET_CHAIN,
-      payload: { chainId, chain: chainName },
+      payload: chain,
     });
   };
 
@@ -164,7 +171,8 @@ export const Provider = ({ children }) => {
     }
   };
 
-  const changeLang = (newLang) => {
+  const changeLang = (newLangId) => {
+    const newLang = langList.find((lang) => lang.id === newLangId);
     dispatch({ type: ACTION_TYPES.SET_LANG, payload: newLang });
   };
 
@@ -185,8 +193,9 @@ export const Provider = ({ children }) => {
   const value = {
     defaultAccount,
     signer,
-    chainId,
     chain,
+    // chainId,
+    // chainIcon,
     airdropContract,
     lang,
     loading,

@@ -52,8 +52,7 @@ const Example = ({ closeModal, modalStatus }) => {
           </Paper>
           <div className='footnote'>
             *ERC-1155 single ID mode is best for the case when you want to send
-            to all the adresses NFT token with same ID and amount, which you
-            fill in the separate fields
+            NFT token with same ID and amount to all recipients
           </div>
         </div>
       </DialogContent>

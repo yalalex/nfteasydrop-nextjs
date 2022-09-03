@@ -11,16 +11,16 @@ export const plans = [
 ];
 
 export const chainList = [
-  { id: '0x1', name: 'Mainnet' },
-  { id: '0x89', name: 'Polygon' },
-  { id: '0xa4b1', name: 'Arbitrum' },
-  { id: '0xa', name: 'Optimism' },
-  { id: '0x38', name: 'Binance' },
-  { id: '0x4', name: 'Rinkeby' },
+  { id: '0x1', name: 'Mainnet', icon: '/mainnet.svg' },
+  { id: '0x89', name: 'Polygon', icon: '/polygon.svg' },
+  { id: '0xa4b1', name: 'Arbitrum', icon: '/arbitrum.svg' },
+  { id: '0xa', name: 'Optimism', icon: '/op.svg' },
+  { id: '0x38', name: 'Binance', icon: '/bnb.svg' },
+  { id: '0x4', name: 'Rinkeby', icon: '/rinkeby.svg' },
 ];
 
 export const langList = [
-  { id: 1, name: 'EN' },
-  { id: 2, name: 'CN' },
-  { id: 3, name: 'RU' },
+  { id: 1, name: 'en', icon: '/en.svg' },
+  { id: 2, name: 'cn', icon: '/cn.svg' },
+  { id: 3, name: 'ru', icon: '/ru.svg' },
 ];
