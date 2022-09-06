@@ -108,7 +108,7 @@ export const Provider = ({ children }) => {
   } = state;
 
   const chainChangedHandler = (chainId) => {
-    console.log('chainDetect');
+    console.log('chainChangedHandler');
     const chain = chainDetector(chainId);
     dispatch({
       type: ACTION_TYPES.SET_CHAIN,
@@ -117,17 +117,15 @@ export const Provider = ({ children }) => {
   };
 
   const setContract = (signer) => {
-    if (signer) {
-      const contract = new ethers.Contract(
-        airdropContractAddress,
-        Airdrop,
-        signer
-      );
-      dispatch({
-        type: ACTION_TYPES.SET_CONTRACT,
-        payload: contract,
-      });
-    }
+    const contract = new ethers.Contract(
+      airdropContractAddress,
+      Airdrop,
+      signer
+    );
+    dispatch({
+      type: ACTION_TYPES.SET_CONTRACT,
+      payload: contract,
+    });
   };
 
   const connectWalletHandler = async () => {

@@ -90,7 +90,11 @@ a:active {
     }
 
     .upload-button {
-      width: 80%;
+      width: 40%;
+    }
+
+    .validate-button {
+      width: 40%;
     }
 
     .text {
@@ -99,7 +103,7 @@ a:active {
     }
 
     .error {
-      color: #f47174;
+      color: red;
     }
 
     .link {
@@ -121,6 +125,7 @@ a:active {
 
     .example {
       width: 20%;
+      padding: 5px;
       // paddingTop: 12;
       display: flex;
       align-items: center;
@@ -156,11 +161,15 @@ a:active {
   .navbar-link {
     padding: 10px;
     text-decoration: none;
-    color: lightgray;
+    color: #d3d3d3;
 
     &:hover {
       color: #fff;
     }
+  }
+
+  .icon-container {
+    margin-left: 15px;
   }
 }
 

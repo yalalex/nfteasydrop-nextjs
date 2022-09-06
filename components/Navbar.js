@@ -44,10 +44,8 @@ const Navbar = () => {
   const {
     defaultAccount,
     chain,
-    // chainId,
-    // chainIcon,
     lang,
-    loading,
+    // loading,
     connectWalletHandler,
     changeChain,
     changeLang,
@@ -96,6 +94,18 @@ const Navbar = () => {
         ))}
         <ListItem>
           <div className='drawer-icons'>
+            <a
+              href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
+              target='_blank'
+            >
+              <IconButton
+                size='large'
+                color='inherit'
+                aria-label='visit etherscan'
+              >
+                <Image src='/etherscan-light.svg' height='24' width='24' />
+              </IconButton>
+            </a>
             <a href='https://twitter.com/nfteasydrop' target='_blank'>
               <IconButton
                 size='large'
@@ -148,19 +158,36 @@ const Navbar = () => {
                   <a
                     className='navbar-link'
                     style={{
-                      color: router.pathname === link.path && '#fff',
+                      color: router.pathname === link.path ? '#fff' : '#d3d3d3',
                     }}
                   >
                     {link.title}
                   </a>
                 </Link>
               ))}
-              <a href='https://twitter.com/nfteasydrop' target='_blank'>
+              <a
+                href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
+                target='_blank'
+                className='icon-container'
+              >
+                <IconButton
+                  color='inherit'
+                  aria-label='visit etherscan'
+                  style={{ height: 40, width: 40 }}
+                >
+                  <Image src='/etherscan.svg' width='100%' height='100%' />
+                </IconButton>
+              </a>
+              <a
+                href='https://twitter.com/nfteasydrop'
+                target='_blank'
+                className='icon-container'
+              >
                 <IconButton color='inherit' aria-label='visit twitter'>
                   <TwitterIcon />
                 </IconButton>
               </a>
-              <a href='' target='_blank'>
+              <a href='' target='_blank' className='icon-container'>
                 <IconButton color='inherit' aria-label='open telegram'>
                   <TelegramIcon />
                 </IconButton>

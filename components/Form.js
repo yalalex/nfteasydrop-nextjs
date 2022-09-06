@@ -22,7 +22,7 @@ const Form = ({ tokenType }) => {
     signer,
     airdropContract,
     defaultAccount,
-    loading,
+    // loading,
     connectWalletHandler,
     setError,
     // setLoading,
@@ -43,10 +43,10 @@ const Form = ({ tokenType }) => {
 
   const [tokenContract, setTokenContract] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
-  // const [isSubscribed, setIsSubscribed] = useState(false);
 
   const [isChecked, setIsChecked] = useState(false);
 
+  const [isValidContract, setIsValidContract] = useState(false);
   const [approvalLoading, setApprovalLoading] = useState(false);
 
   useEffect(() => {
@@ -71,15 +71,15 @@ const Form = ({ tokenType }) => {
   }, [defaultAccount, token]);
 
   const checkToken = async () => {
-    if (chain.name === 'Unsupported')
-      return setError(`${chain.name} is not supported`);
     setApprovalLoading(true);
     try {
       const approval = await airdropContract.isApproved(token);
       approval ? setIsApproved(true) : setIsApproved(false);
+      setIsValidContract(true);
       setApprovalLoading(false);
     } catch (error) {
       setError('Please check that token address is a valid NFT contract');
+      setIsValidContract(false);
       setApprovalLoading(false);
     }
     // try {
@@ -94,8 +94,8 @@ const Form = ({ tokenType }) => {
   };
 
   const changeApprovalStatus = async (status) => {
-    if (!defaultAccount) return setError('Please connect your wallet first'); // make local error?
-    if (chain.name === 'Unsupported')
+    if (!defaultAccount) return setError('Please connect your wallet first');
+    if (chain && chain.name === 'Unsupported')
       return setError(`${chain.name} is not supported`);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
@@ -115,9 +115,8 @@ const Form = ({ tokenType }) => {
     if (!ethers.utils.isAddress(token))
       return setError('Please enter valid NFT contract address');
     if (!isApproved) return setError('Please approve before submit');
-    if (!isChecked)
-      return setError('Please click VALIDATE DATA button before submit');
-    if (chain.name === 'Unsupported')
+    if (!isChecked) return setError('Please validate data first');
+    if (chain && chain.name === 'Unsupported')
       return setError(`${chain.name} is not supported`);
 
     const { addresses, ids, amounts } = drop;
@@ -180,13 +179,17 @@ const Form = ({ tokenType }) => {
   };
 
   const connect = () => {
-    // if (defaultAccount) return;
     connectWalletHandler();
+  };
+
+  const clear = () => {
+    setAddressList('');
+    setIsChecked(false);
   };
 
   const exec = (e) => {
     e.preventDefault();
-    !isChecked ? checkData() : !defaultAccount ? connect() : sendToken();
+    !defaultAccount ? connect() : sendToken();
   };
 
   const handleFileOnSubmit = (e) => {
@@ -234,15 +237,17 @@ const Form = ({ tokenType }) => {
           <div className='form-element'>
             <Button
               variant='contained'
-              disabled={approvalLoading}
+              disabled={approvalLoading || !isValidContract}
               onClick={() => changeApprovalStatus(!isApproved)}
               fullWidth
             >
               {approvalLoading
                 ? 'Checking...'
-                : isApproved
-                ? 'Remove Approval'
-                : 'Approve'}
+                : isValidContract
+                ? isApproved
+                  ? 'Remove Approval'
+                  : 'Approve'
+                : 'Not a valid NFT contract'}
             </Button>
           </div>
         )}
@@ -315,7 +320,14 @@ const Form = ({ tokenType }) => {
             to view them
           </div>
         )}
-        <div style={{ display: 'flex' }} className='form-element'>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+          className='form-element'
+        >
           <div className='upload-button'>
             <Button
               variant='outlined'
@@ -323,7 +335,7 @@ const Form = ({ tokenType }) => {
               onChange={handleFileOnSubmit}
               fullWidth
             >
-              Upload CSV / TXT File
+              Upload CSV
               <input type='file' accept='.csv, .txt' hidden />
             </Button>
           </div>
@@ -333,31 +345,26 @@ const Form = ({ tokenType }) => {
           >
             Show example
           </div>
+          <div className='validate-button'>
+            <Button
+              variant='contained'
+              component='label'
+              onClick={() => (!isChecked ? checkData() : clear())}
+              disabled={!addressList}
+              fullWidth
+            >
+              {!isChecked ? 'Check input' : 'Clear'}
+            </Button>
+          </div>
         </div>
-        {/* {addressList.length > 1 && (
-            <div className='form-element'>
-              <Button
-                variant='outlined'
-                // disabled={!addressList}
-                onClick={checkData}
-                fullWidth
-              >
-                Check Data
-              </Button>
-            </div>
-          )} */}
         <div className='form-element'>
           <Button
             type='submit'
             variant='contained'
-            disabled={loading}
+            // disabled={loading}
             fullWidth
           >
-            {!isChecked
-              ? 'Validate Data'
-              : !defaultAccount
-              ? 'Connect wallet'
-              : 'Send'}
+            {!defaultAccount ? 'Connect wallet' : 'Send'}
           </Button>
         </div>
       </form>
