@@ -3,7 +3,10 @@ import { useContext, useState, useEffect } from 'react';
 import CorruptedData from './Corrupted';
 import Example from './Example';
 
-import { Button, TextField } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
+
+import { Button, TextField, IconButton, Tooltip, Alert } from '@mui/material';
 
 import { ethers } from 'ethers';
 
@@ -13,15 +16,30 @@ import { Context } from '../context/context';
 
 import { airdropContractAddress, txFee } from '../config';
 
+import { styled } from '@mui/material/styles';
+import { tooltipClasses } from '@mui/material/Tooltip';
+
 const tokenAbi = [
   'function setApprovalForAll(address operator, bool approved)',
 ];
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
 
 const Form = ({ tokenType }) => {
   const {
     signer,
     airdropContract,
     defaultAccount,
+    chain,
     // loading,
     connectWalletHandler,
     setError,
@@ -95,7 +113,7 @@ const Form = ({ tokenType }) => {
 
   const changeApprovalStatus = async (status) => {
     if (!defaultAccount) return setError('Please connect your wallet first');
-    if (chain && chain.name === 'Unsupported')
+    if (chain.name === 'Unsupported')
       return setError(`${chain.name} is not supported`);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
@@ -116,7 +134,7 @@ const Form = ({ tokenType }) => {
       return setError('Please enter valid NFT contract address');
     if (!isApproved) return setError('Please approve before submit');
     if (!isChecked) return setError('Please validate data first');
-    if (chain && chain.name === 'Unsupported')
+    if (chain.name === 'Unsupported')
       return setError(`${chain.name} is not supported`);
 
     const { addresses, ids, amounts } = drop;
@@ -312,13 +330,29 @@ const Form = ({ tokenType }) => {
         {((listError.invalidValues && listError.invalidValues.length > 0) ||
           (listError.wrongValuesNumber &&
             listError.wrongValuesNumber.length > 0)) && (
-          <div className='form-element text error'>
+          <Alert
+            severity='error'
+            variant='outlined'
+            className='form-element'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setListError('');
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+          >
             We removed rows with invalid format. Click{' '}
             <span className='link' onClick={() => setErrorModal(true)}>
               here
             </span>{' '}
             to view them
-          </div>
+          </Alert>
         )}
         <div
           style={{
@@ -339,21 +373,26 @@ const Form = ({ tokenType }) => {
               <input type='file' accept='.csv, .txt' hidden />
             </Button>
           </div>
-          <div
-            className='text pointer example'
-            onClick={() => setExampleModal(true)}
-          >
-            Show example
+          <div className='example' onClick={() => setExampleModal(true)}>
+            <LightTooltip
+              title='Show Example'
+              className='example'
+              onClick={() => setExampleModal(true)}
+            >
+              <IconButton size='medium' color='inherit'>
+                <InfoIcon />
+              </IconButton>
+            </LightTooltip>
           </div>
           <div className='validate-button'>
             <Button
               variant='contained'
               component='label'
-              onClick={() => (!isChecked ? checkData() : clear())}
-              disabled={!addressList}
+              onClick={() => checkData()}
+              disabled={isChecked || !addressList}
               fullWidth
             >
-              {!isChecked ? 'Check input' : 'Clear'}
+              {'Check input'}
             </Button>
           </div>
         </div>

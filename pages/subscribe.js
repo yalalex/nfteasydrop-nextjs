@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 
 import { ethers } from 'ethers';
 
-import { Button, Card, Grid } from '@mui/material';
+import { Button, Card, Grid, Fade } from '@mui/material';
 
 import { Context } from '../context/context';
 
@@ -12,11 +12,12 @@ const Subscribe = () => {
   const { airdropContract, chain, defaultAccount, changeChain, setError } =
     useContext(Context);
 
-  useEffect(() => setPlan(''), [chain, defaultAccount]);
+  useEffect(() => setPlan(''), [defaultAccount]);
 
   const [plan, setPlan] = useState('');
 
   const subscribe = async () => {
+    if (!defaultAccount) return setError('Please connect your wallet');
     if (chain.id !== '0x1') {
       setError('Please switch to Ethereum Mainnet to subscribe');
       return changeChain('0x1');
@@ -35,50 +36,52 @@ const Subscribe = () => {
   };
 
   return (
-    <>
-      <Grid
-        container
-        paddingTop={13}
-        maxWidth={{ sm: 480, md: 960 }}
-        direction='row'
-        justifyContent='center'
-        alignItems='center'
-        margin={'auto'}
-        spacing={2}
-        className='grid-container'
-      >
-        {plans.map((selection) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-            key={selection.price}
-            className='grid'
-          >
-            <Card elevation={3} className='card'>
-              <div className='price'>{selection.period}</div>
-              <div>{selection.price} Eth</div>
-              <div>
-                <Button
-                  onClick={() =>
-                    selection.price === plan
-                      ? subscribe()
-                      : setPlan(selection.price)
-                  }
-                >
-                  {selection.price === plan ? 'Subscribe' : 'Select'}
-                </Button>
-              </div>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-      <div style={{ textAlign: 'center' }}>
-        Please note that Subscription option currently supported only on
-        Ethereum Mainnet
+    <Fade in={true} {...{ timeout: 1000 }}>
+      <div>
+        <Grid
+          container
+          paddingTop={13}
+          maxWidth={{ sm: 480, md: 960 }}
+          direction='row'
+          justifyContent='center'
+          alignItems='center'
+          margin={'auto'}
+          spacing={2}
+          className='grid-container'
+        >
+          {plans.map((selection) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={3}
+              key={selection.price}
+              className='grid'
+            >
+              <Card elevation={3} className='card'>
+                <div className='price'>{selection.period}</div>
+                <div>{selection.price} Eth</div>
+                <div>
+                  <Button
+                    onClick={() =>
+                      selection.price === plan
+                        ? subscribe()
+                        : setPlan(selection.price)
+                    }
+                  >
+                    {selection.price === plan ? 'Subscribe' : 'Select'}
+                  </Button>
+                </div>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+        <div style={{ textAlign: 'center' }}>
+          Please note that Subscription option currently supported only on
+          Ethereum Mainnet
+        </div>
       </div>
-    </>
+    </Fade>
   );
 };
 

@@ -90,11 +90,11 @@ a:active {
     }
 
     .upload-button {
-      width: 40%;
+      width: 47%;
     }
 
     .validate-button {
-      width: 40%;
+      width: 47%;
     }
 
     .text {
@@ -124,9 +124,10 @@ a:active {
     }
 
     .example {
-      width: 20%;
-      padding: 5px;
-      // paddingTop: 12;
+      // width: 20%;
+      // padding: 5px;
+      margin-top: -2px;
+      color: #1976d2;
       display: flex;
       align-items: center;
       justify-content: center;

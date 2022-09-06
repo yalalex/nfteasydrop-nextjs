@@ -19,7 +19,7 @@ const Example = ({ closeModal, modalStatus }) => {
       className='dialog'
     >
       <DialogTitle className='title-container'>
-        <div className='title'>File data structure example</div>
+        <div className='title'>Data structure example</div>
         <div className='button-container'>
           <IconButton
             aria-label='close'

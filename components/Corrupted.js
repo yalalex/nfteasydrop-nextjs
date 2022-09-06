@@ -19,7 +19,7 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
       className='dialog'
     >
       <DialogTitle className='title-container'>
-        <div className='title'>List of corrupted addresses</div>
+        <div className='title'>Removed Rows</div>
         <div className='button-container'>
           <IconButton
             aria-label='close'
