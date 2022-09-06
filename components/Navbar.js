@@ -54,7 +54,7 @@ const Navbar = () => {
   } = useContext(Context);
 
   const switchChain = (newChainId) => {
-    changeChain(chain.id, newChainId);
+    changeChain(newChainId);
   };
 
   const switchLang = (newLangId) => {

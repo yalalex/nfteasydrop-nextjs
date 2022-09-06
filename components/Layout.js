@@ -6,19 +6,19 @@ import Navbar from './Navbar';
 import { Context } from '../context/context';
 
 const Layout = ({ children }) => {
-  const { chainDetect, accountChangedHandler } = useContext(Context);
+  const { chainChangedHandler, accountChangedHandler } = useContext(Context);
 
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       const { ethereum } = window;
 
-      ethereum.on('connect', chainDetect);
+      // ethereum.on('connect', chainChangedHandler);
 
       ethereum.on('accountsChanged', (accounts) =>
         accountChangedHandler(accounts[0])
       );
 
-      ethereum.on('chainChanged', (chainId) => chainDetect({ chainId }));
+      ethereum.on('chainChanged', chainChangedHandler);
 
       return () => ethereum.removeAllListeners();
     }

@@ -12,19 +12,18 @@ const INITIAL_STATE = {
   defaultAccount: '',
   signer: null,
   chain: chainList[0],
-  // chainId: '',
-  // chain: 'Mainnet',
-  // chainIcon: '/ethereum.svg',
   airdropContract: null,
   lang: langList[0],
   loading: false,
-  errorMessage: '',
+  error: null,
+  connected: false,
 };
 
 const ACTION_TYPES = {
   SET_SIGNER: 'SET_SIGNER',
   SET_ACCOUNT: 'SET_ACCOUNT',
   SET_CHAIN: 'SET_CHAIN',
+  SET_CONTRACT: 'SET_CONTRACT',
   SET_LANG: 'SET_LANG',
   SET_ERROR: 'SET_ERROR',
   SET_LOADING: 'SET_LOADING',
@@ -36,23 +35,25 @@ const walletReducer = (state, action) => {
     case ACTION_TYPES.SET_SIGNER:
       return {
         ...state,
-        signer: payload.signer,
-        airdropContract: payload.contract,
+        signer: payload,
       };
     case ACTION_TYPES.SET_ACCOUNT:
       return {
         ...state,
         defaultAccount: payload,
+        connected: true,
         loading: false,
       };
     case ACTION_TYPES.SET_CHAIN:
       return {
         ...state,
         chain: payload,
-        // chainId: payload.chainId,
-        // chain: payload.chain,
-        // chainIcon: payload.chainIcon,
         loading: false,
+      };
+    case ACTION_TYPES.SET_CONTRACT:
+      return {
+        ...state,
+        airdropContract: payload,
       };
     case ACTION_TYPES.SET_LANG:
       return {
@@ -62,7 +63,7 @@ const walletReducer = (state, action) => {
     case ACTION_TYPES.SET_ERROR:
       return {
         ...state,
-        errorMessage: payload,
+        error: payload,
         loading: false,
       };
     case ACTION_TYPES.SET_LOADING:
@@ -79,16 +80,13 @@ export const Context = createContext({
   defaultAccount: '',
   signer: null,
   chain: null,
-  // chainId: '',
-  // chain: '',
-  // chainIcon: '',
   lang: null,
   airdropContract: null,
   loading: false,
-  errorMessage: '',
+  error: null,
   connectWalletHandler: () => {},
   accountChangedHandler: () => {},
-  chainDetect: () => {},
+  chainChangedHandler: () => {},
   changeChain: () => {},
   changeLang: () => {},
   setError: () => {},
@@ -102,21 +100,34 @@ export const Provider = ({ children }) => {
     signer,
     defaultAccount,
     chain,
-    // chainId,
-    // chainIcon,
     airdropContract,
     lang,
     loading,
-    errorMessage,
+    error,
+    connected,
   } = state;
 
-  const chainDetect = ({ chainId }) => {
+  const chainChangedHandler = (chainId) => {
     console.log('chainDetect');
     const chain = chainDetector(chainId);
     dispatch({
       type: ACTION_TYPES.SET_CHAIN,
       payload: chain,
     });
+  };
+
+  const setContract = (signer) => {
+    if (signer) {
+      const contract = new ethers.Contract(
+        airdropContractAddress,
+        Airdrop,
+        signer
+      );
+      dispatch({
+        type: ACTION_TYPES.SET_CONTRACT,
+        payload: contract,
+      });
+    }
   };
 
   const connectWalletHandler = async () => {
@@ -129,24 +140,28 @@ export const Provider = ({ children }) => {
       });
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const contract = new ethers.Contract(
-        airdropContractAddress,
-        Airdrop,
-        signer
-      );
       dispatch({
         type: ACTION_TYPES.SET_SIGNER,
-        payload: { signer, contract },
+        payload: signer,
       });
+      setContract(signer);
       accountChangedHandler(account);
+      const { chainId } = await provider.getNetwork();
+      if (connected === true) chainChangedHandler(chainId);
     } else {
       setError('Please install MetaMask browser extension to interact');
     }
   };
 
+  const setChainId = async () => {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const { chainId } = await provider.getNetwork();
+    chainChangedHandler(chainId);
+  };
+
   const accountChangedHandler = (newAccount) => {
     console.log('accountChangedHandler');
-    // chainDetect();
+    if (connected === false) setChainId();
     if (newAccount) {
       dispatch({
         type: ACTION_TYPES.SET_ACCOUNT,
@@ -155,8 +170,8 @@ export const Provider = ({ children }) => {
     } else setError('Please connect Metamask');
   };
 
-  const changeChain = async (chainId, newChainId) => {
-    if (chainId !== newChainId) {
+  const changeChain = async (newChainId) => {
+    if (chain.id !== newChainId) {
       setLoading();
       try {
         await window.ethereum.request({
@@ -176,12 +191,10 @@ export const Provider = ({ children }) => {
     dispatch({ type: ACTION_TYPES.SET_LANG, payload: newLang });
   };
 
-  const setError = (error) => {
-    // let err;
-    // err = type === 'global' ? errorFormat(error) : error;
-    dispatch({ type: ACTION_TYPES.SET_ERROR, payload: error });
+  const setError = (message, type = 'info') => {
+    dispatch({ type: ACTION_TYPES.SET_ERROR, payload: { message, type } });
     setTimeout(
-      () => dispatch({ type: ACTION_TYPES.SET_ERROR, payload: '' }),
+      () => dispatch({ type: ACTION_TYPES.SET_ERROR, payload: null }),
       5000
     );
   };
@@ -194,13 +207,11 @@ export const Provider = ({ children }) => {
     defaultAccount,
     signer,
     chain,
-    // chainId,
-    // chainIcon,
     airdropContract,
     lang,
     loading,
-    errorMessage,
-    chainDetect,
+    error,
+    chainChangedHandler,
     changeChain,
     connectWalletHandler,
     accountChangedHandler,

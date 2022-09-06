@@ -5,13 +5,13 @@ import { Context } from '../context/context';
 import { Alert as Error } from '@mui/material';
 
 const Alert = () => {
-  const { errorMessage } = useContext(Context);
+  const { error } = useContext(Context);
 
   return (
-    errorMessage && (
+    error && (
       <div className='alert-container'>
-        <Error variant='filled' severity='info' className='error'>
-          {errorMessage}
+        <Error variant='filled' severity={error.type} className='error'>
+          {error.message}
         </Error>
       </div>
     )

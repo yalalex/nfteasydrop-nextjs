@@ -31,7 +31,7 @@ const Form = ({ tokenType }) => {
   const [token, setToken] = useState(''); // nft address
 
   const [addressList, setAddressList] = useState('');
-  const [listError, setListError] = useState([]); // add local error handler
+  const [listError, setListError] = useState([]);
 
   const [errorModal, setErrorModal] = useState(false);
   const [exampleModal, setExampleModal] = useState(false);
@@ -71,7 +71,8 @@ const Form = ({ tokenType }) => {
   }, [defaultAccount, token]);
 
   const checkToken = async () => {
-    if (chain === 'Unsupported') return setError(`${chain} is not supported`);
+    if (chain.name === 'Unsupported')
+      return setError(`${chain.name} is not supported`);
     setApprovalLoading(true);
     try {
       const approval = await airdropContract.isApproved(token);
@@ -94,7 +95,8 @@ const Form = ({ tokenType }) => {
 
   const changeApprovalStatus = async (status) => {
     if (!defaultAccount) return setError('Please connect your wallet first'); // make local error?
-    if (chain === 'Unsupported') return setError(`${chain} is not supported`);
+    if (chain.name === 'Unsupported')
+      return setError(`${chain.name} is not supported`);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
       setIsApproved(status);
@@ -115,7 +117,8 @@ const Form = ({ tokenType }) => {
     if (!isApproved) return setError('Please approve before submit');
     if (!isChecked)
       return setError('Please click VALIDATE DATA button before submit');
-    if (chain === 'Unsupported') return setError(`${chain} is not supported`);
+    if (chain.name === 'Unsupported')
+      return setError(`${chain.name} is not supported`);
 
     const { addresses, ids, amounts } = drop;
 

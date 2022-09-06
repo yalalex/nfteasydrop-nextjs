@@ -64,7 +64,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "_value",
         "type": "uint256"
@@ -76,7 +76,7 @@
         "type": "uint256"
       }
     ],
-    "name": "RecievedETH",
+    "name": "ReceivedUndefiendETH",
     "type": "event"
   },
   {
@@ -91,7 +91,13 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_until",
+        "name": "_timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_period",
         "type": "uint256"
       }
     ],
@@ -181,19 +187,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "checkOwner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -207,6 +200,32 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address payable",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "receivedTotal",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
