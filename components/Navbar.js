@@ -44,20 +44,20 @@ const Navbar = () => {
   const {
     defaultAccount,
     chain,
-    lang,
+    // lang,
     // loading,
     connectWalletHandler,
     changeChain,
-    changeLang,
+    // changeLang,
   } = useContext(Context);
 
   const switchChain = (newChainId) => {
     changeChain(newChainId);
   };
 
-  const switchLang = (newLangId) => {
-    changeLang(newLangId);
-  };
+  // const switchLang = (newLangId) => {
+  //   changeLang(newLangId);
+  // };
 
   const connect = () => {
     if (defaultAccount) return;
@@ -132,7 +132,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar component='nav'>
+      <AppBar component='nav' style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
         <Toolbar>
           <IconButton
             color='inherit'
@@ -158,7 +158,8 @@ const Navbar = () => {
                   <a
                     className='navbar-link'
                     style={{
-                      color: router.pathname === link.path ? '#fff' : '#d3d3d3',
+                      fontWeight:
+                        router.pathname === link.path ? 'bold' : 'normal',
                     }}
                   >
                     {link.title}
@@ -175,7 +176,11 @@ const Navbar = () => {
                   aria-label='visit etherscan'
                   style={{ height: 40, width: 40 }}
                 >
-                  <Image src='/etherscan.svg' width='100%' height='100%' />
+                  <Image
+                    src='/etherscan-light.svg'
+                    width='100%'
+                    height='100%'
+                  />
                 </IconButton>
               </a>
               <a
@@ -208,20 +213,22 @@ const Navbar = () => {
               className='nav-button'
               size='small'
               onClick={connect}
-              color='info'
-              variant='contained'
+              color='secondary'
+              variant='outlined'
               // disabled={loading}
             >
               {defaultAccount ? truncate(defaultAccount) : 'Connect'}
             </Button>
-            <div style={{ paddingLeft: 10 }}>
-              <Dropdown
-                array={langList}
-                current={lang}
-                select={switchLang}
-                btnWidth={64}
-              />
-            </div>
+            {/* {lang && (
+              <div style={{ paddingLeft: 10 }}>
+                <Dropdown
+                  array={langList}
+                  current={lang}
+                  select={switchLang}
+                  btnWidth={64}
+                />
+              </div>
+            )} */}
           </div>
         </Toolbar>
       </AppBar>

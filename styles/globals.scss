@@ -1,8 +1,10 @@
 html,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Rajdhani, Titillium Web, Kanit, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+  background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
 }
 
 a,
@@ -28,13 +30,14 @@ a:active {
 //modal
 
 .dialog {
+  background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
   .title-container {
     display: flex;
     justify-content: space-between;
 
     .title {
       justify-content: flex-start;
-      font-size: 18px;
+      font-size: 20px;
       padding-top: 7px;
     }
 
@@ -42,7 +45,7 @@ a:active {
       justify-content: flex-end;
 
       .close-button {
-        color: grey;
+        color: #fff;
         right: -10px;
       }
     }
@@ -72,9 +75,13 @@ a:active {
 .switcher {
   padding-top: 120px;
   text-align: center;
+  .option {
+    color: #fff;
+  }
 }
 
 .form-container {
+  // background: rgba(0, 0, 0, 0.1);
   max-width: 760px;
   text-align: center;
   margin: auto;
@@ -98,7 +105,7 @@ a:active {
     }
 
     .text {
-      color: #1976d2;
+      color: #fff;
       font-size: 12px;
     }
 
@@ -127,7 +134,7 @@ a:active {
       // width: 20%;
       // padding: 5px;
       margin-top: -2px;
-      color: #1976d2;
+      // color: #1976d2;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -139,6 +146,8 @@ a:active {
 //navbar
 
 .drawer {
+  height: 100%;
+  background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
   text-align: center;
   .link-container {
     text-align: center;
@@ -162,10 +171,10 @@ a:active {
   .navbar-link {
     padding: 10px;
     text-decoration: none;
-    color: #d3d3d3;
+    color: #fff;
 
     &:hover {
-      color: #fff;
+      font-weight: bolder;
     }
   }
 
@@ -186,15 +195,17 @@ a:active {
   }
 
   .dropdown {
+    color: #fff;
     position: relative;
     display: inline-block;
 
-    .button-dropdown {
-      background-color: #3d3d90;
-      &:hover {
-        background-color: #191970;
-      }
-    }
+    // .button-dropdown {
+    //   color: #fff;
+    //   background-color: #3d3d90;
+    //   &:hover {
+    //     background-color: #191970;
+    //   }
+    // }
 
     .dropdown-content {
       visibility: hidden;

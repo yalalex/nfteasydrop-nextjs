@@ -331,7 +331,7 @@ const Form = ({ tokenType }) => {
           (listError.wrongValuesNumber &&
             listError.wrongValuesNumber.length > 0)) && (
           <Alert
-            severity='error'
+            severity='warning'
             variant='outlined'
             className='form-element'
             action={
@@ -365,6 +365,7 @@ const Form = ({ tokenType }) => {
           <div className='upload-button'>
             <Button
               variant='outlined'
+              color='secondary'
               component='label'
               onChange={handleFileOnSubmit}
               fullWidth
@@ -379,7 +380,7 @@ const Form = ({ tokenType }) => {
               className='example'
               onClick={() => setExampleModal(true)}
             >
-              <IconButton size='medium' color='inherit'>
+              <IconButton size='medium' color='secondary'>
                 <InfoIcon />
               </IconButton>
             </LightTooltip>
@@ -392,7 +393,7 @@ const Form = ({ tokenType }) => {
               disabled={isChecked || !addressList}
               fullWidth
             >
-              {'Check input'}
+              {isChecked ? 'Input checked' : 'Check input'}
             </Button>
           </div>
         </div>

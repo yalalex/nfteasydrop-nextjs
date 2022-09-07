@@ -20,8 +20,12 @@ const Home = () => {
           exclusive
           onChange={handleChange}
         >
-          <ToggleButton value='721'>ERC-721</ToggleButton>
-          <ToggleButton value='1155'>ERC-1155</ToggleButton>
+          <ToggleButton value='721' className='option'>
+            ERC-721
+          </ToggleButton>
+          <ToggleButton value='1155' className='option'>
+            ERC-1155
+          </ToggleButton>
         </ToggleButtonGroup>
         <Paper elevation={3} className='form-container'>
           <Form tokenType={tokenType} />

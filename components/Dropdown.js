@@ -31,6 +31,7 @@ const Dropdown = ({ array, current, select, btnWidth = 128 }) => {
       <div className='dropdown' ref={wrapperRef}>
         <Button
           className='button-dropdown'
+          color='primary'
           size='small'
           variant='contained'
           // endIcon={!visible ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}

@@ -76,9 +76,9 @@ const Subscribe = () => {
             </Grid>
           ))}
         </Grid>
-        <div style={{ textAlign: 'center' }}>
-          Please note that Subscription option currently supported only on
-          Ethereum Mainnet
+        <div style={{ marginTop: 20, color: '#fff', textAlign: 'center' }}>
+          Please note that Subscription option currently supported only for
+          transactions made on Ethereum Mainnet
         </div>
       </div>
     </Fade>
