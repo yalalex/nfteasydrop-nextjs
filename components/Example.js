@@ -30,8 +30,8 @@ const Example = ({ closeModal, modalStatus }) => {
           </IconButton>
         </div>
       </DialogTitle>
-      <DialogContent dividers={true}>
-        <div className='content'>
+      <DialogContent dividers={true} className='content'>
+        <div>
           <div className='title'>ERC-721: address,id</div>
           <Paper elevation={3} className='paper'>
             <div>0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec,0</div>

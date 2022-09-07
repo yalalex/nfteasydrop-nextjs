@@ -322,8 +322,8 @@ const Form = ({ tokenType }) => {
             }}
             autoComplete='do-not-autofill'
             multiline
-            minRows={3}
-            maxRows={20}
+            minRows={4}
+            maxRows={200}
             fullWidth
           />
         </div>

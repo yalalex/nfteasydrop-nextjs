@@ -189,7 +189,7 @@ export const Provider = ({ children }) => {
     dispatch({ type: ACTION_TYPES.SET_LANG, payload: newLang });
   };
 
-  const setError = (message, type = 'warning') => {
+  const setError = (message, type = 'info') => {
     dispatch({ type: ACTION_TYPES.SET_ERROR, payload: { message, type } });
     setTimeout(
       () => dispatch({ type: ACTION_TYPES.SET_ERROR, payload: null }),

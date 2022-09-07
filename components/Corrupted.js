@@ -31,7 +31,7 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
         </div>
       </DialogTitle>
       <DialogContent dividers={true} className='content'>
-        <div className='content'>
+        <div>
           {data.invalidValues && data.invalidValues.length > 0 && (
             <>
               <div className='title'>Rows containing invalid values: </div>

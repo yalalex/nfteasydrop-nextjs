@@ -22,7 +22,7 @@ a:active {
 
   .error {
     position: fixed;
-    top: 68px;
+    top: 64px;
     z-index: 5;
   }
 }
@@ -38,20 +38,22 @@ a:active {
     .title {
       justify-content: flex-start;
       font-size: 20px;
-      padding-top: 7px;
+      padding-top: 3px;
     }
 
     .button-container {
       justify-content: flex-end;
 
       .close-button {
+        margin-top: -3px;
         color: #fff;
-        right: -10px;
+        right: -14px;
       }
     }
   }
 
   .content {
+    padding-top: 0px;
     .title {
       padding: 15px 0px 5px 0px;
       font-weight: bold;
@@ -76,6 +78,8 @@ a:active {
   padding-top: 120px;
   text-align: center;
   .option {
+    width: 100px;
+    font-size: 16px;
     color: #fff;
   }
 }
@@ -85,8 +89,8 @@ a:active {
   max-width: 760px;
   text-align: center;
   margin: auto;
-  margin-top: 1px;
   padding: 50px;
+  // margin-bottom: 25px;
   .form {
     max-width: 640px;
     text-align: center;

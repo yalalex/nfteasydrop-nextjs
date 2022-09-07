@@ -103,7 +103,7 @@ const Navbar = () => {
                 color='inherit'
                 aria-label='visit etherscan'
               >
-                <Image src='/etherscan-light.svg' height='24' width='24' />
+                <Image src='/ether.svg' height='24' width='24' />
               </IconButton>
             </a>
             <a href='https://twitter.com/nfteasydrop' target='_blank'>
@@ -132,7 +132,13 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar component='nav' style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
+      <AppBar
+        component='nav'
+        style={{
+          background: 'linear-gradient(89deg, #ff5edf 0%, #04c8de 100%)',
+          opacity: 0.9,
+        }}
+      >
         <Toolbar>
           <IconButton
             color='inherit'
@@ -176,11 +182,7 @@ const Navbar = () => {
                   aria-label='visit etherscan'
                   style={{ height: 40, width: 40 }}
                 >
-                  <Image
-                    src='/etherscan-light.svg'
-                    width='100%'
-                    height='100%'
-                  />
+                  <Image src='/ether.svg' width='100%' height='100%' />
                 </IconButton>
               </a>
               <a

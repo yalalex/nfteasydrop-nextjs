@@ -26,7 +26,10 @@ export const theme = createTheme({
       main: '#fff',
     },
     warning: {
-      main: '#3d3d90',
+      main: '#903d5d',
+    },
+    info: {
+      main: '#3d4990',
     },
     background: {
       paper: 'rgba(0, 0, 0, 0.1)',
