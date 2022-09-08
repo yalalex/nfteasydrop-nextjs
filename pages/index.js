@@ -27,7 +27,7 @@ const Home = () => {
             ERC-1155
           </ToggleButton>
         </ToggleButtonGroup>
-        <Paper elevation={3} className='form-container'>
+        <Paper elevation={5} className='form-container'>
           <Form tokenType={tokenType} />
         </Paper>
       </div>

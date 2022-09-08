@@ -4,7 +4,7 @@ body {
   font-family: Rajdhani, Titillium Web, Kanit, -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
     Helvetica Neue, sans-serif;
-  background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
+  background: linear-gradient(89deg, #4e54c8, #8f94fb);
 }
 
 a,
@@ -38,16 +38,16 @@ a:active {
     .title {
       justify-content: flex-start;
       font-size: 20px;
-      padding-top: 3px;
+      padding-top: 4px;
     }
 
     .button-container {
       justify-content: flex-end;
 
       .close-button {
-        margin-top: -3px;
+        margin-top: -1px;
         color: #fff;
-        right: -14px;
+        right: -10px;
       }
     }
   }
@@ -155,10 +155,13 @@ a:active {
   text-align: center;
   .link-container {
     text-align: center;
-    .link {
-      color: black;
-      text-decoration: none;
-    }
+    // .active {
+    //   cursor: pointer;
+    //   background: rgba(255, 255, 255, 0.05);
+    // }
+    // .link {
+    //   text-decoration: none;
+    // }
   }
 
   .drawer-icons {
@@ -168,19 +171,43 @@ a:active {
   }
 }
 
-.link-container {
+.links-container {
   display: flex;
   padding-left: 15px;
 
-  .navbar-link {
-    padding: 10px;
+  .link-container {
+    margin-top: -12px;
+    margin-bottom: -8px;
+    padding-top: 26px;
     text-decoration: none;
-    color: #fff;
+    text-align: center;
+    // margin-left: 15px;
 
+    .active,
     &:hover {
-      font-weight: bolder;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
     }
   }
+
+  .link {
+    margin: 18px;
+  }
+
+  // .navbar-link {
+  //   margin-top: -12px;
+  //   margin-bottom: 12px;
+  //   // padding: 10px;
+  //   padding-left: 20px;
+  //   padding-top: 22px;
+  //   padding-bottom: 22px;
+  //   text-decoration: none;
+  //   // color: #fff;
+
+  //   // &:hover {
+  //   //   cursor: pointer;
+  //   // }
+  // }
 
   .icon-container {
     margin-left: 15px;
@@ -188,7 +215,6 @@ a:active {
 }
 
 .navbar-right {
-  margin-left: 10px;
   width: 100%;
   display: flex;
   min-width: 300px;

@@ -15,6 +15,7 @@ import { chainList, langList } from '../config';
 import MenuIcon from '@mui/icons-material/Menu';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 
 import {
   AppBar,
@@ -73,21 +74,27 @@ const Navbar = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} className='drawer'>
       <div>
-        <Image src='/logo.png' height='50' width='50' alt='' />
+        <ZoomOutMapIcon
+          color='primary'
+          aria-label='visit etherscan'
+          style={{ marginTop: 5, height: 40, width: 40 }}
+        />
       </div>
       <Divider />
-      <List>
+      <List sx={{ marginTop: -1 }}>
         {links.map((link) => (
           <ListItem key={link.id} disablePadding>
-            <ListItemButton className='link-container'>
+            <ListItemButton
+              className='link-container'
+              sx={{
+                background:
+                  router.pathname === link.path
+                    ? 'rgb(255,255,255,0.05)'
+                    : 'normal',
+              }}
+            >
               <Link href={link.path} className='link'>
-                <ListItemText
-                  primary={link.title}
-                  style={{
-                    textDecoration:
-                      router.pathname === link.path && 'underline',
-                  }}
-                />
+                <ListItemText primary={link.title} />
               </Link>
             </ListItemButton>
           </ListItem>
@@ -100,7 +107,7 @@ const Navbar = () => {
             >
               <IconButton
                 size='large'
-                color='inherit'
+                color='secondary'
                 aria-label='visit etherscan'
               >
                 <Image src='/ether.svg' height='24' width='24' />
@@ -109,7 +116,7 @@ const Navbar = () => {
             <a href='https://twitter.com/nfteasydrop' target='_blank'>
               <IconButton
                 size='large'
-                color='inherit'
+                color='secondary'
                 aria-label='visit twitter'
               >
                 <TwitterIcon />
@@ -118,7 +125,7 @@ const Navbar = () => {
             <a href='' target='_blank'>
               <IconButton
                 size='large'
-                color='inherit'
+                color='secondary'
                 aria-label='open telegram'
               >
                 <TelegramIcon />
@@ -136,12 +143,12 @@ const Navbar = () => {
         component='nav'
         style={{
           background: 'linear-gradient(89deg, #ff5edf 0%, #04c8de 100%)',
-          opacity: 0.9,
+          // opacity: 0.9,
         }}
       >
         <Toolbar>
           <IconButton
-            color='inherit'
+            color='secondary'
             aria-label='open drawer'
             edge='start'
             onClick={handleDrawerToggle}
@@ -155,50 +162,75 @@ const Navbar = () => {
               display: { sm: 'none', md: 'block' },
             }}
           >
-            <Image src='/logo.png' height='60' width='60' alt='' />
+            <Link href={links[0].path}>
+              <a>
+                <ZoomOutMapIcon
+                  color='primary'
+                  aria-label='visit etherscan'
+                  style={{ marginTop: 5, height: 50, width: 50 }}
+                />
+              </a>
+            </Link>
           </div>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-            <div className='link-container'>
+            <div className='links-container'>
               {links.map((link) => (
                 <Link key={link.id} href={link.path}>
-                  <a
-                    className='navbar-link'
-                    style={{
-                      fontWeight:
-                        router.pathname === link.path ? 'bold' : 'normal',
+                  <Box
+                    className='link-container'
+                    sx={{
+                      background:
+                        router.pathname === link.path
+                          ? 'rgb(0,0,0,0.05)'
+                          : 'normal',
                     }}
                   >
-                    {link.title}
-                  </a>
+                    <a className='link'>{link.title}</a>
+                  </Box>
                 </Link>
               ))}
-              <a
-                href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
-                target='_blank'
-                className='icon-container'
-              >
-                <IconButton
-                  color='inherit'
-                  aria-label='visit etherscan'
-                  style={{ height: 40, width: 40 }}
+              <ListItem disablePadding>
+                <a
+                  href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
+                  target='_blank'
+                  className='icon-container'
                 >
-                  <Image src='/ether.svg' width='100%' height='100%' />
-                </IconButton>
-              </a>
-              <a
-                href='https://twitter.com/nfteasydrop'
-                target='_blank'
-                className='icon-container'
-              >
-                <IconButton color='inherit' aria-label='visit twitter'>
-                  <TwitterIcon />
-                </IconButton>
-              </a>
-              <a href='' target='_blank' className='icon-container'>
-                <IconButton color='inherit' aria-label='open telegram'>
-                  <TelegramIcon />
-                </IconButton>
-              </a>
+                  <IconButton
+                    color='secondary'
+                    size='large'
+                    aria-label='visit etherscan'
+                    style={{ height: 48, width: 48 }}
+                  >
+                    <Image src='/ether.svg' width='100%' height='100%' />
+                  </IconButton>
+                </a>
+              </ListItem>
+              <ListItem disablePadding>
+                <a
+                  href='https://twitter.com/nfteasydrop'
+                  target='_blank'
+                  className='icon-container'
+                >
+                  <IconButton
+                    color='secondary'
+                    size='large'
+                    aria-label='visit twitter'
+                  >
+                    <TwitterIcon />
+                  </IconButton>
+                </a>
+              </ListItem>
+              <ListItem disablePadding>
+                <a href='' target='_blank' className='icon-container'>
+                  <IconButton
+                    color='secondary'
+                    size='large'
+                    aria-label='open telegram'
+                  >
+                    <TelegramIcon />
+                  </IconButton>
+                </a>
+              </ListItem>
             </div>
           </Box>
           <div className='navbar-right'>

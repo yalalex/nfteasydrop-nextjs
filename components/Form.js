@@ -322,7 +322,7 @@ const Form = ({ tokenType }) => {
             }}
             autoComplete='do-not-autofill'
             multiline
-            minRows={4}
+            minRows={5}
             maxRows={200}
             fullWidth
           />
@@ -397,7 +397,7 @@ const Form = ({ tokenType }) => {
             </Button>
           </div>
         </div>
-        <div className='form-element'>
+        <div>
           <Button
             type='submit'
             variant='contained'

@@ -58,7 +58,7 @@ const Subscribe = () => {
               key={selection.price}
               className='grid'
             >
-              <Card elevation={3} className='card'>
+              <Card elevation={5} className='card'>
                 <div className='price'>{selection.period}</div>
                 <div>{selection.price} Eth</div>
                 <div>
