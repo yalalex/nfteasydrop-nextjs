@@ -17,7 +17,7 @@ const Tutorial = () => {
   return (
     <>
       <Head>
-        <title>Under construction</title>
+        <title>Tutorial</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <h3 className='not-found'>

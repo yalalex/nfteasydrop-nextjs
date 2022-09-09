@@ -127,11 +127,21 @@ const Form = ({ tokenType }) => {
     if (!defaultAccount) return setError('Please connect your wallet first');
     if (chain.name === 'Unsupported')
       return setError(`${chain.name} is not supported`);
+    setApprovalLoading(true);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
-      setIsApproved(status);
+      const checkApproval = setInterval(async () => {
+        const approval = await airdropContract.isApproved(token);
+        console.log('approval loading');
+        if (approval !== isApproved) {
+          setIsApproved(approval);
+          setApprovalLoading(false);
+          clearInterval(checkApproval);
+        }
+      }, 1000);
     } catch (error) {
       setError('Something went wrong');
+      setApprovalLoading(false);
     }
   };
 
@@ -281,7 +291,7 @@ const Form = ({ tokenType }) => {
       <form onSubmit={exec} className='form'>
         <div className='form-element'>
           <TextField
-            id='outlined-basic'
+            color='success'
             label='NFT contract address'
             value={token}
             onChange={(e) => {
@@ -315,7 +325,7 @@ const Form = ({ tokenType }) => {
           <>
             <div className='form-element'>
               <TextField
-                id='outlined-basic'
+                color='success'
                 label='Token ID'
                 value={simpleDrop.tokenId}
                 onChange={(e) => {
@@ -329,7 +339,7 @@ const Form = ({ tokenType }) => {
             </div>
             <div className='form-element'>
               <TextField
-                id='outlined-basic'
+                color='success'
                 label='Amount'
                 value={simpleDrop.amount}
                 onChange={(e) => {
@@ -355,7 +365,7 @@ const Form = ({ tokenType }) => {
         </div> */}
         <div className='form-element'>
           <TextField
-            id='outlined-multiline-static'
+            color='success'
             label={`List of recipient addresses ${
               rowCount > 0 ? `(` + rowCount + `)` : ''
             }`}
@@ -370,7 +380,7 @@ const Form = ({ tokenType }) => {
         {successAlert && (
           <Fade in={true} {...{ timeout: 1000 }}>
             <Alert
-              severity='info'
+              severity='success'
               variant='filled'
               className='form-element'
               action={
@@ -395,7 +405,7 @@ const Form = ({ tokenType }) => {
             listError.wrongValuesNumber.length > 0)) && (
           <Fade in={true} {...{ timeout: 1000 }}>
             <Alert
-              severity='error'
+              severity='info'
               variant='filled'
               className='form-element'
               action={
@@ -454,7 +464,7 @@ const Form = ({ tokenType }) => {
               disabled={!addressList}
               fullWidth
             >
-              Clear
+              Clear input
             </Button>
           </div>
         </div>

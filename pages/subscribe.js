@@ -69,6 +69,7 @@ const Subscribe = () => {
                   <div>{selection.price} Eth</div>
                   <div>
                     <Button
+                      color='success'
                       onClick={() =>
                         selection.price === plan
                           ? subscribe()
@@ -82,7 +83,7 @@ const Subscribe = () => {
               </Grid>
             ))}
           </Grid>
-          <div className='footnote'>
+          <div className='sub-note'>
             Please note that subscription is currently supported only for
             transactions made on Ethereum Mainnet
           </div>

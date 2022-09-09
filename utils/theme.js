@@ -25,11 +25,11 @@ export const theme = createTheme({
     secondary: {
       main: '#fff',
     },
-    warning: {
-      main: '#ff5edf',
-    },
     info: {
-      main: '#3d4990',
+      main: '#c574dc',
+    },
+    success: {
+      main: '#add8e6',
     },
     background: {
       paper: 'rgba(0, 0, 0, 0.1)',
