@@ -77,7 +77,7 @@ const Navbar = () => {
         <ZoomOutMapIcon
           color='primary'
           aria-label='visit etherscan'
-          style={{ marginTop: 5, height: 40, width: 40 }}
+          className='logo'
         />
       </div>
       <Divider />
@@ -88,9 +88,7 @@ const Navbar = () => {
               className='link-container'
               sx={{
                 background:
-                  router.pathname === link.path
-                    ? 'rgb(255,255,255,0.05)'
-                    : 'normal',
+                  router.pathname === link.path && 'rgb(255,255,255,0.05)',
               }}
             >
               <Link href={link.path} className='link'>
@@ -139,13 +137,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar
-        component='nav'
-        style={{
-          background: 'linear-gradient(89deg, #ff5edf 0%, #04c8de 100%)',
-          // opacity: 0.9,
-        }}
-      >
+      <AppBar component='nav' className='navbar'>
         <Toolbar>
           <IconButton
             color='secondary'
@@ -167,7 +159,7 @@ const Navbar = () => {
                 <ZoomOutMapIcon
                   color='primary'
                   aria-label='visit etherscan'
-                  style={{ marginTop: 5, height: 50, width: 50 }}
+                  className='logo'
                 />
               </a>
             </Link>
@@ -180,9 +172,7 @@ const Navbar = () => {
                     className='link-container'
                     sx={{
                       background:
-                        router.pathname === link.path
-                          ? 'rgb(0,0,0,0.05)'
-                          : 'normal',
+                        router.pathname === link.path && 'rgb(0,0,0,0.05)',
                     }}
                   >
                     <a className='link'>{link.title}</a>
@@ -199,7 +189,7 @@ const Navbar = () => {
                     color='secondary'
                     size='large'
                     aria-label='visit etherscan'
-                    style={{ height: 48, width: 48 }}
+                    className='icon-button'
                   >
                     <Image src='/ether.svg' width='100%' height='100%' />
                   </IconButton>
@@ -235,7 +225,7 @@ const Navbar = () => {
           </Box>
           <div className='navbar-right'>
             {chain && (
-              <div style={{ paddingRight: 10 }}>
+              <div className='first-button'>
                 <Dropdown
                   array={chainList}
                   current={chain}
@@ -254,7 +244,7 @@ const Navbar = () => {
               {defaultAccount ? truncate(defaultAccount) : 'Connect'}
             </Button>
             {/* {lang && (
-              <div style={{ paddingLeft: 10 }}>
+              <div className='last-button'>
                 <Dropdown
                   array={langList}
                   current={lang}

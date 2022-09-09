@@ -6,7 +6,14 @@ import Example from './Example';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { Button, TextField, IconButton, Tooltip, Alert } from '@mui/material';
+import {
+  Button,
+  TextField,
+  IconButton,
+  Tooltip,
+  Alert,
+  Fade,
+} from '@mui/material';
 
 import { ethers } from 'ethers';
 
@@ -49,7 +56,12 @@ const Form = ({ tokenType }) => {
   const [token, setToken] = useState(''); // nft address
 
   const [addressList, setAddressList] = useState('');
-  const [listError, setListError] = useState([]);
+  const [rowCount, setRowCount] = useState(0);
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [listError, setListError] = useState({
+    wrongValuesNumber: [],
+    invalidValues: [],
+  });
 
   const [errorModal, setErrorModal] = useState(false);
   const [exampleModal, setExampleModal] = useState(false);
@@ -165,12 +177,23 @@ const Form = ({ tokenType }) => {
   };
 
   const parseAddressList = async (text) => {
+    setSuccessAlert(false);
+    setIsChecked(false);
+    setDrop({ addresses: [], ids: [], amounts: [] });
+    setListError({
+      wrongValuesNumber: [],
+      invalidValues: [],
+    });
+
     const [data, corruptedData] = await csvToArray(text, tokenType, simple);
 
     const [addresses, ids, amounts] = data;
 
     if (!addresses.length)
       return setError('Please enter valid data for selected token type');
+
+    setAddressList('');
+    setRowCount(0);
 
     setListError(corruptedData);
 
@@ -192,8 +215,10 @@ const Form = ({ tokenType }) => {
         : addresses[i] + ',' + ids[i] + ',' + amounts[i] + '\n';
     }
 
+    setRowCount(addresses.length);
     setAddressList(dataField);
     setIsChecked(true);
+    if (addresses.length) setSuccessAlert(true);
   };
 
   const connect = () => {
@@ -202,12 +227,29 @@ const Form = ({ tokenType }) => {
 
   const clear = () => {
     setAddressList('');
+    setRowCount(0);
+    setSuccessAlert(false);
     setIsChecked(false);
+    setDrop({ addresses: [], ids: [], amounts: [] });
+    setListError({
+      wrongValuesNumber: [],
+      invalidValues: [],
+    });
+  };
+
+  const textfieldChange = (e) => {
+    setAddressList(e.target.value);
+    let count = 0;
+    e.target.value.split(/\n/).forEach((row) => {
+      if (row.length > 0) count++;
+    });
+    setRowCount(count);
+    isChecked && setIsChecked(false);
   };
 
   const exec = (e) => {
     e.preventDefault();
-    !defaultAccount ? connect() : sendToken();
+    !isChecked ? checkData() : defaultAccount ? sendToken() : connect();
   };
 
   const handleFileOnSubmit = (e) => {
@@ -314,54 +356,73 @@ const Form = ({ tokenType }) => {
         <div className='form-element'>
           <TextField
             id='outlined-multiline-static'
-            label='List of recipient addresses'
+            label={`List of recipient addresses ${
+              rowCount > 0 ? `(` + rowCount + `)` : ''
+            }`}
             value={addressList}
-            onChange={(e) => {
-              setAddressList(e.target.value);
-              isChecked && setIsChecked(false);
-            }}
+            onChange={textfieldChange}
             autoComplete='do-not-autofill'
             multiline
-            minRows={5}
-            maxRows={200}
+            rows={5}
             fullWidth
           />
         </div>
+        {successAlert && (
+          <Fade in={true} {...{ timeout: 1000 }}>
+            <Alert
+              severity='info'
+              variant='filled'
+              className='form-element'
+              action={
+                <IconButton
+                  aria-label='close'
+                  color='inherit'
+                  size='small'
+                  onClick={() => {
+                    setSuccessAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize='inherit' />
+                </IconButton>
+              }
+            >
+              {`${drop.addresses.length} addresses were successfully added`}
+            </Alert>
+          </Fade>
+        )}
         {((listError.invalidValues && listError.invalidValues.length > 0) ||
           (listError.wrongValuesNumber &&
             listError.wrongValuesNumber.length > 0)) && (
-          <Alert
-            severity='warning'
-            variant='outlined'
-            className='form-element'
-            action={
-              <IconButton
-                aria-label='close'
-                color='inherit'
-                size='small'
-                onClick={() => {
-                  setListError('');
-                }}
-              >
-                <CloseIcon fontSize='inherit' />
-              </IconButton>
-            }
-          >
-            We removed rows with invalid format. Click{' '}
-            <span className='link' onClick={() => setErrorModal(true)}>
-              here
-            </span>{' '}
-            to view them
-          </Alert>
+          <Fade in={true} {...{ timeout: 1000 }}>
+            <Alert
+              severity='error'
+              variant='filled'
+              className='form-element'
+              action={
+                <IconButton
+                  aria-label='close'
+                  color='inherit'
+                  size='small'
+                  onClick={() => {
+                    setListError({ wrongValuesNumber: [], invalidValues: [] });
+                  }}
+                >
+                  <CloseIcon fontSize='inherit' />
+                </IconButton>
+              }
+            >
+              We have found and removed{' '}
+              {listError.invalidValues.length +
+                listError.wrongValuesNumber.length}{' '}
+              rows containing invalid values. Click{' '}
+              <span className='link' onClick={() => setErrorModal(true)}>
+                here
+              </span>{' '}
+              to view them
+            </Alert>
+          </Fade>
         )}
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-          className='form-element'
-        >
+        <div className='form-element button-group'>
           <div className='upload-button'>
             <Button
               variant='outlined'
@@ -385,15 +446,15 @@ const Form = ({ tokenType }) => {
               </IconButton>
             </LightTooltip>
           </div>
-          <div className='validate-button'>
+          <div className='clear-button'>
             <Button
               variant='contained'
               component='label'
-              onClick={() => checkData()}
-              disabled={isChecked || !addressList}
+              onClick={clear}
+              disabled={!addressList}
               fullWidth
             >
-              {isChecked ? 'Input checked' : 'Check input'}
+              Clear
             </Button>
           </div>
         </div>
@@ -401,10 +462,14 @@ const Form = ({ tokenType }) => {
           <Button
             type='submit'
             variant='contained'
-            // disabled={loading}
+            disabled={!rowCount}
             fullWidth
           >
-            {!defaultAccount ? 'Connect wallet' : 'Send'}
+            {!isChecked
+              ? 'Validate input'
+              : !defaultAccount
+              ? 'Connect wallet'
+              : 'Send'}
           </Button>
         </div>
       </form>

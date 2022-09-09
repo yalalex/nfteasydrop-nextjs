@@ -56,8 +56,6 @@ export const csvToArray = (str, type, simple) => {
         }
       });
 
-      console.log(corruptedRows);
-
       const data = [addresses, ids, amounts];
 
       res([data, corruptedRows]);
