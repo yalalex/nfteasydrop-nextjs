@@ -14,6 +14,12 @@ a:active {
   color: inherit;
 }
 
+.page-container {
+  margin-top: 120px;
+  text-align: center;
+  color: #fff;
+}
+
 //alert
 
 .alert-container {
@@ -30,44 +36,46 @@ a:active {
 //modal
 
 .dialog {
-  background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
-  .title-container {
-    display: flex;
-    justify-content: space-between;
+  .dialog-container {
+    background: linear-gradient(89deg, #4e54c8, #8f94fb);
+    .title-container {
+      display: flex;
+      justify-content: space-between;
 
-    .title {
-      justify-content: flex-start;
-      font-size: 20px;
-      padding-top: 4px;
-    }
+      .title {
+        justify-content: flex-start;
+        font-size: 20px;
+        padding-top: 4px;
+      }
 
-    .button-container {
-      justify-content: flex-end;
+      .button-container {
+        justify-content: flex-end;
 
-      .close-button {
-        margin-top: -1px;
-        color: #fff;
-        right: -10px;
+        .close-button {
+          margin-top: -1px;
+          color: #fff;
+          right: -10px;
+        }
       }
     }
-  }
 
-  .content {
-    padding-top: 0px;
-    .title {
-      padding: 15px 0px 5px 0px;
-      font-weight: bold;
-    }
+    .content {
+      padding-top: 0px;
+      .title {
+        padding: 15px 0px 5px 0px;
+        font-weight: bold;
+      }
 
-    .paper {
-      padding: 10px;
-      font-size: 14px;
-    }
+      .paper {
+        padding: 10px;
+        font-size: 14px;
+      }
 
-    .footnote {
-      padding-top: 15px;
-      font-size: 12px;
-      font-style: italic;
+      .footnote {
+        padding-top: 15px;
+        font-size: 12px;
+        font-style: italic;
+      }
     }
   }
 }
@@ -75,7 +83,7 @@ a:active {
 //form
 
 .switcher {
-  padding-top: 120px;
+  margin-top: 40px;
   text-align: center;
   .option {
     width: 100px;
@@ -91,6 +99,28 @@ a:active {
   margin: auto;
   padding: 50px;
   // margin-bottom: 25px;
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #add8e6;
+    border-radius: 4px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #8f94fb;
+    border-radius: 4px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4e54c8;
+  }
   .form {
     max-width: 640px;
     text-align: center;
@@ -357,13 +387,14 @@ a:active {
     margin-left: -24px;
   }
 
-  .price {
-    padding-bottom: 10px;
-  }
+  // .price {
+  //   padding-bottom: 10px;
+  // }
 }
 
 .sub-note {
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-bottom: 20px;
   color: #fff;
   text-align: center;
 }

@@ -29,6 +29,7 @@ import {
   ListItemText,
   Toolbar,
   Button,
+  CircularProgress,
 } from '@mui/material';
 
 const drawerWidth = 240;
@@ -37,6 +38,7 @@ const links = [
   { id: 1, path: '/', title: 'Home' },
   { id: 2, path: '/subscribe', title: 'Subscribe' },
   { id: 3, path: '/tutorial', title: 'Tutorial' },
+  { id: 4, path: '/faq', title: 'FAQ' },
 ];
 
 const Navbar = () => {
@@ -46,7 +48,7 @@ const Navbar = () => {
     defaultAccount,
     chain,
     // lang,
-    // loading,
+    loading,
     connectWalletHandler,
     changeChain,
     // changeLang,
@@ -230,6 +232,7 @@ const Navbar = () => {
                   array={chainList}
                   current={chain}
                   select={switchChain}
+                  loading={loading === 'chain'}
                 />
               </div>
             )}
@@ -239,9 +242,17 @@ const Navbar = () => {
               onClick={connect}
               color='secondary'
               variant='outlined'
-              // disabled={loading}
+              disabled={loading === 'account'}
             >
-              {defaultAccount ? truncate(defaultAccount) : 'Connect'}
+              {!defaultAccount ? (
+                loading === 'account' ? (
+                  <CircularProgress color='secondary' size={25} />
+                ) : (
+                  'Connect'
+                )
+              ) : (
+                truncate(defaultAccount)
+              )}
             </Button>
             {/* {lang && (
               <div className='last-button'>

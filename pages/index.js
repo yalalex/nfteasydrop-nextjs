@@ -19,23 +19,30 @@ const Home = () => {
         <title>Welcome</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
-        <div className='switcher'>
-          <ToggleButtonGroup
-            color='primary'
-            value={tokenType}
-            exclusive
-            onChange={handleChange}
-          >
-            <ToggleButton value='721' className='option'>
-              ERC-721
-            </ToggleButton>
-            <ToggleButton value='1155' className='option'>
-              ERC-1155
-            </ToggleButton>
-          </ToggleButtonGroup>
-          <Paper elevation={5} className='form-container'>
-            <Form tokenType={tokenType} />
-          </Paper>
+        <div className='page-container'>
+          <h1>Welcome to NFT Easy Drop</h1>
+          <h2>
+            Our app allows you to send your NFT tokens to multiple addresses in
+            1 easy step
+          </h2>
+          <div className='switcher'>
+            <ToggleButtonGroup
+              color='primary'
+              value={tokenType}
+              exclusive
+              onChange={handleChange}
+            >
+              <ToggleButton value='721' className='option'>
+                ERC-721
+              </ToggleButton>
+              <ToggleButton value='1155' className='option'>
+                ERC-1155
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <Paper elevation={5} className='form-container'>
+              <Form tokenType={tokenType} />
+            </Paper>
+          </div>
         </div>
       </Fade>
     </>

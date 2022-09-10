@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   chain: chainList[0],
   airdropContract: null,
   lang: langList[0],
-  loading: false,
+  loading: '',
   error: null,
   connected: false,
 };
@@ -42,13 +42,13 @@ const walletReducer = (state, action) => {
         ...state,
         defaultAccount: payload,
         connected: true,
-        loading: false,
+        loading: '',
       };
     case ACTION_TYPES.SET_CHAIN:
       return {
         ...state,
         chain: payload,
-        loading: false,
+        loading: '',
       };
     case ACTION_TYPES.SET_CONTRACT:
       return {
@@ -64,12 +64,12 @@ const walletReducer = (state, action) => {
       return {
         ...state,
         error: payload,
-        loading: false,
+        loading: '',
       };
     case ACTION_TYPES.SET_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: payload,
       };
     default:
       return state;
@@ -82,7 +82,7 @@ export const Context = createContext({
   chain: null,
   lang: null,
   airdropContract: null,
-  loading: false,
+  loading: '',
   error: null,
   connectWalletHandler: () => {},
   accountChangedHandler: () => {},
@@ -90,7 +90,7 @@ export const Context = createContext({
   changeChain: () => {},
   changeLang: () => {},
   setError: () => {},
-  setLoading: () => {},
+  // setLoading: () => {},
 });
 
 export const Provider = ({ children }) => {
@@ -130,7 +130,7 @@ export const Provider = ({ children }) => {
 
   const connectWalletHandler = async () => {
     console.log('connectWalletHandler');
-    setLoading();
+    setLoading('account'); //ADD LOADING TO CONNECT BUTTON
     if (window.ethereum && window.ethereum.isMetaMask) {
       const { ethereum } = window;
       const [account] = await ethereum.request({
@@ -170,7 +170,7 @@ export const Provider = ({ children }) => {
 
   const changeChain = async (newChainId) => {
     if (chain.id !== newChainId) {
-      setLoading();
+      setLoading('chain'); //ADD LOADING TO CHAIN BUTTON
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -197,8 +197,8 @@ export const Provider = ({ children }) => {
     );
   };
 
-  const setLoading = () => {
-    dispatch({ type: ACTION_TYPES.SET_LOADING });
+  const setLoading = (loadingType) => {
+    dispatch({ type: ACTION_TYPES.SET_LOADING, payload: loadingType });
   };
 
   const value = {
@@ -215,7 +215,7 @@ export const Provider = ({ children }) => {
     accountChangedHandler,
     changeLang,
     setError,
-    setLoading,
+    // setLoading,
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

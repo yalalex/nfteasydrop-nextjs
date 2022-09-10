@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import { ethers } from 'ethers';
 
-import { Button, Card, Grid, Fade } from '@mui/material';
+import { Button, Card, Grid, Fade, Box } from '@mui/material';
 
 import { Context } from '../context/context';
 
@@ -43,10 +43,18 @@ const Subscribe = () => {
         <title>Subscribe</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
-        <div>
+        <div className='page-container'>
+          <Box maxWidth={{ sm: 480, md: 960 }} margin={'auto'}>
+            <h2>
+              Subscription allows you to send your NFT tokens with our app for
+              free* <br />
+              <br />
+              No limit to the amount of transactions!
+            </h2>
+          </Box>
           <Grid
             container
-            paddingTop={13}
+            paddingTop={1}
             maxWidth={{ sm: 480, md: 960 }}
             direction='row'
             justifyContent='center'
@@ -65,11 +73,13 @@ const Subscribe = () => {
                 className='grid'
               >
                 <Card elevation={5} className='card'>
-                  <div className='price'>{selection.period}</div>
-                  <div>{selection.price} Eth</div>
+                  <h3>{selection.period.toLocaleUpperCase()}</h3>
+                  <h3>{selection.price} ETH</h3>
                   <div>
                     <Button
+                      size='large'
                       color='success'
+                      variant='text'
                       onClick={() =>
                         selection.price === plan
                           ? subscribe()
@@ -85,7 +95,8 @@ const Subscribe = () => {
           </Grid>
           <div className='sub-note'>
             Please note that subscription is currently supported only for
-            transactions made on Ethereum Mainnet
+            transactions made on Ethereum Mainnet <br />
+            *You will still have to pay network fees
           </div>
         </div>
       </Fade>

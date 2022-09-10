@@ -4,9 +4,15 @@ import Image from 'next/image';
 
 // import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 
-const Dropdown = ({ array, current, select, btnWidth = 128 }) => {
+const Dropdown = ({
+  array,
+  current,
+  select,
+  loading = false,
+  btnWidth = 128,
+}) => {
   const [visible, setVisible] = useState(false);
 
   function useOutsideClick(ref) {
@@ -35,11 +41,20 @@ const Dropdown = ({ array, current, select, btnWidth = 128 }) => {
           size='small'
           variant='contained'
           // endIcon={!visible ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
-          startIcon={<Image src={current.icon} height={20} width={20} />}
+          disabled={loading}
+          startIcon={
+            !loading ? (
+              <Image src={current.icon} height={20} width={20} />
+            ) : null
+          }
           style={{ width: btnWidth }}
           onClick={() => setVisible(!visible)}
         >
-          {current.name}
+          {!loading ? (
+            current.name
+          ) : (
+            <CircularProgress size={25} color='secondary' />
+          )}
         </Button>
         <div
           className={`dropdown-content ${

@@ -13,6 +13,7 @@ import {
   Tooltip,
   Alert,
   Fade,
+  CircularProgress,
 } from '@mui/material';
 
 import { ethers } from 'ethers';
@@ -47,10 +48,9 @@ const Form = ({ tokenType }) => {
     airdropContract,
     defaultAccount,
     chain,
-    // loading,
+    loading,
     connectWalletHandler,
     setError,
-    // setLoading,
   } = useContext(Context);
 
   const [token, setToken] = useState(''); // nft address
@@ -195,7 +195,7 @@ const Form = ({ tokenType }) => {
       invalidValues: [],
     });
 
-    const [data, corruptedData] = await csvToArray(text, tokenType, simple);
+    const [data, corruptedData] = await csvToArray(text, tokenType, simple); //ADD LOADING TO CSV BUTTON
 
     const [addresses, ids, amounts] = data;
 
@@ -311,13 +311,17 @@ const Form = ({ tokenType }) => {
               onClick={() => changeApprovalStatus(!isApproved)}
               fullWidth
             >
-              {approvalLoading
-                ? 'Checking...'
-                : isValidContract
-                ? isApproved
-                  ? 'Remove Approval'
-                  : 'Approve'
-                : 'Not a valid NFT contract'}
+              {approvalLoading ? (
+                <CircularProgress size={25} color='secondary' />
+              ) : isValidContract ? (
+                isApproved ? (
+                  'Remove Approval'
+                ) : (
+                  'Approve'
+                )
+              ) : (
+                'Not a valid NFT contract'
+              )}
             </Button>
           </div>
         )}
@@ -472,14 +476,20 @@ const Form = ({ tokenType }) => {
           <Button
             type='submit'
             variant='contained'
-            disabled={!rowCount}
+            disabled={!rowCount || loading === 'account'}
             fullWidth
           >
-            {!isChecked
-              ? 'Validate input'
-              : !defaultAccount
-              ? 'Connect wallet'
-              : 'Send'}
+            {!isChecked ? (
+              'Validate input'
+            ) : !defaultAccount ? (
+              loading === 'account' ? (
+                <CircularProgress color='secondary' size={25} />
+              ) : (
+                'Connect wallet'
+              )
+            ) : (
+              'Send'
+            )}
           </Button>
         </div>
       </form>

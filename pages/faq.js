@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 import { Fade } from '@mui/material';
 
-const Tutorial = () => {
+const Faq = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Tutorial = () => {
   return (
     <>
       <Head>
-        <title>Tutorial</title>
+        <title>FAQ</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <h3 className='not-found'>
@@ -29,4 +29,4 @@ const Tutorial = () => {
   );
 };
 
-export default Tutorial;
+export default Faq;
