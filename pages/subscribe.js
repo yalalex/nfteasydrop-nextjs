@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import { ethers } from 'ethers';
 
-import { Button, Card, Grid, Fade, Box } from '@mui/material';
+import { Button, Card, Grid, Fade, Box, Typography } from '@mui/material';
 
 import { Context } from '../context/context';
 
@@ -44,17 +44,14 @@ const Subscribe = () => {
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>
-          <Box maxWidth={{ sm: 480, md: 960 }} margin={'auto'}>
-            <h2>
-              Subscription allows you to send your NFT tokens with our app for
-              free* <br />
-              <br />
-              No limit to the amount of transactions!
-            </h2>
-          </Box>
+          <Typography variant='h5' component='h2'>
+            Subscription allows you to send your NFT tokens with our dapp for
+            free* <br />
+            No limit to the amount of transactions!
+          </Typography>
           <Grid
             container
-            paddingTop={1}
+            paddingTop={2}
             maxWidth={{ sm: 480, md: 960 }}
             direction='row'
             justifyContent='center'
@@ -73,8 +70,12 @@ const Subscribe = () => {
                 className='grid'
               >
                 <Card elevation={5} className='card'>
-                  <h3>{selection.period.toLocaleUpperCase()}</h3>
-                  <h3>{selection.price} ETH</h3>
+                  <Typography variant='h5' component='h2' marginTop={2}>
+                    {selection.period.toUpperCase()}
+                  </Typography>
+                  <Typography variant='h4' component='h1' marginY={2}>
+                    {selection.price} ETH
+                  </Typography>
                   <div>
                     <Button
                       size='large'

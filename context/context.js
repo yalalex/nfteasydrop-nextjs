@@ -130,7 +130,7 @@ export const Provider = ({ children }) => {
 
   const connectWalletHandler = async () => {
     console.log('connectWalletHandler');
-    setLoading('account'); //ADD LOADING TO CONNECT BUTTON
+    setLoading('account');
     if (window.ethereum && window.ethereum.isMetaMask) {
       const { ethereum } = window;
       const [account] = await ethereum.request({
@@ -170,7 +170,7 @@ export const Provider = ({ children }) => {
 
   const changeChain = async (newChainId) => {
     if (chain.id !== newChainId) {
-      setLoading('chain'); //ADD LOADING TO CHAIN BUTTON
+      setLoading('chain');
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -215,7 +215,6 @@ export const Provider = ({ children }) => {
     accountChangedHandler,
     changeLang,
     setError,
-    // setLoading,
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

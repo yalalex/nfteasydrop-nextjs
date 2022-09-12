@@ -75,6 +75,7 @@ const Form = ({ tokenType }) => {
   const [isApproved, setIsApproved] = useState(false);
 
   const [isChecked, setIsChecked] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
 
   const [isValidContract, setIsValidContract] = useState(false);
   const [approvalLoading, setApprovalLoading] = useState(false);
@@ -187,6 +188,7 @@ const Form = ({ tokenType }) => {
   };
 
   const parseAddressList = async (text) => {
+    setUploadLoading(true);
     setSuccessAlert(false);
     setIsChecked(false);
     setDrop({ addresses: [], ids: [], amounts: [] });
@@ -199,8 +201,10 @@ const Form = ({ tokenType }) => {
 
     const [addresses, ids, amounts] = data;
 
-    if (!addresses.length)
+    if (!addresses.length) {
+      setUploadLoading(false);
       return setError('Please enter valid data for selected token type');
+    }
 
     setAddressList('');
     setRowCount(0);
@@ -225,10 +229,11 @@ const Form = ({ tokenType }) => {
         : addresses[i] + ',' + ids[i] + ',' + amounts[i] + '\n';
     }
 
-    setRowCount(addresses.length);
     setAddressList(dataField);
+    setRowCount(addresses.length);
     setIsChecked(true);
     if (addresses.length) setSuccessAlert(true);
+    setUploadLoading(false);
   };
 
   const connect = () => {
@@ -267,7 +272,6 @@ const Form = ({ tokenType }) => {
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = function (e) {
-        // setAddressList('');
         const text = e.target.result;
         parseAddressList(text);
       };
@@ -312,7 +316,7 @@ const Form = ({ tokenType }) => {
               fullWidth
             >
               {approvalLoading ? (
-                <CircularProgress size={25} color='secondary' />
+                <CircularProgress size={24} color='secondary' />
               ) : isValidContract ? (
                 isApproved ? (
                   'Remove Approval'
@@ -445,7 +449,11 @@ const Form = ({ tokenType }) => {
               onChange={handleFileOnSubmit}
               fullWidth
             >
-              Upload CSV
+              {!uploadLoading ? (
+                'Upload CSV'
+              ) : (
+                <CircularProgress size={24} color='secondary' />
+              )}
               <input type='file' accept='.csv, .txt' hidden />
             </Button>
           </div>
@@ -483,7 +491,7 @@ const Form = ({ tokenType }) => {
               'Validate input'
             ) : !defaultAccount ? (
               loading === 'account' ? (
-                <CircularProgress color='secondary' size={25} />
+                <CircularProgress color='secondary' size={24} />
               ) : (
                 'Connect wallet'
               )

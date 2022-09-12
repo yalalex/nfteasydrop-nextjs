@@ -1,29 +1,62 @@
-import { useEffect } from 'react';
-
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import { Fade } from '@mui/material';
+import Q from '../components/Q';
 
-const Faq = () => {
-  const router = useRouter();
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Container,
+  Typography,
+  Fade,
+  Divider,
+} from '@mui/material';
 
-  useEffect(() => {
-    setTimeout(() => {
-      router.push('/');
-    }, 3000);
-  }, [router]);
+export const getStaticProps = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/faq');
+    const data = await response.json();
 
+    if (!data) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: { faq: data },
+    };
+  } catch {
+    return {
+      props: { faq: null },
+    };
+  }
+};
+
+const Faq = ({ faq }) => {
   return (
     <>
       <Head>
-        <title>FAQ</title>
+        <title>Frequently Asked Questions</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
-        <h3 className='not-found'>
-          This page is under construction. <br />
-          You will be redirected to the main page in a few seconds...
-        </h3>
+        <div className='page-container'>
+          <Typography variant='h3' component='h1' color='#fff'>
+            Frequently Asked Questions
+          </Typography>
+          <Container
+            maxWidth='md'
+            sx={{
+              marginTop: 3,
+              textAlign: 'start',
+            }}
+          >
+            {faq.map((q) => (
+              <Q key={q.id} q={q} />
+            ))}
+          </Container>
+        </div>
       </Fade>
     </>
   );

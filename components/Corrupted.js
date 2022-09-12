@@ -15,7 +15,7 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
       onClose={closeModal}
       scroll='body'
       fullWidth={true}
-      maxWidth={'md'}
+      maxWidth={'sm'}
       className='dialog'
     >
       <div className='dialog-container'>
