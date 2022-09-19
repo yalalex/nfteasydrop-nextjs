@@ -37,7 +37,7 @@ const drawerWidth = 240;
 const links = [
   { id: 1, path: '/', title: 'Home' },
   { id: 2, path: '/subscribe', title: 'Subscribe' },
-  { id: 3, path: '/tutorial', title: 'Tutorial' },
+  // { id: 3, path: '/tutorial', title: 'Tutorial' },
   { id: 4, path: '/faq', title: 'FAQ' },
 ];
 

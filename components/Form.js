@@ -90,6 +90,7 @@ const Form = ({ tokenType }) => {
   }, [token]);
 
   useEffect(() => {
+    setSimple(false);
     setToken('');
     setIsChecked(false);
   }, [tokenType]);
@@ -126,8 +127,8 @@ const Form = ({ tokenType }) => {
 
   const changeApprovalStatus = async (status) => {
     if (!defaultAccount) return setError('Please connect your wallet first');
-    if (chain.name === 'Unsupported')
-      return setError(`${chain.name} is not supported`);
+    // if (chain.name === 'Unsupported')
+    //   return setError('Current network is not supported');
     setApprovalLoading(true);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
@@ -157,24 +158,28 @@ const Form = ({ tokenType }) => {
       return setError('Please enter valid NFT contract address');
     if (!isApproved) return setError('Please approve before submit');
     if (!isChecked) return setError('Please validate data first');
-    if (chain.name === 'Unsupported')
-      return setError(`${chain.name} is not supported`);
+    // if (chain.name === 'Unsupported')
+    //   return setError('Current network is not supported');
 
     const { addresses, ids, amounts } = drop;
 
-    const subscription = await airdropContract.checkSub(defaultAccount);
+    const timestamp = Math.floor(Date.now() / 1000);
+    const { until } = await airdropContract.subscribers(defaultAccount);
 
-    const data = !subscription
-      ? {
-          value: ethers.utils.parseEther(txFee),
-        }
-      : {};
+    const data =
+      Number(until) < timestamp
+        ? {
+            value: ethers.utils.parseEther(txFee),
+          }
+        : {};
 
     if (tokenType === '721') {
       try {
         await airdropContract.airdrop721(token, addresses, ids, data);
       } catch (error) {
-        setError('Something went wrong');
+        setError(
+          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send'
+        );
       }
     }
 
@@ -182,7 +187,9 @@ const Form = ({ tokenType }) => {
       try {
         await airdropContract.airdrop1155(token, addresses, ids, amounts, data);
       } catch (error) {
-        setError('Something went wrong');
+        setError(
+          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send'
+        );
       }
     }
   };

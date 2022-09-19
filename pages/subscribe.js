@@ -45,8 +45,8 @@ const Subscribe = () => {
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>
           <Typography variant='h5' component='h2'>
-            Subscription allows you to send your NFT tokens with our dapp for
-            free* <br />
+            Subscription allows you to send NFT tokens using our dApp for free*
+            <br />
             No limit to the amount of transactions!
           </Typography>
           <Grid

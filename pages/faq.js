@@ -3,19 +3,11 @@ import Head from 'next/head';
 import Q from '../components/Q';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Container,
-  Typography,
-  Fade,
-  Divider,
-} from '@mui/material';
+import { Container, Typography, Fade } from '@mui/material';
 
 export const getStaticProps = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/faq');
+    const response = await fetch('http://localhost:3000/api/faq'); // test local env address
     const data = await response.json();
 
     if (!data) {
@@ -38,12 +30,12 @@ const Faq = ({ faq }) => {
   return (
     <>
       <Head>
-        <title>Frequently Asked Questions</title>
+        <title>FAQ</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>
           <Typography variant='h3' component='h1' color='#fff'>
-            Frequently Asked Questions
+            FAQ
           </Typography>
           <Container
             maxWidth='md'

@@ -30,8 +30,8 @@ const Home = () => {
             Welcome to NFT Easy Drop
           </Typography>
           <Typography variant='h5' component='h2'>
-            Our dapp allows you to send your NFT tokens to multiple addresses in
-            1 easy step
+            Our dApp allows you to send NFT tokens to multiple addresses in just
+            one easy step
           </Typography>
           <div className='switcher'>
             <ToggleButtonGroup

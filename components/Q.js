@@ -10,7 +10,10 @@ import {
 const Q = ({ q }) => {
   return (
     <Accordion sx={{ my: 2, borderRadius: 1 }}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon color='secondary' />}>
+      <AccordionSummary
+        sx={{ bgcolor: 'rgb(0,0,0,0.1)' }}
+        expandIcon={<ExpandMoreIcon color='secondary' />}
+      >
         <Typography variant='h6' component='h3'>
           {q.question}
         </Typography>

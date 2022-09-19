@@ -1,5 +1,6 @@
 export const airdropContractAddress =
-  '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6';
+  '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+// '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6';
 
 export const txFee = '0.07';
 

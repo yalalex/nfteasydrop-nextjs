@@ -11,6 +11,7 @@ import { airdropContractAddress, chainList, langList } from '../config';
 const INITIAL_STATE = {
   defaultAccount: '',
   signer: null,
+  provider: null,
   chain: chainList[0],
   airdropContract: null,
   lang: langList[0],
@@ -35,7 +36,8 @@ const walletReducer = (state, action) => {
     case ACTION_TYPES.SET_SIGNER:
       return {
         ...state,
-        signer: payload,
+        signer: payload.signer,
+        provider: payload.provider,
       };
     case ACTION_TYPES.SET_ACCOUNT:
       return {
@@ -79,6 +81,7 @@ const walletReducer = (state, action) => {
 export const Context = createContext({
   defaultAccount: '',
   signer: null,
+  provider: null,
   chain: null,
   lang: null,
   airdropContract: null,
@@ -98,6 +101,7 @@ export const Provider = ({ children }) => {
 
   const {
     signer,
+    provider,
     defaultAccount,
     chain,
     airdropContract,
@@ -136,15 +140,17 @@ export const Provider = ({ children }) => {
       const [account] = await ethereum.request({
         method: 'eth_requestAccounts',
       });
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
+      const currentProvider = provider
+        ? provider
+        : new ethers.providers.Web3Provider(ethereum);
+      const signer = currentProvider.getSigner();
       dispatch({
         type: ACTION_TYPES.SET_SIGNER,
-        payload: signer,
+        payload: { signer, provider },
       });
       setContract(signer);
       accountChangedHandler(account);
-      const { chainId } = await provider.getNetwork();
+      const { chainId } = await currentProvider.getNetwork();
       if (connected === true) chainChangedHandler(chainId);
     } else {
       setError('Please install MetaMask browser extension to interact');
@@ -152,8 +158,10 @@ export const Provider = ({ children }) => {
   };
 
   const setChainId = async () => {
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const { chainId } = await provider.getNetwork();
+    const currentProvider = provider
+      ? provider
+      : new ethers.providers.Web3Provider(ethereum);
+    const { chainId } = await currentProvider.getNetwork();
     chainChangedHandler(chainId);
   };
 
@@ -204,6 +212,7 @@ export const Provider = ({ children }) => {
   const value = {
     defaultAccount,
     signer,
+    provider,
     chain,
     airdropContract,
     lang,
