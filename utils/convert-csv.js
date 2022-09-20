@@ -14,7 +14,7 @@ export const csvToArray = (str, type, simple) => {
   let addresses = [];
   let ids = [];
   let amounts = [];
-  let corruptedRows = { wrongValuesNumber: [], invalidValues: [] };
+  let corruptedRows = [];
 
   return new Promise((res, rej) => {
     try {
@@ -25,34 +25,31 @@ export const csvToArray = (str, type, simple) => {
           .map((value) => value.trim());
 
         if (type === '721') {
-          if (values.length === 2) {
-            if (
-              ethers.utils.isAddress(values[0]) &&
-              isPositiveInteger(values[1])
-            ) {
-              addresses.push(values[0]);
-              ids.push(values[1]);
-            } else return corruptedRows.invalidValues.push(row);
-          } else return corruptedRows.wrongValuesNumber.push(row);
+          if (
+            values.length === 2 &&
+            ethers.utils.isAddress(values[0]) &&
+            isPositiveInteger(values[1])
+          ) {
+            addresses.push(values[0]);
+            ids.push(values[1]);
+          } else return corruptedRows.push(row);
         }
 
         if (type === '1155') {
           if (simple) {
-            if (values.length === 1) {
-              if (ethers.utils.isAddress(values[0])) addresses.push(values[0]);
-              else return corruptedRows.invalidValues.push(row);
-            } else return corruptedRows.wrongValuesNumber.push(row);
-          } else if (values.length === 3) {
-            if (
-              ethers.utils.isAddress(values[0]) &&
-              isPositiveInteger(values[1]) &&
-              isPositiveInteger(values[2])
-            ) {
+            if (values.length === 1 && ethers.utils.isAddress(values[0]))
               addresses.push(values[0]);
-              ids.push(values[1]);
-              amounts.push(values[2]);
-            } else return corruptedRows.invalidValues.push(row);
-          } else return corruptedRows.wrongValuesNumber.push(row);
+            else return corruptedRows.push(row);
+          } else if (
+            values.length === 3 &&
+            ethers.utils.isAddress(values[0]) &&
+            isPositiveInteger(values[1]) &&
+            isPositiveInteger(values[2])
+          ) {
+            addresses.push(values[0]);
+            ids.push(values[1]);
+            amounts.push(values[2]);
+          } else return corruptedRows.push(row);
         }
       });
 

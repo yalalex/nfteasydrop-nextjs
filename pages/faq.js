@@ -2,7 +2,6 @@ import Head from 'next/head';
 
 import Q from '../components/Q';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Container, Typography, Fade } from '@mui/material';
 
 export const getStaticProps = async () => {

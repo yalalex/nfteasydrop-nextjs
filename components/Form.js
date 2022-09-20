@@ -53,15 +53,12 @@ const Form = ({ tokenType }) => {
     setError,
   } = useContext(Context);
 
-  const [token, setToken] = useState(''); // nft address
+  const [token, setToken] = useState(''); // nft contract address
 
   const [addressList, setAddressList] = useState('');
   const [rowCount, setRowCount] = useState(0);
   const [successAlert, setSuccessAlert] = useState(false);
-  const [listError, setListError] = useState({
-    wrongValuesNumber: [],
-    invalidValues: [],
-  });
+  const [listError, setListError] = useState([]);
 
   const [errorModal, setErrorModal] = useState(false);
   const [exampleModal, setExampleModal] = useState(false);
@@ -127,14 +124,13 @@ const Form = ({ tokenType }) => {
 
   const changeApprovalStatus = async (status) => {
     if (!defaultAccount) return setError('Please connect your wallet first');
-    // if (chain.name === 'Unsupported')
-    //   return setError('Current network is not supported');
+    if (chain.name === 'Unsupported')
+      return setError('Current network is not supported');
     setApprovalLoading(true);
     try {
       await tokenContract.setApprovalForAll(airdropContractAddress, status);
       const checkApproval = setInterval(async () => {
         const approval = await airdropContract.isApproved(token);
-        console.log('approval loading');
         if (approval !== isApproved) {
           setIsApproved(approval);
           setApprovalLoading(false);
@@ -158,8 +154,8 @@ const Form = ({ tokenType }) => {
       return setError('Please enter valid NFT contract address');
     if (!isApproved) return setError('Please approve before submit');
     if (!isChecked) return setError('Please validate data first');
-    // if (chain.name === 'Unsupported')
-    //   return setError('Current network is not supported');
+    if (chain.name === 'Unsupported')
+      return setError('Current network is not supported');
 
     const { addresses, ids, amounts } = drop;
 
@@ -199,12 +195,9 @@ const Form = ({ tokenType }) => {
     setSuccessAlert(false);
     setIsChecked(false);
     setDrop({ addresses: [], ids: [], amounts: [] });
-    setListError({
-      wrongValuesNumber: [],
-      invalidValues: [],
-    });
+    setListError([]);
 
-    const [data, corruptedData] = await csvToArray(text, tokenType, simple); //ADD LOADING TO CSV BUTTON
+    const [data, corruptedData] = await csvToArray(text, tokenType, simple);
 
     const [addresses, ids, amounts] = data;
 
@@ -253,10 +246,7 @@ const Form = ({ tokenType }) => {
     setSuccessAlert(false);
     setIsChecked(false);
     setDrop({ addresses: [], ids: [], amounts: [] });
-    setListError({
-      wrongValuesNumber: [],
-      invalidValues: [],
-    });
+    setListError([]);
   };
 
   const textfieldChange = (e) => {
@@ -381,7 +371,7 @@ const Form = ({ tokenType }) => {
         <div className='form-element'>
           <TextField
             color='success'
-            label={`List of recipient addresses ${
+            label={`List of recipient addresses separated by comma ${
               rowCount > 0 ? `(` + rowCount + `)` : ''
             }`}
             value={addressList}
@@ -415,9 +405,7 @@ const Form = ({ tokenType }) => {
             </Alert>
           </Fade>
         )}
-        {((listError.invalidValues && listError.invalidValues.length > 0) ||
-          (listError.wrongValuesNumber &&
-            listError.wrongValuesNumber.length > 0)) && (
+        {listError.length > 0 && (
           <Fade in={true} {...{ timeout: 1000 }}>
             <Alert
               severity='info'
@@ -429,17 +417,15 @@ const Form = ({ tokenType }) => {
                   color='inherit'
                   size='small'
                   onClick={() => {
-                    setListError({ wrongValuesNumber: [], invalidValues: [] });
+                    setListError([]);
                   }}
                 >
                   <CloseIcon fontSize='inherit' />
                 </IconButton>
               }
             >
-              We have found and removed{' '}
-              {listError.invalidValues.length +
-                listError.wrongValuesNumber.length}{' '}
-              rows containing invalid values. Click{' '}
+              We have found and removed {listError.length} rows containing
+              invalid values. Click{' '}
               <span className='link' onClick={() => setErrorModal(true)}>
                 here
               </span>{' '}

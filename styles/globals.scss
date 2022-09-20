@@ -48,14 +48,14 @@ a:active {
       .title {
         justify-content: flex-start;
         font-size: 20px;
-        padding-top: 4px;
+        padding-top: 5px;
       }
 
       .button-container {
         justify-content: flex-end;
 
         .close-button {
-          margin-top: -1px;
+          // margin-top: -1px;
           color: #fff;
           right: -10px;
         }
@@ -69,6 +69,7 @@ a:active {
       }
 
       .paper {
+        margin-top: 5px;
         padding: 10px;
         font-size: 14px;
         // white-space: pre-wrap;

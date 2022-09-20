@@ -33,18 +33,18 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
         </DialogTitle>
         <DialogContent dividers={true} className='content'>
           <div>
-            {data.invalidValues && data.invalidValues.length > 0 && (
+            {data.length > 0 && (
               <>
                 <div className='title'>Rows containing invalid values: </div>
 
                 <Paper className='paper'>
-                  {data.invalidValues.map((row, i) => (
+                  {data.map((row, i) => (
                     <div key={i}>{row}</div>
                   ))}
                 </Paper>
               </>
             )}
-            {data.wrongValuesNumber && data.wrongValuesNumber.length > 0 && (
+            {/* {data.wrongValuesNumber && data.wrongValuesNumber.length > 0 && (
               <>
                 <div className='title'>Rows with wrong number of values: </div>
 
@@ -54,7 +54,7 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
                   ))}
                 </Paper>
               </>
-            )}
+            )} */}
           </div>
         </DialogContent>
       </div>

@@ -2,19 +2,19 @@ export const faq = [
   {
     id: 1,
     question: 'What is NFT Easy Drop?',
-    answer: `It's a dApp that allows you to safely airdrop your NFT tokens to multiple addresses. It saves you time and money by combining and executing hundreds of transactions in just one click.`,
+    answer: `It's a dApp that allows you to airdrop your NFT tokens to multiple addresses. It saves you time and money by combining and executing hundreds of transactions in just one click.`,
   },
   {
     id: 2,
     question: 'How many NFTs can I send in one transaction?',
     answer:
-      'The current Ethereum block limit size should allow you to send up to 600 ERC-721 or up to 1750 ERC-1155 tokens at a time. But we recommend you to decrease these numbers by 30%.', // change tokens to addresses?
+      'The current Ethereum block limit size should allow you to send up to 600 ERC-721 or up to 1750 ERC-1155 tokens at a time.', // change tokens to addresses?
   },
   {
     id: 3,
     question: 'What chains are supported?',
     answer:
-      'We currently support Ethereum Mainnet, Polygon, Arbitrum, Optimism and Binance Smart Chain. In case you want to test our dApp before use Rinkeby Testnet is also supported. More chains to come!',
+      'We currently support Ethereum Mainnet, Polygon, Arbitrum, Optimism and Binance Smart Chain. In case you want to test our dApp before use, Rinkeby Testnet is also supported. More chains to come!',
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ export const faq = [
   // },
   {
     id: 7,
-    question: 'What is your contract address?',
+    question: 'What is the contract address?',
     answer:
       'Our contract address is 0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6.',
   },

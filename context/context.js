@@ -112,7 +112,6 @@ export const Provider = ({ children }) => {
   } = state;
 
   const chainChangedHandler = (chainId) => {
-    console.log('chainChangedHandler');
     const chain = chainDetector(chainId);
     dispatch({
       type: ACTION_TYPES.SET_CHAIN,
@@ -133,7 +132,6 @@ export const Provider = ({ children }) => {
   };
 
   const connectWalletHandler = async () => {
-    console.log('connectWalletHandler');
     setLoading('account');
     if (window.ethereum && window.ethereum.isMetaMask) {
       const { ethereum } = window;
@@ -166,7 +164,6 @@ export const Provider = ({ children }) => {
   };
 
   const accountChangedHandler = (newAccount) => {
-    console.log('accountChangedHandler');
     if (connected === false) setChainId();
     if (newAccount) {
       dispatch({
