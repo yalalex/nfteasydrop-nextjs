@@ -1,5 +1,7 @@
 import { faq } from './data/faq';
 
 export default function handler(req, res) {
-  res.status(200).json(faq);
+  if (req.method === 'GET') {
+    res.status(200).json(faq);
+  }
 }

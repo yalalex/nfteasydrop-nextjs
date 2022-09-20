@@ -44,7 +44,7 @@ const Dropdown = ({
           disabled={loading}
           startIcon={
             !loading ? (
-              <Image src={current.icon} height={20} width={20} />
+              <Image src={current.icon} height={20} width={20} alt='' />
             ) : null
           }
           style={{ width: btnWidth }}
@@ -75,7 +75,7 @@ const Dropdown = ({
               >
                 <div className='selection'>
                   <div>
-                    <Image src={option.icon} height={20} width={20} />
+                    <Image src={option.icon} height={20} width={20} alt='' />
                   </div>
                   <div>{option.name.toUpperCase()}</div>
                 </div>

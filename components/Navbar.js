@@ -104,16 +104,21 @@ const Navbar = () => {
             <a
               href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
               target='_blank'
+              rel='noopener noreferrer'
             >
               <IconButton
                 size='large'
                 color='secondary'
                 aria-label='visit etherscan'
               >
-                <Image src='/ether.svg' height='24' width='24' />
+                <Image src='/ether.svg' height='24' width='24' alt='' />
               </IconButton>
             </a>
-            <a href='https://twitter.com/nfteasydrop' target='_blank'>
+            <a
+              href='https://twitter.com/nfteasydrop'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               <IconButton
                 size='large'
                 color='secondary'
@@ -122,7 +127,7 @@ const Navbar = () => {
                 <TwitterIcon />
               </IconButton>
             </a>
-            <a href='' target='_blank'>
+            <a href='' target='_blank' rel='noopener noreferrer'>
               <IconButton
                 size='large'
                 color='secondary'
@@ -185,6 +190,7 @@ const Navbar = () => {
                 <a
                   href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
                   target='_blank'
+                  rel='noopener noreferrer'
                   className='icon-container'
                 >
                   <IconButton
@@ -193,7 +199,7 @@ const Navbar = () => {
                     aria-label='visit etherscan'
                     className='icon-button'
                   >
-                    <Image src='/ether.svg' width='100%' height='100%' />
+                    <Image src='/ether.svg' width='100%' height='100%' alt='' />
                   </IconButton>
                 </a>
               </ListItem>
@@ -201,6 +207,7 @@ const Navbar = () => {
                 <a
                   href='https://twitter.com/nfteasydrop'
                   target='_blank'
+                  rel='noopener noreferrer'
                   className='icon-container'
                 >
                   <IconButton
@@ -213,7 +220,12 @@ const Navbar = () => {
                 </a>
               </ListItem>
               <ListItem disablePadding>
-                <a href='' target='_blank' className='icon-container'>
+                <a
+                  href=''
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='icon-container'
+                >
                   <IconButton
                     color='secondary'
                     size='large'
