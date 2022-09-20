@@ -11,7 +11,7 @@ const Q = ({ q }) => {
   return (
     <Accordion sx={{ my: 2, borderRadius: 1 }}>
       <AccordionSummary
-        sx={{ bgcolor: 'rgb(0,0,0,0.05)' }}
+        sx={{ bgcolor: 'rgba(0,0,0,0.05)' }}
         expandIcon={<ExpandMoreIcon color='secondary' />}
       >
         <Typography variant='h6' component='h3'>

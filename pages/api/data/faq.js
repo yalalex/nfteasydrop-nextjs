@@ -27,22 +27,22 @@ export const faq = [
     question: 'What wallets are supported?',
     answer: 'We currently support Metamask.',
   },
-  // {
-  //   id: 6,
-  //   question: 'Is it safe to use your dApp?',
-  //   answer:
-  //     'It is completely safe to use our dApp. Our smart contract is fully opened and can be viewed at the 0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6 address.',
-  // },
   {
-    id: 7,
+    id: 6,
     question: 'What is the contract address?',
     answer:
       'Our contract address is 0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6.',
   },
   {
-    id: 8,
+    id: 7,
     question: 'How to contact us?',
     answer:
       'Currently we are available on Twitter and Telegram. Discord coming soon!',
   },
+  // {
+  //   id: 8,
+  //   question: 'Is it safe to use your dApp?',
+  //   answer:
+  //     'It is completely safe to use our dApp. Our smart contract is fully opened and can be viewed at the 0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6 address.',
+  // },
 ];

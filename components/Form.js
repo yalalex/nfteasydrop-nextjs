@@ -10,6 +10,7 @@ import {
   Button,
   TextField,
   IconButton,
+  Paper,
   Tooltip,
   Alert,
   Fade,
@@ -279,7 +280,7 @@ const Form = ({ tokenType }) => {
   };
 
   return (
-    <>
+    <Paper elevation={5} className='form-container'>
       <CorruptedData
         data={listError}
         closeModal={() => setErrorModal(false)}
@@ -371,9 +372,12 @@ const Form = ({ tokenType }) => {
         <div className='form-element'>
           <TextField
             color='success'
-            label={`List of recipient addresses separated by comma ${
-              rowCount > 0 ? `(` + rowCount + `)` : ''
+            label={`List of recipient addresses ${
+              rowCount > 0 ? '(' + rowCount + ')' : ''
             }`}
+            // label={`List of recipient addresses ${
+            //   rowCount === 0 ? 'separated by comma' : ''
+            // } ${rowCount > 0 ? '(' + rowCount + ')' : ''}`}
             value={addressList}
             onChange={textfieldChange}
             autoComplete='do-not-autofill'
@@ -494,7 +498,7 @@ const Form = ({ tokenType }) => {
           </Button>
         </div>
       </form>
-    </>
+    </Paper>
   );
 };
 

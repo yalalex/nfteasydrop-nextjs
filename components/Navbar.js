@@ -90,7 +90,7 @@ const Navbar = () => {
               className='link-container'
               sx={{
                 background:
-                  router.pathname === link.path && 'rgb(255,255,255,0.05)',
+                  router.pathname === link.path && 'rgba(255,255,255,0.05)',
               }}
             >
               <Link href={link.path} className='link'>
@@ -174,7 +174,7 @@ const Navbar = () => {
                     className='link-container'
                     sx={{
                       background:
-                        router.pathname === link.path && 'rgb(0,0,0,0.05)',
+                        router.pathname === link.path && 'rgba(0,0,0,0.05)',
                     }}
                   >
                     <a className='link'>{link.title}</a>

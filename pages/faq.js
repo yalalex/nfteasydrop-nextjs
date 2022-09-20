@@ -6,7 +6,7 @@ import { Container, Typography, Fade } from '@mui/material';
 
 export const getStaticProps = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/faq'); // test local env address
+    const response = await fetch(`${process.env.API_HOST}/faq`);
     const data = await response.json();
 
     if (!data) {

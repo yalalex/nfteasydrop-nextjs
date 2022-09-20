@@ -69,7 +69,7 @@ a:active {
       }
 
       .paper {
-        margin-top: 5px;
+        margin-top: 3px;
         padding: 10px;
         font-size: 14px;
         // white-space: pre-wrap;
@@ -98,11 +98,11 @@ a:active {
 
 .form-container {
   // background: rgba(0, 0, 0, 0.1);
+  // margin-bottom: 25px;
   max-width: 760px;
   text-align: center;
   margin: auto;
   padding: 50px;
-  // margin-bottom: 25px;
 
   /* width */
   ::-webkit-scrollbar {
@@ -177,8 +177,8 @@ a:active {
     .example {
       // width: 20%;
       // padding: 5px;
-      margin-top: -2px;
       // color: #1976d2;
+      margin-top: -2px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -356,10 +356,10 @@ a:active {
           }
 
           .selection {
-            // display: flex;
             text-align: center;
-            // margin-left: 10px;
             font-size: 14px;
+            // display: flex;
+            // margin-left: 10px;
             // font-style: italic;
           }
         }

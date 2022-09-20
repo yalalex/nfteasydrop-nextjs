@@ -5,7 +5,6 @@ import Head from 'next/head';
 import Form from '../components/Form';
 
 import {
-  Paper,
   ToggleButtonGroup,
   ToggleButton,
   Fade,
@@ -47,9 +46,7 @@ const Home = () => {
                 ERC-1155
               </ToggleButton>
             </ToggleButtonGroup>
-            <Paper elevation={5} className='form-container'>
-              <Form tokenType={tokenType} />
-            </Paper>
+            <Form tokenType={tokenType} />
           </div>
         </div>
       </Fade>

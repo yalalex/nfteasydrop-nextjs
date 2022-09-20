@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import { ethers } from 'ethers';
 
-import { Button, Card, Grid, Fade, Box, Typography } from '@mui/material';
+import { Button, Card, Grid, Fade, Typography } from '@mui/material';
 
 import { Context } from '../context/context';
 
