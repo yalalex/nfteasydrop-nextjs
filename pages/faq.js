@@ -4,28 +4,30 @@ import Q from '../components/Q';
 
 import { Container, Typography, Fade } from '@mui/material';
 
-export const getStaticProps = async () => {
-  try {
-    const response = await fetch(`${process.env.API_HOST}/faq`);
-    const data = await response.json();
+import faq from '../pages/api/data/faq.json';
 
-    if (!data) {
-      return {
-        notFound: true,
-      };
-    }
+// export const getStaticProps = async () => {
+//   try {
+//     const response = await fetch(`${process.env.API_HOST}/faq`);
+//     const data = await response.json();
 
-    return {
-      props: { faq: data },
-    };
-  } catch {
-    return {
-      props: { faq: null },
-    };
-  }
-};
+//     if (!data) {
+//       return {
+//         notFound: true,
+//       };
+//     }
 
-const Faq = ({ faq }) => {
+//     return {
+//       props: { faq: data },
+//     };
+//   } catch {
+//     return {
+//       props: { faq: null },
+//     };
+//   }
+// };
+
+const Faq = () => {
   return (
     <>
       <Head>
