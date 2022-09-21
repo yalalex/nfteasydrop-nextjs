@@ -21,10 +21,19 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     '&.Mui-disabled': {
       color: 'rgba(255, 255, 255, 1)',
     },
+    '&.Mui-selected': {
+      color: 'rgba(255, 255, 255, 1)',
+    },
     '&:not(:first-of-type)': {
       color: 'rgba(255, 255, 255, 1)',
     },
     '&:first-of-type': {
+      color: 'rgba(255, 255, 255, 1)',
+    },
+    '&:not(:last-of-type)': {
+      color: 'rgba(255, 255, 255, 1)',
+    },
+    '&:last-of-type': {
       color: 'rgba(255, 255, 255, 1)',
     },
   },
