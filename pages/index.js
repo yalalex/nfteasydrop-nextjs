@@ -11,6 +11,19 @@ import {
   Typography,
 } from '@mui/material';
 
+import { styled } from '@mui/material/styles';
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  '& .MuiToggleButtonGroup-grouped': {
+    width: 100,
+    fontSize: 16,
+    color: '#fff',
+    '&.Mui-disabled': {
+      color: '#fff',
+    },
+  },
+}));
+
 const Home = () => {
   const [tokenType, setTokenType] = useState('721');
 
@@ -33,19 +46,15 @@ const Home = () => {
             one easy step
           </Typography>
           <div className='switcher'>
-            <ToggleButtonGroup
+            <StyledToggleButtonGroup
               color='primary'
               value={tokenType}
               exclusive
               onChange={handleChange}
             >
-              <ToggleButton value='721' className='option'>
-                ERC-721
-              </ToggleButton>
-              <ToggleButton value='1155' className='option'>
-                ERC-1155
-              </ToggleButton>
-            </ToggleButtonGroup>
+              <ToggleButton value='721'>ERC-721</ToggleButton>
+              <ToggleButton value='1155'>ERC-1155</ToggleButton>
+            </StyledToggleButtonGroup>
             <Form tokenType={tokenType} />
           </div>
         </div>

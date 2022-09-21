@@ -38,13 +38,13 @@ const walletReducer = (state, action) => {
         ...state,
         signer: payload.signer,
         provider: payload.provider,
+        loading: '',
       };
     case ACTION_TYPES.SET_ACCOUNT:
       return {
         ...state,
         defaultAccount: payload,
         connected: true,
-        loading: '',
       };
     case ACTION_TYPES.SET_CHAIN:
       return {
@@ -135,24 +135,27 @@ export const Provider = ({ children }) => {
     setLoading('account');
     if (window.ethereum && window.ethereum.isMetaMask) {
       const { ethereum } = window;
-      const [account] = await ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-      const currentProvider = provider
-        ? provider
-        : new ethers.providers.Web3Provider(ethereum);
-      const signer = currentProvider.getSigner();
-      dispatch({
-        type: ACTION_TYPES.SET_SIGNER,
-        payload: { signer, provider },
-      });
-      setContract(signer);
-      accountChangedHandler(account);
-      const { chainId } = await currentProvider.getNetwork();
-      if (connected === true) chainChangedHandler(chainId);
+      try {
+        const [account] = await ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        const currentProvider = provider
+          ? provider
+          : new ethers.providers.Web3Provider(ethereum);
+        const signer = currentProvider.getSigner();
+        dispatch({
+          type: ACTION_TYPES.SET_SIGNER,
+          payload: { signer, provider },
+        });
+        setContract(signer);
+        accountChangedHandler(account);
+        const { chainId } = await currentProvider.getNetwork();
+        if (connected === true) chainChangedHandler(chainId);
+      } catch (err) {
+        setError('Something went wrong. Please try again');
+      }
     } else {
       setError('Please install MetaMask browser extension to interact');
-      setLoading('');
     }
   };
 
@@ -160,8 +163,12 @@ export const Provider = ({ children }) => {
     const currentProvider = provider
       ? provider
       : new ethers.providers.Web3Provider(ethereum);
-    const { chainId } = await currentProvider.getNetwork();
-    chainChangedHandler(chainId);
+    try {
+      const { chainId } = await currentProvider.getNetwork();
+      chainChangedHandler(chainId);
+    } catch (err) {
+      setError('Something went wrong. Please try again');
+    }
   };
 
   const accountChangedHandler = (newAccount) => {
@@ -185,8 +192,7 @@ export const Provider = ({ children }) => {
       } catch (err) {
         if (err.code === 4902) {
           setError(`Please add ${chainDetector(newChainId)} to MetaMask`);
-        }
-        setLoading('');
+        } else setError('Something went wrong. Please try again');
       }
     }
   };

@@ -51,11 +51,12 @@ const Navbar = () => {
     loading,
     connectWalletHandler,
     changeChain,
+    setError,
     // changeLang,
   } = useContext(Context);
 
   const switchChain = (newChainId) => {
-    if (!defaultAccount) return;
+    if (!defaultAccount) return setError('Please connect your wallet first');
     changeChain(newChainId);
   };
 
