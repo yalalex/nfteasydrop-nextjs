@@ -55,6 +55,7 @@ const Navbar = () => {
   } = useContext(Context);
 
   const switchChain = (newChainId) => {
+    if (!defaultAccount) return;
     changeChain(newChainId);
   };
 

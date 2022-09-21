@@ -152,6 +152,7 @@ export const Provider = ({ children }) => {
       if (connected === true) chainChangedHandler(chainId);
     } else {
       setError('Please install MetaMask browser extension to interact');
+      setLoading('');
     }
   };
 
@@ -185,6 +186,7 @@ export const Provider = ({ children }) => {
         if (err.code === 4902) {
           setError(`Please add ${chainDetector(newChainId)} to MetaMask`);
         }
+        setLoading('');
       }
     }
   };

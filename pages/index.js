@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Welcome</title>
+        <title>Welcome to NFT Easy Drop</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>

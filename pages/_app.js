@@ -6,15 +6,26 @@ import { Provider } from '../context/context';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../utils/theme';
 
-const MyApp = ({ Component, pageProps }) => {
+import createEmotionCache from '../utils/createEmotionCache';
+import { CacheProvider } from '@emotion/react';
+
+const clientSideEmotionCache = createEmotionCache();
+
+const MyApp = ({
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps,
+}) => {
   return (
-    <ThemeProvider theme={theme}>
-      <Provider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Provider>
-    </ThemeProvider>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={theme}>
+        <Provider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Provider>
+      </ThemeProvider>
+    </CacheProvider>
   );
 };
 
