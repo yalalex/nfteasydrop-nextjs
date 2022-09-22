@@ -12,16 +12,16 @@ export const plans = [
 ];
 
 export const chainList = [
-  { id: '0x1', name: 'Mainnet', icon: '/mainnet.svg' },
-  { id: '0x89', name: 'Polygon', icon: '/polygon.svg' },
-  { id: '0xa4b1', name: 'Arbitrum', icon: '/arbitrum.svg' },
-  { id: '0xa', name: 'Optimism', icon: '/op.svg' },
-  { id: '0x38', name: 'Binance', icon: '/bnb.svg' },
-  { id: '0x4', name: 'Rinkeby', icon: '/rinkeby.svg' },
+  { id: '0x1', name: 'Mainnet', icon: '/chains/mainnet.svg' },
+  { id: '0x89', name: 'Polygon', icon: '/chains/polygon.svg' },
+  { id: '0xa4b1', name: 'Arbitrum', icon: '/chains/arbitrum.svg' },
+  { id: '0xa', name: 'Optimism', icon: '/chains/op.svg' },
+  { id: '0x38', name: 'Binance', icon: '/chains/bnb.svg' },
+  { id: '0x4', name: 'Rinkeby', icon: '/chains/rinkeby.svg' },
 ];
 
 export const langList = [
-  { id: 1, name: 'en', icon: '/en.svg' },
-  { id: 2, name: 'cn', icon: '/cn.svg' },
-  { id: 3, name: 'ru', icon: '/ru.svg' },
+  { id: 1, name: 'en', icon: '/langs/en.svg' },
+  { id: 2, name: 'cn', icon: '/langs/cn.svg' },
+  { id: 3, name: 'ru', icon: '/langs/ru.svg' },
 ];

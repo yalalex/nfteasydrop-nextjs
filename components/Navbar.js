@@ -37,7 +37,7 @@ const drawerWidth = 240;
 const links = [
   { id: 1, path: '/', title: 'Home' },
   { id: 2, path: '/subscribe', title: 'Subscribe' },
-  // { id: 3, path: '/tutorial', title: 'Tutorial' },
+  { id: 3, path: '/tutorial', title: 'Tutorial' },
   { id: 4, path: '/faq', title: 'FAQ' },
 ];
 
@@ -92,7 +92,7 @@ const Navbar = () => {
               className='link-container'
               sx={{
                 background:
-                  router.pathname === link.path && 'rgba(255,255,255,0.05)',
+                  router.pathname === link.path && 'rgba(255, 255, 255, 0.05)',
               }}
             >
               <Link href={link.path} className='link'>
@@ -113,7 +113,7 @@ const Navbar = () => {
                 color='secondary'
                 aria-label='visit etherscan'
               >
-                <Image src='/ether.svg' height='24' width='24' alt='' />
+                <Image src='/icons/ether.svg' height='24' width='24' alt='' />
               </IconButton>
             </a>
             <a
@@ -157,22 +157,15 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <div
-            sx={{
-              flexGrow: 1,
-              display: { sm: 'none', md: 'block' },
-            }}
-          >
-            <Link href={links[0].path}>
-              <a>
-                <ZoomOutMapIcon
-                  color='primary'
-                  aria-label='visit etherscan'
-                  className='logo'
-                />
-              </a>
-            </Link>
-          </div>
+          <Link href={links[0].path}>
+            <a>
+              <ZoomOutMapIcon
+                color='primary'
+                aria-label='home'
+                className='logo'
+              />
+            </a>
+          </Link>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
             <div className='links-container'>
               {links.map((link) => (
@@ -181,7 +174,7 @@ const Navbar = () => {
                     className='link-container'
                     sx={{
                       background:
-                        router.pathname === link.path && 'rgba(0,0,0,0.05)',
+                        router.pathname === link.path && 'rgba(0, 0, 0, 0.05)',
                     }}
                   >
                     <a className='link'>{link.title}</a>
@@ -201,7 +194,12 @@ const Navbar = () => {
                     aria-label='visit etherscan'
                     className='icon-button'
                   >
-                    <Image src='/ether.svg' width='100%' height='100%' alt='' />
+                    <Image
+                      src='/icons/ether.svg'
+                      width='100%'
+                      height='100%'
+                      alt=''
+                    />
                   </IconButton>
                 </a>
               </ListItem>

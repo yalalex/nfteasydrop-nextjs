@@ -31,7 +31,9 @@ const Faq = () => {
   return (
     <>
       <Head>
-        <title>FAQ</title>
+        <title>
+          NFT Easy Drop - send your tokens to multiple addresses | FAQ
+        </title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>

@@ -103,6 +103,7 @@ a:active {
   text-align: center;
   margin: auto;
   padding: 50px;
+  // border: 1px solid rgba(0, 0, 0, 0.12);
 
   /* width */
   ::-webkit-scrollbar {
@@ -274,9 +275,10 @@ a:active {
 
   .navbar-right {
     width: 100%;
+    margin-left: 15px;
     display: flex;
-    min-width: 300px;
     justify-content: flex-end;
+    // min-width: 285px;
 
     .nav-button {
       width: 128px;
@@ -399,6 +401,13 @@ a:active {
   margin-bottom: 10px;
   color: #fff;
   text-align: center;
+}
+
+// Tutorial
+
+.tutorial-image {
+  padding-top: 10px;
+  padding-bottom: 20px;
 }
 
 // FAQ

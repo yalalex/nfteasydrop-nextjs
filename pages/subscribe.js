@@ -40,7 +40,9 @@ const Subscribe = () => {
   return (
     <>
       <Head>
-        <title>Subscribe</title>
+        <title>
+          NFT Easy Drop - send your tokens to multiple addresses | Subscribe
+        </title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>

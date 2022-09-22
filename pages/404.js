@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import { Fade } from '@mui/material';
+import { Fade, Typography } from '@mui/material';
 
 const Error = () => {
   const router = useRouter();
@@ -20,10 +20,10 @@ const Error = () => {
         <title>Not found</title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
-        <h2 className='not-found'>
+        <Typography variant='h5' component='h2' className='not-found'>
           This page is not found. <br />
-          You will be redirected Home in a few seconds...
-        </h2>
+          You will be redirected to the main page in a few seconds...
+        </Typography>
       </Fade>
     </>
   );

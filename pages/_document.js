@@ -8,6 +8,20 @@ export default class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          <meta
+            name='description'
+            content='This tool allows you to airdrop your ERC-721 and ERC-1155 tokens to multiple recipients in one transaction'
+            key='desc'
+          />
+          <meta property='og:title' content='NFT Easy Drop' />
+          <meta
+            property='og:description'
+            content='Send your ERC-721 and ERC-1155 tokens to multiple addresses in one transaction'
+          />
+          {/* <meta
+            property="og:image"
+            content="https://example.com/images/cool-page.jpg"
+          /> */}
           <link
             href='https://fonts.googleapis.com/css2?family=Kanit&family=Rajdhani:wght@500;700&family=Titillium+Web&display=swap'
             rel='stylesheet'

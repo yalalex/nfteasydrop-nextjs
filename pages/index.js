@@ -17,19 +17,6 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   '& .MuiToggleButtonGroup-grouped': {
     width: 100,
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 1)',
-    '&.Mui-disabled': {
-      color: 'rgba(255, 255, 255, 1)',
-    },
-    '&.Mui-selected': {
-      color: 'rgba(255, 255, 255, 1)',
-    },
-    '&:not(:first-of-type)': {
-      color: 'rgba(255, 255, 255, 1)',
-    },
-    '&:first-of-type': {
-      color: 'rgba(255, 255, 255, 1)',
-    },
     '&:not(:last-of-type)': {
       color: 'rgba(255, 255, 255, 1)',
     },
@@ -49,16 +36,19 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Welcome to NFT Easy Drop</title>
+        <title>
+          NFT Easy Drop - send your tokens to multiple addresses | Home
+        </title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>
           <Typography variant='h3' component='h1'>
             Welcome to NFT Easy Drop
           </Typography>
-          <Typography variant='h5' component='h2'>
+          <br />
+          <Typography variant='h6' component='h2' sx={{ marginTop: -2 }}>
             Our dApp allows you to send NFT tokens to multiple addresses in just
-            one easy step
+            one transaction
           </Typography>
           <div className='switcher'>
             <StyledToggleButtonGroup
