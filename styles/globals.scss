@@ -221,14 +221,13 @@ a:active {
   background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
 
   .logo {
-    margin-top: 5px;
-    height: 50px;
-    width: 50px;
+    padding-top: 10px;
+    padding-bottom: 3px;
   }
 
   .links-container {
     display: flex;
-    padding-left: 24px;
+    padding-left: 12px;
 
     .link-container {
       margin-top: -12px;
@@ -275,7 +274,7 @@ a:active {
 
   .navbar-right {
     width: 100%;
-    margin-left: 15px;
+    margin-left: 24px;
     display: flex;
     justify-content: flex-end;
     // min-width: 285px;
@@ -381,7 +380,7 @@ a:active {
   }
 
   .card {
-    width: 195px;
+    width: 190px;
     text-align: center;
     padding: 15px;
     padding-top: 20px;
@@ -389,6 +388,9 @@ a:active {
     display: flex;
     flex-direction: column;
     margin-left: -24px;
+    &:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
   }
 
   // .price {

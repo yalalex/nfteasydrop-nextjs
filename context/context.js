@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 
 import { chainDetector } from '../utils/chain-detect';
 
-import Airdrop from '../utils/AirdropABI.json';
+import Airdrop from '../data/AirdropABI.json';
 
 import { airdropContractAddress, chainList, langList } from '../config';
 

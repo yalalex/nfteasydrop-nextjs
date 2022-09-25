@@ -4,7 +4,7 @@ import Q from '../components/Q';
 
 import { Container, Typography, Fade } from '@mui/material';
 
-import faq from '../pages/api/data/faq.json';
+import faq from '../data/faq.json';
 
 // export const getStaticProps = async () => {
 //   try {

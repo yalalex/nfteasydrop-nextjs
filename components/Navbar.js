@@ -15,7 +15,9 @@ import { chainList, langList } from '../config';
 import MenuIcon from '@mui/icons-material/Menu';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import TelegramIcon from '@mui/icons-material/Telegram';
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
+// import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
+
+import logo from '../public/logos/logo.png';
 
 import {
   AppBar,
@@ -35,9 +37,9 @@ import {
 const drawerWidth = 240;
 
 const links = [
-  { id: 1, path: '/', title: 'Home' },
-  { id: 2, path: '/subscribe', title: 'Subscribe' },
-  { id: 3, path: '/tutorial', title: 'Tutorial' },
+  // { id: 1, path: '/', title: 'Home' },
+  { id: 2, path: '/tutorial', title: 'Tutorial' },
+  { id: 3, path: '/subscribe', title: 'Subscribe' },
   { id: 4, path: '/faq', title: 'FAQ' },
 ];
 
@@ -77,13 +79,11 @@ const Navbar = () => {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} className='drawer'>
-      <div>
-        <ZoomOutMapIcon
-          color='primary'
-          aria-label='visit etherscan'
-          className='logo'
-        />
-      </div>
+      <Link href='/'>
+        <IconButton size='large' color='secondary' aria-label='NFT Easy Drop'>
+          <Image src={logo} height={45} width={109} alt='' />
+        </IconButton>
+      </Link>
       <Divider />
       <List sx={{ marginTop: -1 }}>
         {links.map((link) => (
@@ -157,14 +157,17 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Link href={links[0].path}>
-            <a>
-              <ZoomOutMapIcon
-                color='primary'
-                aria-label='home'
-                className='logo'
-              />
-            </a>
+          <Link href='/'>
+            <IconButton
+              color='secondary'
+              // edge='start'
+              size='medium'
+              aria-label='NFT Easy Drop'
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              className='logo'
+            >
+              <Image src={logo} height={45} width={109} />
+            </IconButton>
           </Link>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
             <div className='links-container'>
