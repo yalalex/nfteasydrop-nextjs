@@ -37,7 +37,7 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
               <>
                 <div className='title'>Rows containing invalid values: </div>
 
-                <Paper className='paper'>
+                <Paper className='paper' sx={{ fontSize: { xs: 12, sm: 14 } }}>
                   {data.map((row, i) => (
                     <div key={i}>{row}</div>
                   ))}

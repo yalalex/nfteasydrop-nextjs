@@ -280,7 +280,11 @@ const Form = ({ tokenType }) => {
   };
 
   return (
-    <Paper elevation={5} className='form-container'>
+    <Paper
+      elevation={5}
+      className='form-container'
+      sx={{ p: { xs: 2, sm: 6 } }}
+    >
       <CorruptedData
         data={listError}
         closeModal={() => setErrorModal(false)}

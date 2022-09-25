@@ -71,7 +71,7 @@ a:active {
       .paper {
         margin-top: 3px;
         padding: 10px;
-        font-size: 14px;
+        // font-size: 14px;
         // white-space: pre-wrap;
       }
 
@@ -102,7 +102,7 @@ a:active {
   max-width: 760px;
   text-align: center;
   margin: auto;
-  padding: 50px;
+  // padding: 50px;
   // border: 1px solid rgba(0, 0, 0, 0.12);
 
   /* width */
@@ -190,12 +190,6 @@ a:active {
   height: 100%;
   background: linear-gradient(90deg, #ff5edf 0%, #04c8de 100%);
   text-align: center;
-
-  .logo {
-    margin-top: 5px;
-    height: 40px;
-    width: 40px;
-  }
 
   .link-container {
     text-align: center;
