@@ -29,11 +29,16 @@ const Subscribe = () => {
         value: ethers.utils.parseEther(plan),
       });
     } catch (error) {
-      if (error.code === 'INSUFFICIENT_FUNDS') {
+      if (error.code === -32000) {
         setError(
           'You have insufficient funds in your wallet for completing this transaction'
         );
-      } else setError('Something went wrong. Please try again');
+      } else if (error.code === 4001) {
+        setError('Please switch to Ethereum Mainnet to subscribe');
+      } else
+        setError(
+          'Something went wrong. Please make sure you are connected to Ethereum Mainnet and have enough funds in your account'
+        );
     }
   };
 
