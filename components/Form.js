@@ -163,10 +163,15 @@ const Form = ({ tokenType }) => {
     const timestamp = Math.floor(Date.now() / 1000);
     const { until } = await airdropContract.subscribers(defaultAccount);
 
+    let fee = txFee.mainnet;
+
+    if (chain.id === '0x89') fee = txFee.polygon;
+    if (chain.id === '0x38') fee = txFee.bsc;
+
     const data =
       Number(until) < timestamp
         ? {
-            value: ethers.utils.parseEther(txFee),
+            value: ethers.utils.parseEther(fee),
           }
         : {};
 
@@ -192,6 +197,8 @@ const Form = ({ tokenType }) => {
   };
 
   const parseAddressList = async (text) => {
+    const feee = await airdropContract.txFee();
+    console.log(feee);
     setUploadLoading(true);
     setSuccessAlert(false);
     setIsChecked(false);
