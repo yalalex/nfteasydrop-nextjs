@@ -159,7 +159,7 @@ const Navbar = () => {
           </IconButton>
           <Link href='/'>
             <IconButton
-              color='secondary'
+              color='primary'
               // edge='start'
               size='medium'
               aria-label='NFT Easy Drop'
@@ -184,102 +184,107 @@ const Navbar = () => {
                   </Box>
                 </Link>
               ))}
-              <ListItem disablePadding>
-                <a
-                  href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='icon-container'
-                >
-                  <IconButton
-                    color='secondary'
-                    size='large'
-                    aria-label='visit etherscan'
-                    className='icon-button'
-                  >
-                    <Image
-                      src='/icons/ether.svg'
-                      width='100%'
-                      height='100%'
-                      alt=''
-                    />
-                  </IconButton>
-                </a>
-              </ListItem>
-              <ListItem disablePadding>
-                <a
-                  href='https://twitter.com/nfteasydrop'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='icon-container'
-                >
-                  <IconButton
-                    color='secondary'
-                    size='large'
-                    aria-label='visit twitter'
-                  >
-                    <TwitterIcon />
-                  </IconButton>
-                </a>
-              </ListItem>
-              <ListItem disablePadding>
-                <a
-                  href=''
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='icon-container'
-                >
-                  <IconButton
-                    color='secondary'
-                    size='large'
-                    aria-label='open telegram'
-                  >
-                    <TelegramIcon />
-                  </IconButton>
-                </a>
-              </ListItem>
             </div>
           </Box>
-          <div className='navbar-right'>
-            {chain && (
-              <div className='first-button'>
-                <Dropdown
-                  array={chainList}
-                  current={chain}
-                  select={switchChain}
-                  loading={loading === 'chain'}
-                />
-              </div>
-            )}
-            <Button
-              className='nav-button'
-              size='small'
-              onClick={connect}
-              color='secondary'
-              variant='outlined'
-              disabled={loading === 'account'}
-            >
-              {!defaultAccount ? (
-                loading === 'account' ? (
-                  <CircularProgress color='secondary' size={25} />
-                ) : (
-                  'Connect'
-                )
-              ) : (
-                truncate(defaultAccount)
+          <Box className='navbar-right'>
+            <div className='links-container'>
+              <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+                <ListItem disablePadding>
+                  <a
+                    href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='icon-container'
+                  >
+                    <IconButton
+                      color='secondary'
+                      size='large'
+                      aria-label='visit etherscan'
+                      className='icon-button'
+                    >
+                      <Image
+                        src='/icons/ether.svg'
+                        width='100%'
+                        height='100%'
+                        alt=''
+                      />
+                    </IconButton>
+                  </a>
+                </ListItem>
+                <ListItem disablePadding>
+                  <a
+                    href='https://twitter.com/nfteasydrop'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='icon-container'
+                  >
+                    <IconButton
+                      color='secondary'
+                      size='large'
+                      aria-label='visit twitter'
+                    >
+                      <TwitterIcon />
+                    </IconButton>
+                  </a>
+                </ListItem>
+                <ListItem disablePadding>
+                  <a
+                    href=''
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='icon-container'
+                  >
+                    <IconButton
+                      color='secondary'
+                      size='large'
+                      aria-label='open telegram'
+                    >
+                      <TelegramIcon />
+                    </IconButton>
+                  </a>
+                </ListItem>
+              </Box>
+              {chain && (
+                <Box className='first-button' sx={{ mt: { sm: 0.3, md: 1 } }}>
+                  <Dropdown
+                    array={chainList}
+                    current={chain}
+                    select={switchChain}
+                    loading={loading === 'chain'}
+                  />
+                </Box>
               )}
-            </Button>
-            {/* {lang && (
-              <div className='last-button'>
+              <Button
+                className='connect-button'
+                size='small'
+                onClick={connect}
+                color='secondary'
+                variant='outlined'
+                disabled={loading === 'account'}
+                sx={{ mt: { sm: 0.3, md: 1 } }}
+              >
+                {!defaultAccount ? (
+                  loading === 'account' ? (
+                    <CircularProgress color='secondary' size={25} />
+                  ) : (
+                    'Connect'
+                  )
+                ) : (
+                  truncate(defaultAccount)
+                )}
+              </Button>
+              {/* {lang && (
+              <Box className='last-button' sx={{ mt: { sm: 0.3, md: 1 } }}>
                 <Dropdown
                   array={langList}
                   current={lang}
                   select={switchLang}
                   btnWidth={64}
                 />
-              </div>
+              </Box>
             )} */}
-          </div>
+            </div>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box component='nav'>

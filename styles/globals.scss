@@ -113,13 +113,13 @@ a:active {
   /* Track */
   ::-webkit-scrollbar-track {
     background: #add8e6;
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #8f94fb;
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   /* Handle on hover */
@@ -188,7 +188,7 @@ a:active {
 
 .drawer {
   height: 100%;
-  background: linear-gradient(90deg, #ff5edf 0%, #04c8de 100%);
+  background: linear-gradient(90deg, #e2b0ff 0%, #04c8de 100%);
   text-align: center;
 
   .link-container {
@@ -212,7 +212,7 @@ a:active {
 //navbar
 
 .navbar {
-  background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
+  background: linear-gradient(89deg, #9f44d3 0%, #04c8de 100%);
 
   .logo {
     padding-top: 10px;
@@ -224,12 +224,13 @@ a:active {
     padding-left: 12px;
 
     .link-container {
-      margin-top: -12px;
-      margin-bottom: -8px;
-      padding-top: 26px;
+      // margin-top: 0;
+      // margin-bottom: 0;
+      // margin-left: 15px;
+      padding-top: 22px;
+      padding-bottom: 22px;
       text-decoration: none;
       text-align: center;
-      // margin-left: 15px;
 
       .active,
       &:hover {
@@ -258,7 +259,7 @@ a:active {
     // }
 
     .icon-container {
-      margin-left: 15px;
+      margin-right: 15px;
       .icon-button {
         height: 48px;
         width: 48px;
@@ -268,17 +269,21 @@ a:active {
 
   .navbar-right {
     width: 100%;
-    margin-left: 24px;
     display: flex;
     justify-content: flex-end;
-    // min-width: 285px;
 
-    .nav-button {
+    .links-container {
+      display: flex;
+    }
+
+    .connect-button {
+      height: 30.75px;
       width: 128px;
     }
 
     .first-button {
       padding-right: 10px;
+      margin-left: 15px;
     }
 
     .last-button {
@@ -307,7 +312,7 @@ a:active {
         position: absolute;
         background-color: #3d3d90;
         box-sizing: 'border-box';
-        border-radius: 3px;
+        border-radius: 4px;
         font-size: 14px;
         width: 128px;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -414,7 +419,7 @@ a:active {
 //   .faq {
 //     margin-left: 20px;
 //     margin-right: 20px;
-//     border-radius: 3px;
+//     border-radius: 4px;
 //   }
 // }
 
