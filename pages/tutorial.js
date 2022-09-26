@@ -109,7 +109,11 @@ const Tutorial = () => {
                   Twitter
                 </a>{' '}
                 or{' '}
-                <a href='' target='_blank' rel='noopener noreferrer'>
+                <a
+                  href='https://t.me/nfteasydrop'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
                   Telegram
                 </a>
                 .
