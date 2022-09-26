@@ -129,7 +129,11 @@ const Navbar = () => {
                 <TwitterIcon />
               </IconButton>
             </a>
-            <a href='' target='_blank' rel='noopener noreferrer'>
+            <a
+              href='https://t.me/nfteasydrop'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               <IconButton
                 size='large'
                 color='secondary'
@@ -229,7 +233,7 @@ const Navbar = () => {
                 </ListItem>
                 <ListItem disablePadding>
                   <a
-                    href=''
+                    href='https://t.me/nfteasydrop'
                     target='_blank'
                     rel='noopener noreferrer'
                     className='icon-container'
