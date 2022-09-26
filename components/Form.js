@@ -175,7 +175,7 @@ const Form = ({ tokenType }) => {
         await airdropContract.airdrop721(token, addresses, ids, data);
       } catch (error) {
         setError(
-          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send'
+          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
         );
       }
     }
@@ -185,7 +185,7 @@ const Form = ({ tokenType }) => {
         await airdropContract.airdrop1155(token, addresses, ids, amounts, data);
       } catch (error) {
         setError(
-          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send'
+          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
         );
       }
     }

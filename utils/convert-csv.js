@@ -5,12 +5,6 @@ function isPositiveInteger(n) {
 }
 
 export const csvToArray = (str, type, simple) => {
-  const rowsRaw = str
-    .slice(0)
-    .split('\n')
-    .filter((value) => value !== '');
-  const rows = Array.from(new Set(rowsRaw));
-
   let addresses = [];
   let ids = [];
   let amounts = [];
@@ -18,6 +12,11 @@ export const csvToArray = (str, type, simple) => {
 
   return new Promise((res, rej) => {
     try {
+      const rowsRaw = str
+        .slice(0)
+        .split('\n')
+        .filter((value) => value !== '');
+      const rows = Array.from(new Set(rowsRaw));
       rows.forEach((row) => {
         const values = row
           .split(',')
