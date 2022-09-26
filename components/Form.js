@@ -197,8 +197,6 @@ const Form = ({ tokenType }) => {
   };
 
   const parseAddressList = async (text) => {
-    const feee = await airdropContract.txFee();
-    console.log(feee);
     setUploadLoading(true);
     setSuccessAlert(false);
     setIsChecked(false);
