@@ -37,7 +37,7 @@ const Tutorial = () => {
                 contract is deployed to.
                 <Box
                   className='tutorial-image'
-                  sx={{ width: { sm: '100%', md: '40%' } }}
+                  sx={{ width: { sm: '100%', md: '60%' } }}
                 >
                   <Image src={step1} alt='1' placeholder='blur' />
                 </Box>
