@@ -111,12 +111,41 @@ export const Provider = ({ children }) => {
     connected,
   } = state;
 
-  const chainChangedHandler = (chainId) => {
-    const chain = chainDetector(chainId);
+  const connectWalletHandler = async () => {
+    setLoading('account');
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      const { ethereum } = window;
+      try {
+        const [account] = await ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        setSigner();
+        accountChangedHandler(account);
+        if (connected === true) {
+          const currentProvider = provider
+            ? provider
+            : new ethers.providers.Web3Provider(ethereum);
+          const { chainId } = await currentProvider.getNetwork();
+          chainChangedHandler(chainId);
+        }
+      } catch (err) {
+        setError('Something went wrong. Please try again');
+      }
+    } else {
+      setError('Please install MetaMask browser extension to interact');
+    }
+  };
+
+  const setSigner = () => {
+    const currentProvider = provider
+      ? provider
+      : new ethers.providers.Web3Provider(ethereum);
+    const signer = currentProvider.getSigner();
     dispatch({
-      type: ACTION_TYPES.SET_CHAIN,
-      payload: chain,
+      type: ACTION_TYPES.SET_SIGNER,
+      payload: { signer, provider },
     });
+    setContract(signer);
   };
 
   const setContract = (signer) => {
@@ -131,32 +160,23 @@ export const Provider = ({ children }) => {
     });
   };
 
-  const connectWalletHandler = async () => {
-    setLoading('account');
-    if (window.ethereum && window.ethereum.isMetaMask) {
-      const { ethereum } = window;
-      try {
-        const [account] = await ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        const currentProvider = provider
-          ? provider
-          : new ethers.providers.Web3Provider(ethereum);
-        const signer = currentProvider.getSigner();
-        dispatch({
-          type: ACTION_TYPES.SET_SIGNER,
-          payload: { signer, provider },
-        });
-        setContract(signer);
-        accountChangedHandler(account);
-        const { chainId } = await currentProvider.getNetwork();
-        if (connected === true) chainChangedHandler(chainId);
-      } catch (err) {
-        setError('Something went wrong. Please try again');
-      }
-    } else {
-      setError('Please install MetaMask browser extension to interact');
-    }
+  const accountChangedHandler = (newAccount) => {
+    if (connected === false) setChainId();
+    if (newAccount) {
+      dispatch({
+        type: ACTION_TYPES.SET_ACCOUNT,
+        payload: newAccount,
+      });
+    } else setError('Please connect Metamask');
+  };
+
+  const chainChangedHandler = (chainId) => {
+    setSigner();
+    const chain = chainDetector(chainId);
+    dispatch({
+      type: ACTION_TYPES.SET_CHAIN,
+      payload: chain,
+    });
   };
 
   const setChainId = async () => {
@@ -169,16 +189,6 @@ export const Provider = ({ children }) => {
     } catch (err) {
       setError('Something went wrong. Please try again');
     }
-  };
-
-  const accountChangedHandler = (newAccount) => {
-    if (connected === false) setChainId();
-    if (newAccount) {
-      dispatch({
-        type: ACTION_TYPES.SET_ACCOUNT,
-        payload: newAccount,
-      });
-    } else setError('Please connect Metamask');
   };
 
   const changeChain = async (newChainId) => {

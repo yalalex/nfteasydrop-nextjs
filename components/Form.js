@@ -85,13 +85,18 @@ const Form = ({ tokenType }) => {
       setIsChecked(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [token, signer]);
 
   useEffect(() => {
     setSimple(false);
     setToken('');
     setIsChecked(false);
   }, [tokenType]);
+
+  useEffect(() => {
+    setToken('');
+    setIsApproved(false);
+  }, [chain]);
 
   useEffect(() => {
     if (airdropContract && ethers.utils.isAddress(token)) {
@@ -163,7 +168,7 @@ const Form = ({ tokenType }) => {
     const timestamp = Math.floor(Date.now() / 1000);
     const { until } = await airdropContract.subscribers(defaultAccount);
 
-    let fee = txFee.mainnet;
+    let fee = txFee.ethereum;
 
     if (chain.id === '0x89') fee = txFee.polygon;
     if (chain.id === '0x38') fee = txFee.bsc;
