@@ -24,7 +24,7 @@ export const chainDetector = (chainId) => {
   const chain = chainList.find((chain) => id === chain.id) || {
     id: 0,
     name: 'Unsupported',
-    icon: '/unsupported.svg',
+    icon: '/chains/unsupported.svg',
   };
   return chain;
 };

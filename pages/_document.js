@@ -18,10 +18,10 @@ export default class MyDocument extends Document {
             property='og:description'
             content='Send your ERC-721 and ERC-1155 tokens to multiple addresses in one transaction'
           />
-          {/* <meta
-            property="og:image"
-            content="https://example.com/images/cool-page.jpg"
-          /> */}
+          <meta
+            property='og:image'
+            content='https://pbs.twimg.com/profile_images/1574293287082815488/Vw31Q6bd_400x400.jpg'
+          />
           <link
             href='https://fonts.googleapis.com/css2?family=Kanit&family=Rajdhani:wght@500;700&family=Titillium+Web&display=swap'
             rel='stylesheet'

@@ -35,10 +35,7 @@ const Subscribe = () => {
         );
       } else if (error.code === 4001) {
         setError('Please switch to Ethereum Mainnet to subscribe');
-      } else
-        setError(
-          'Something went wrong. Please make sure you are connected to Ethereum Mainnet and have enough funds in your account'
-        );
+      } else setError('Please make sure you have enough funds in your account');
     }
   };
 

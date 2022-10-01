@@ -33,7 +33,7 @@ const Tutorial = () => {
           >
             <ol>
               <li>
-                Connect your Metamask. Choose the network your NFT token
+                Connect your MetaMask. Choose the network your NFT token
                 contract is deployed to.
                 <Box
                   className='tutorial-image'
