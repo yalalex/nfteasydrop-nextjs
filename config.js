@@ -2,7 +2,7 @@ export const airdropContractAddress =
   '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6';
 // '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
-export const txFee = { ethereum: '0.05', polygon: '100', bsc: '0.35' };
+export const txFee = { ethereum: '0.05', polygon: '80', bsc: '0.3' };
 
 export const plans = [
   { period: 'Day', price: '0.25' },
