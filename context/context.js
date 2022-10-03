@@ -23,7 +23,7 @@ const ACTION_TYPES = {
   SET_SIGNER: 'SET_SIGNER',
   SET_ACCOUNT: 'SET_ACCOUNT',
   SET_CHAIN: 'SET_CHAIN',
-  SET_CONTRACT: 'SET_CONTRACT',
+  // SET_CONTRACT: 'SET_CONTRACT',
   SET_LANG: 'SET_LANG',
   SET_ERROR: 'SET_ERROR',
   SET_LOADING: 'SET_LOADING',
@@ -35,7 +35,8 @@ const walletReducer = (state, action) => {
     case ACTION_TYPES.SET_SIGNER:
       return {
         ...state,
-        signer: payload,
+        signer: payload.signer,
+        contract: payload.contract,
         loading: '',
       };
     case ACTION_TYPES.SET_ACCOUNT:
@@ -50,11 +51,11 @@ const walletReducer = (state, action) => {
         chain: payload,
         loading: '',
       };
-    case ACTION_TYPES.SET_CONTRACT:
-      return {
-        ...state,
-        airdropContract: payload,
-      };
+    // case ACTION_TYPES.SET_CONTRACT:
+    //   return {
+    //     ...state,
+    //     airdropContract: payload,
+    //   };
     case ACTION_TYPES.SET_LANG:
       return {
         ...state,
@@ -131,33 +132,39 @@ export const Provider = ({ children }) => {
   const setSigner = () => {
     const currentProvider = getProvider();
     const signer = currentProvider.getSigner();
-    dispatch({
-      type: ACTION_TYPES.SET_SIGNER,
-      payload: signer,
-    });
-    setContract(signer);
-  };
-
-  const setContract = (signer) => {
     const contract = new ethers.Contract(
       airdropContractAddress,
       Airdrop,
       signer
     );
     dispatch({
-      type: ACTION_TYPES.SET_CONTRACT,
-      payload: contract,
+      type: ACTION_TYPES.SET_SIGNER,
+      payload: { signer, contract },
     });
+    // dispatch({
+    //   type: ACTION_TYPES.SET_CONTRACT,
+    //   payload: contract,
+    // });
   };
+
+  // const setContract = (signer) => {
+  //   const contract = new ethers.Contract(
+  //     airdropContractAddress,
+  //     Airdrop,
+  //     signer
+  //   );
+  //   dispatch({
+  //     type: ACTION_TYPES.SET_CONTRACT,
+  //     payload: contract,
+  //   });
+  // };
 
   const accountChangedHandler = (newAccount) => {
     if (connected === false) setChainId();
-    if (newAccount) {
-      dispatch({
-        type: ACTION_TYPES.SET_ACCOUNT,
-        payload: newAccount,
-      });
-    } else setError('Please connect MetaMask');
+    dispatch({
+      type: ACTION_TYPES.SET_ACCOUNT,
+      payload: newAccount,
+    });
   };
 
   const chainChangedHandler = (chainId) => {
