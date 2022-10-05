@@ -12,7 +12,7 @@
   {
     "id": 3,
     "question": "What chains are supported?",
-    "answer": "We currently support Ethereum Mainnet, Polygon, Arbitrum, Optimism and Binance Smart Chain. In case you want to test our dApp before use, Rinkeby Testnet is also supported. More chains to come!"
+    "answer": "We currently support Ethereum Mainnet, Polygon, Arbitrum, Optimism and Binance Smart Chain. In case you want to test our dApp before use, Goerli Testnet is also supported. More chains to come!"
   },
   {
     "id": 4,

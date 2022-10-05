@@ -170,7 +170,7 @@ const Navbar = () => {
               sx={{ display: { xs: 'none', sm: 'block' } }}
               className='logo'
             >
-              <Image src={logo} height={45} width={109} />
+              <Image src={logo} height={45} width={109} alt='' />
             </IconButton>
           </Link>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
@@ -192,7 +192,7 @@ const Navbar = () => {
           </Box>
           <Box className='navbar-right'>
             <div className='links-container'>
-              <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+              <List sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
                 <ListItem disablePadding>
                   <a
                     href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
@@ -247,9 +247,9 @@ const Navbar = () => {
                     </IconButton>
                   </a>
                 </ListItem>
-              </Box>
+              </List>
               {chain && (
-                <Box className='first-button' sx={{ mt: { sm: 0.3, md: 1 } }}>
+                <Box className='first-button' sx={{ mt: { sm: 0.3, md: 2 } }}>
                   <Dropdown
                     array={chainList}
                     current={chain}
@@ -265,7 +265,7 @@ const Navbar = () => {
                 color='secondary'
                 variant='outlined'
                 disabled={loading === 'account'}
-                sx={{ mt: { sm: 0.3, md: 1 } }}
+                sx={{ mt: { sm: 0.3, md: 2 } }}
               >
                 {!defaultAccount ? (
                   loading === 'account' ? (

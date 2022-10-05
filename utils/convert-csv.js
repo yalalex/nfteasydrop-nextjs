@@ -16,7 +16,7 @@ export const csvToArray = (str, type, simple) => {
         .slice(0)
         .split('\n')
         .filter((value) => value !== '');
-      const rows = Array.from(new Set(rowsRaw));
+      const rows = [...new Set(rowsRaw)];
       rows.forEach((row) => {
         const values = row
           .split(',')

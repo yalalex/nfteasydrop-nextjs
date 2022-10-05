@@ -17,7 +17,7 @@ export const chainList = [
   { id: '0xa4b1', name: 'Arbitrum', icon: '/chains/arbitrum.svg' },
   { id: '0xa', name: 'Optimism', icon: '/chains/op.svg' },
   { id: '0x38', name: 'Binance', icon: '/chains/bnb.svg' },
-  { id: '0x4', name: 'Rinkeby', icon: '/chains/rinkeby.svg' },
+  { id: '0x5', name: 'Goerli', icon: '/chains/rinkeby.svg' },
 ];
 
 export const langList = [
