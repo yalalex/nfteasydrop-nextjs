@@ -12,8 +12,8 @@ const formatId = (chainId) => {
       return '0xa';
     case 56:
       return '0x38';
-    case 4:
-      return '0x4';
+    case 5:
+      return '0x5';
     default:
       return chainId;
   }
