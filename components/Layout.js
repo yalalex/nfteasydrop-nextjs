@@ -6,7 +6,8 @@ import Navbar from './Navbar';
 import { Context } from '../context/context';
 
 const Layout = ({ children }) => {
-  const { chainChangedHandler, accountChangedHandler } = useContext(Context);
+  const { dispatch, chainChangedHandler, accountChangedHandler } =
+    useContext(Context);
 
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMetaMask) {
@@ -15,10 +16,12 @@ const Layout = ({ children }) => {
       // ethereum.on('connect', chainChangedHandler);
 
       ethereum.on('accountsChanged', (accounts) =>
-        accountChangedHandler(accounts[0])
+        dispatch(accountChangedHandler(accounts[0]))
       );
 
-      ethereum.on('chainChanged', chainChangedHandler);
+      ethereum.on('chainChanged', (chainId) =>
+        dispatch(chainChangedHandler(chainId))
+      );
 
       return () => ethereum.removeAllListeners();
     }

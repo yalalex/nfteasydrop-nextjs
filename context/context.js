@@ -91,6 +91,7 @@ export const Context = createContext({
   changeChain: () => {},
   changeLang: () => {},
   setError: () => {},
+  dispatch: () => {},
 });
 
 export const Provider = ({ children }) => {
@@ -112,20 +113,15 @@ export const Provider = ({ children }) => {
   };
 
   const connectWalletHandler = async () => {
-    setLoading('account');
-    if (window.ethereum && window.ethereum.isMetaMask) {
-      const { ethereum } = window;
-      try {
-        const [account] = await ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        setSigner();
-        accountChangedHandler(account);
-      } catch (err) {
-        setError('Something went wrong. Please try again');
-      }
-    } else {
-      setError('Please install MetaMask browser extension to interact');
+    dispatch(setLoading('account'));
+    try {
+      const [account] = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      dispatch(setSigner());
+      dispatch(accountChangedHandler(account));
+    } catch (err) {
+      setError('Something went wrong. Please try again');
     }
   };
 
@@ -137,50 +133,34 @@ export const Provider = ({ children }) => {
       Airdrop,
       signer
     );
-    dispatch({
+    return {
       type: ACTION_TYPES.SET_SIGNER,
       payload: { signer, contract },
-    });
-    // dispatch({
-    //   type: ACTION_TYPES.SET_CONTRACT,
-    //   payload: contract,
-    // });
+    };
   };
-
-  // const setContract = (signer) => {
-  //   const contract = new ethers.Contract(
-  //     airdropContractAddress,
-  //     Airdrop,
-  //     signer
-  //   );
-  //   dispatch({
-  //     type: ACTION_TYPES.SET_CONTRACT,
-  //     payload: contract,
-  //   });
-  // };
 
   const accountChangedHandler = (newAccount) => {
     if (connected === false) setChainId();
-    dispatch({
+    return {
       type: ACTION_TYPES.SET_ACCOUNT,
       payload: newAccount,
-    });
+    };
   };
 
   const chainChangedHandler = (chainId) => {
-    setSigner();
+    dispatch(setSigner());
     const chain = chainDetector(chainId);
-    dispatch({
+    return {
       type: ACTION_TYPES.SET_CHAIN,
       payload: chain,
-    });
+    };
   };
 
   const setChainId = async () => {
     const currentProvider = getProvider();
     try {
       const { chainId } = await currentProvider.getNetwork();
-      chainChangedHandler(chainId);
+      dispatch(chainChangedHandler(chainId));
     } catch (err) {
       setError('Something went wrong. Please try again');
     }
@@ -188,7 +168,7 @@ export const Provider = ({ children }) => {
 
   const changeChain = async (newChainId) => {
     if (chain.id !== newChainId) {
-      setLoading('chain');
+      dispatch(setLoading('chain'));
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -216,7 +196,7 @@ export const Provider = ({ children }) => {
   };
 
   const setLoading = (loadingType) => {
-    dispatch({ type: ACTION_TYPES.SET_LOADING, payload: loadingType });
+    return { type: ACTION_TYPES.SET_LOADING, payload: loadingType };
   };
 
   const value = {
@@ -227,6 +207,7 @@ export const Provider = ({ children }) => {
     lang,
     loading,
     error,
+    dispatch,
     chainChangedHandler,
     changeChain,
     connectWalletHandler,

@@ -68,7 +68,8 @@ const Navbar = () => {
 
   const connect = () => {
     if (defaultAccount) return;
-    connectWalletHandler();
+    if (window.ethereum && window.ethereum.isMetaMask) connectWalletHandler();
+    else setError('Please install MetaMask browser extension to interact');
   };
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -170,7 +171,13 @@ const Navbar = () => {
               sx={{ display: { xs: 'none', sm: 'block' } }}
               className='logo'
             >
-              <Image src={logo} height={45} width={109} alt='' />
+              <Image
+                src={logo}
+                priority={true}
+                height={45}
+                width={109}
+                alt=''
+              />
             </IconButton>
           </Link>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>

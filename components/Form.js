@@ -248,7 +248,8 @@ const Form = ({ tokenType }) => {
   };
 
   const connect = () => {
-    connectWalletHandler();
+    if (window.ethereum && window.ethereum.isMetaMask) connectWalletHandler();
+    else setError('Please install MetaMask browser extension to interact');
   };
 
   const clear = () => {
