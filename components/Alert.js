@@ -1,17 +1,17 @@
 import { useSelector } from 'react-redux';
 
-import { Alert as Error, Grow } from '@mui/material';
+import { Alert as AlertPopup, Grow } from '@mui/material';
 
 const Alert = () => {
-  const error = useSelector((state) => state.wallet.error);
+  const alert = useSelector((state) => state.wallet.alert);
 
   return (
-    error && (
+    alert && (
       <Grow in={true} {...{ timeout: 500 }}>
         <div className='alert-container'>
-          <Error variant='filled' severity={error.type} className='error'>
-            {error.message}
-          </Error>
+          <AlertPopup variant='filled' severity={alert.type} className='alert'>
+            {alert.message}
+          </AlertPopup>
         </div>
       </Grow>
     )

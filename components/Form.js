@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { connectWalletHandler, setError } from '../redux/funcs';
+import { connectWalletHandler, setAlert } from '../redux/funcs';
 
 import CorruptedData from './Corrupted';
 import Example from './Example';
@@ -23,6 +23,7 @@ import {
 import { ethers } from 'ethers';
 
 import { csvToArray } from '../utils/convert-csv';
+import { minedListener } from '../utils/mined-listener';
 
 import { airdropContractAddress, txFee } from '../config';
 
@@ -45,7 +46,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 const Form = ({ tokenType }) => {
-  const { signer, airdropContract, defaultAccount, chain, loading } =
+  const { provider, signer, airdropContract, defaultAccount, chain, loading } =
     useSelector((state) => state.wallet);
 
   const [token, setToken] = useState(''); // nft contract address
@@ -71,6 +72,7 @@ const Form = ({ tokenType }) => {
 
   const [isValidContract, setIsValidContract] = useState(false);
   const [approvalLoading, setApprovalLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
 
   useEffect(() => {
     if (signer && ethers.utils.isAddress(token)) {
@@ -107,7 +109,7 @@ const Form = ({ tokenType }) => {
       setIsValidContract(true);
       setApprovalLoading(false);
     } catch (error) {
-      setError('Please check that token address is a valid NFT contract');
+      setAlert('Please check that token address is a valid NFT contract');
       setIsValidContract(false);
       setApprovalLoading(false);
     }
@@ -118,27 +120,38 @@ const Form = ({ tokenType }) => {
     //   const image = `https://ipfs.io/ipfs/${imgPath}`;
     //   setImg(image); //SET_IMAGE
     // } catch (error) {
-    //   setError('Can not get token image');
+    //   setAlert('Can not get token image');
     // }
   };
 
   const changeApprovalStatus = async (status) => {
-    if (!defaultAccount) return setError('Please connect your wallet first');
+    if (!defaultAccount) return setAlert('Please connect your wallet first');
     if (chain.name === 'Unsupported')
-      return setError('Current network is not supported');
+      return setAlert('Current network is not supported');
     setApprovalLoading(true);
     try {
-      await tokenContract.setApprovalForAll(airdropContractAddress, status);
-      const checkApproval = setInterval(async () => {
-        const approval = await airdropContract.isApproved(token);
-        if (approval !== isApproved) {
-          setIsApproved(approval);
-          setApprovalLoading(false);
-          clearInterval(checkApproval);
-        }
-      }, 1000);
+      const transactionResponse = await tokenContract.setApprovalForAll(
+        airdropContractAddress,
+        status
+      );
+      await minedListener(transactionResponse, provider);
+      const approval = await airdropContract.isApproved(token);
+      setIsApproved(approval);
+      setAlert(
+        approval ? 'Approval is successful' : 'Approval is removed',
+        'success'
+      );
+      setApprovalLoading(false);
+      // const checkApproval = setInterval(async () => {
+      //   const approval = await airdropContract.isApproved(token);
+      //   if (approval !== isApproved) {
+      //     setIsApproved(approval);
+      //     setApprovalLoading(false);
+      //     clearInterval(checkApproval);
+      //   }
+      // }, 1000);
     } catch (error) {
-      setError('Something went wrong');
+      setAlert('Something went wrong');
       setApprovalLoading(false);
     }
   };
@@ -146,16 +159,18 @@ const Form = ({ tokenType }) => {
   const checkData = () => {
     if (addressList) {
       parseAddressList(addressList);
-    } else setError('Enter at least 1 address');
+    } else setAlert('Enter at least 1 address');
   };
 
   const sendToken = async () => {
     if (!ethers.utils.isAddress(token))
-      return setError('Please enter valid NFT contract address');
-    if (!isApproved) return setError('Please approve before submit');
-    if (!isChecked) return setError('Please validate data first');
+      return setAlert('Please enter valid NFT contract address');
+    if (!isApproved) return setAlert('Please approve before submit');
+    if (!isChecked) return setAlert('Please validate data first');
     if (chain.name === 'Unsupported')
-      return setError('Current network is not supported');
+      return setAlert('Current network is not supported');
+
+    setSendLoading(true);
 
     const { addresses, ids, amounts } = drop;
 
@@ -176,21 +191,40 @@ const Form = ({ tokenType }) => {
 
     if (tokenType === '721') {
       try {
-        await airdropContract.airdrop721(token, addresses, ids, data);
+        const transactionResponse = await airdropContract.airdrop721(
+          token,
+          addresses,
+          ids,
+          data
+        );
+        await minedListener(transactionResponse, provider);
+        setAlert('Airdrop successfully finished', 'success');
+        setSendLoading(false);
       } catch (error) {
-        setError(
+        setAlert(
           'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
         );
+        setSendLoading(false);
       }
     }
 
     if (tokenType === '1155') {
       try {
-        await airdropContract.airdrop1155(token, addresses, ids, amounts, data);
+        const transactionResponse = await airdropContract.airdrop1155(
+          token,
+          addresses,
+          ids,
+          amounts,
+          data
+        );
+        await minedListener(transactionResponse, provider);
+        setAlert('Airdrop successfully finished', 'success');
+        setSendLoading(false);
       } catch (error) {
-        setError(
+        setAlert(
           'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
         );
+        setSendLoading(false);
       }
     }
   };
@@ -208,7 +242,7 @@ const Form = ({ tokenType }) => {
 
     if (!addresses.length) {
       setUploadLoading(false);
-      return setError('Please enter valid data for selected token type');
+      return setAlert('Please enter valid data for selected token type');
     }
 
     setAddressList('');
@@ -243,7 +277,7 @@ const Form = ({ tokenType }) => {
 
   const connect = () => {
     if (window.ethereum && window.ethereum.isMetaMask) connectWalletHandler();
-    else setError('Please install MetaMask browser extension to interact');
+    else setAlert('Please install MetaMask browser extension to interact');
   };
 
   const clear = () => {
@@ -490,13 +524,13 @@ const Form = ({ tokenType }) => {
           <Button
             type='submit'
             variant='contained'
-            disabled={!rowCount || loading === 'account'}
+            disabled={!rowCount || loading === 'account' || sendLoading}
             fullWidth
           >
             {!isChecked ? (
               'Validate input'
             ) : !defaultAccount ? (
-              loading === 'account' ? (
+              loading === 'account' || sendLoading ? (
                 <CircularProgress color='secondary' size={24} />
               ) : (
                 'Connect wallet'

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { changeChain, setError } from '../redux/funcs';
+import { changeChain, setAlert } from '../redux/funcs';
 
 import Head from 'next/head';
 
@@ -10,36 +10,44 @@ import { ethers } from 'ethers';
 
 import { Button, Card, Grid, Fade, Typography } from '@mui/material';
 
+import { minedListener } from '../utils/mined-listener';
+
 import { plans } from '../config';
 
 const Subscribe = () => {
-  const { airdropContract, chain, defaultAccount } = useSelector(
+  const { provider, airdropContract, chain, defaultAccount } = useSelector(
     (state) => state.wallet
   );
 
   useEffect(() => setPlan(''), [defaultAccount]);
 
   const [plan, setPlan] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const subscribe = async () => {
-    if (!defaultAccount) return setError('Please connect your wallet');
+    if (!defaultAccount) return setAlert('Please connect your wallet');
     if (chain.id !== '0x1') {
-      setError('Please switch to Ethereum Mainnet to subscribe');
+      setAlert('Please switch to Ethereum Mainnet to subscribe');
       return changeChain('0x1');
     }
+    setLoading(true);
     try {
-      await airdropContract.subscribe({
+      const transactionResponse = await airdropContract.subscribe({
         value: ethers.utils.parseEther(plan),
       });
+      await minedListener(transactionResponse, provider);
+      setAlert('Subscription is successful', 'success');
+      setLoading(false);
     } catch (error) {
       if (error.code === -32000)
-        setError(
+        setAlert(
           'You have insufficient funds in your wallet for completing this transaction'
         );
       else if (error.code === 4001)
-        setError('Please switch to Ethereum Mainnet to subscribe');
-      else setError('Please make sure you have enough funds in your account');
+        setAlert('Please switch to Ethereum Mainnet to subscribe');
+      else setAlert('Please make sure you have enough funds in your account');
     }
+    setLoading(false);
   };
 
   return (
@@ -85,6 +93,7 @@ const Subscribe = () => {
                   </Typography>
                   <div>
                     <Button
+                      disabled={loading}
                       size='large'
                       color='success'
                       variant='text'

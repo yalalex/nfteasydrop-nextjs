@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { connectWalletHandler, changeChain, setError } from '../redux/funcs';
+import { connectWalletHandler, changeChain, setAlert } from '../redux/funcs';
 
 import Dropdown from './Dropdown';
 
@@ -51,7 +51,7 @@ const Navbar = () => {
   );
 
   const switchChain = (newChainId) => {
-    if (!defaultAccount) return setError('Please connect your wallet first');
+    if (!defaultAccount) return setAlert('Please connect your wallet first');
     changeChain(newChainId);
   };
 
@@ -62,7 +62,7 @@ const Navbar = () => {
   const connect = () => {
     if (defaultAccount) return;
     if (window.ethereum && window.ethereum.isMetaMask) connectWalletHandler();
-    else setError('Please install MetaMask browser extension to interact');
+    else setAlert('Please install MetaMask browser extension to interact');
   };
 
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -8,7 +8,7 @@ import Airdrop from '../data/AirdropABI.json';
 
 import { airdropContractAddress } from '../config';
 
-import { connect, account, chain, error, loading } from './walletSlice';
+import { connect, account, chain, alert, loading } from './walletSlice';
 
 const { dispatch } = store;
 
@@ -17,10 +17,10 @@ const getProvider = () => {
 };
 
 const setSigner = () => {
-  const currentProvider = getProvider();
-  const signer = currentProvider.getSigner();
+  const provider = getProvider();
+  const signer = provider.getSigner();
   const contract = new ethers.Contract(airdropContractAddress, Airdrop, signer);
-  return connect({ signer, contract });
+  return connect({ provider, signer, contract });
 };
 
 const setLoading = (loadingType) => {
@@ -36,7 +36,7 @@ export const connectWalletHandler = async () => {
     dispatch(setSigner());
     dispatch(accountChangedHandler(account, false));
   } catch (err) {
-    setError('Something went wrong. Please try again');
+    setAlert('Something went wrong. Please try again');
   }
 };
 
@@ -51,7 +51,7 @@ const setChainId = async () => {
     const { chainId } = await currentProvider.getNetwork();
     dispatch(chainChangedHandler(chainId));
   } catch (err) {
-    setError('Something went wrong. Please try again');
+    setAlert('Something went wrong. Please try again');
   }
 };
 
@@ -65,8 +65,8 @@ export const changeChain = async (newChainId) => {
       });
     } catch (err) {
       if (err.code === 4902) {
-        setError(`Please add ${chainDetector(newChainId)} to MetaMask`);
-      } else setError('Something went wrong. Please try again');
+        setAlert(`Please add ${chainDetector(newChainId)} to MetaMask`);
+      } else setAlert('Something went wrong. Please try again');
     }
   }
 };
@@ -77,9 +77,9 @@ export const chainChangedHandler = (chainId) => {
   return chain(currentChain);
 };
 
-export const setError = (message, type = 'info') => {
-  dispatch(error({ message, type }));
-  setTimeout(() => dispatch(error(null)), 5000);
+export const setAlert = (message, type = 'info') => {
+  dispatch(alert({ message, type }));
+  setTimeout(() => dispatch(alert(null)), 5000);
 };
 
 export const changeLang = (newLangId) => {
