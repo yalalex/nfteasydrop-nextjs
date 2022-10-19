@@ -44,7 +44,13 @@ const Dropdown = ({
           disabled={loading}
           startIcon={
             !loading ? (
-              <Image src={current.icon} height={20} width={20} alt='' />
+              <Image
+                src={current.icon}
+                priority={true}
+                height={20}
+                width={20}
+                alt=''
+              />
             ) : null
           }
           style={{ width: btnWidth }}

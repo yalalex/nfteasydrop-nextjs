@@ -208,6 +208,7 @@ const Navbar = () => {
                     >
                       <Image
                         src='/icons/ether.svg'
+                        priority={true}
                         width='100%'
                         height='100%'
                         alt=''

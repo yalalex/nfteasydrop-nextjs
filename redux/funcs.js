@@ -49,7 +49,8 @@ const setChainId = async () => {
   const currentProvider = getProvider();
   try {
     const { chainId } = await currentProvider.getNetwork();
-    dispatch(chainChangedHandler(chainId));
+    const id = '0x' + chainId.toString(16);
+    dispatch(chainChangedHandler(id));
   } catch (err) {
     setAlert('Something went wrong. Please try again');
   }
@@ -65,7 +66,7 @@ export const changeChain = async (newChainId) => {
       });
     } catch (err) {
       if (err.code === 4902) {
-        setAlert(`Please add ${chainDetector(newChainId)} to MetaMask`);
+        setAlert(`Please add ${chainDetector(newChainId).name} to MetaMask`);
       } else setAlert('Something went wrong. Please try again');
     }
   }
