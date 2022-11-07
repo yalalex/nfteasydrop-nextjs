@@ -1,14 +1,18 @@
 export const airdropContractAddress =
-  '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6';
-// '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+  '0x02f2cec66630beb9b2c64a09b67fcefc85b8c0f1';
+// '0xB075c951eF5860B1a93816032C909836A06D10af'; // TEST
+// '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6';  // V1 MAINNET
+// '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // HARDHAT
 
-export const txFee = { ethereum: '0.05', polygon: '80', bsc: '0.3' };
+export const owner = '0xCFBFFD83BEB90Cda1CA205c49A7e4E3B127567e8';
+
+export const txFee = { ethereum: '0.03', polygon: '60', bsc: '0.2' };
 
 export const plans = [
-  { period: 'Day', price: '0.25' },
-  { period: 'Week', price: '0.5' },
-  { period: 'Month', price: '1' },
-  { period: 'Year', price: '3' },
+  { period: 'Day', price: '0.15' },
+  { period: 'Week', price: '0.3' },
+  { period: 'Month', price: '0.5' },
+  { period: 'Year', price: '1' },
 ];
 
 export const chainList = [

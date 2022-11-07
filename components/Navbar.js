@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 import { truncate } from '../utils/truncate';
 
-import { chainList, langList } from '../config';
+import { airdropContractAddress, chainList, langList } from '../config';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -41,6 +41,7 @@ const links = [
   { id: 2, path: '/subscribe', title: 'Subscribe' },
   { id: 3, path: '/tutorial', title: 'Tutorial' },
   { id: 4, path: '/faq', title: 'FAQ' },
+  { id: 5, path: '/erc20', title: 'ERC20' },
 ];
 
 const Navbar = () => {
@@ -98,7 +99,7 @@ const Navbar = () => {
         <ListItem>
           <div className='drawer-icons'>
             <a
-              href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
+              href={`https://etherscan.io/address/${airdropContractAddress}`}
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -157,7 +158,7 @@ const Navbar = () => {
           </IconButton>
           <Link href='/'>
             <IconButton
-              color='primary'
+              color='secondary'
               // edge='start'
               size='medium'
               aria-label='NFT Easy Drop'
@@ -195,7 +196,7 @@ const Navbar = () => {
               <List sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
                 <ListItem disablePadding>
                   <a
-                    href='https://etherscan.io/address/0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'
+                    href={`https://etherscan.io/address/${airdropContractAddress}`}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='icon-container'

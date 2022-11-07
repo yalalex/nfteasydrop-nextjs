@@ -32,6 +32,7 @@ import { tooltipClasses } from '@mui/material/Tooltip';
 
 const tokenAbi = [
   'function setApprovalForAll(address operator, bool approved)',
+  'function approve(address operator, uint256 amount)',
 ];
 
 const LightTooltip = styled(({ className, ...props }) => (
@@ -49,23 +50,26 @@ const Form = ({ tokenType }) => {
   const { provider, signer, airdropContract, defaultAccount, chain, loading } =
     useSelector((state) => state.wallet);
 
-  const [token, setToken] = useState(''); // nft contract address
+  const [token, setToken] = useState(''); // token contract address
 
   const [addressList, setAddressList] = useState('');
   const [rowCount, setRowCount] = useState(0);
   const [successAlert, setSuccessAlert] = useState(false);
   const [listError, setListError] = useState([]);
+  const [lengthError, setLengthError] = useState(false);
 
   const [errorModal, setErrorModal] = useState(false);
   const [exampleModal, setExampleModal] = useState(false);
 
   const [drop, setDrop] = useState({ addresses: [], ids: [], amounts: [] });
 
-  const [simple, setSimple] = useState(false); // single id drop type for 1155
+  const [simple, setSimple] = useState(false);
   const [simpleDrop, setSimpleDrop] = useState({ tokenId: '', amount: '' });
 
   const [tokenContract, setTokenContract] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
+
+  const [erc20Sum, setErc20Sum] = useState(0);
 
   const [isChecked, setIsChecked] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
@@ -96,12 +100,19 @@ const Form = ({ tokenType }) => {
 
   useEffect(() => {
     if (airdropContract && ethers.utils.isAddress(token)) {
-      checkToken();
+      tokenType !== 'erc20' ? checkNFTApproval() : checkERC20Allowance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultAccount, token]);
 
-  const checkToken = async () => {
+  useEffect(() => {
+    if (airdropContract && ethers.utils.isAddress(token)) {
+      checkERC20Allowance();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [erc20Sum]);
+
+  const checkNFTApproval = async () => {
     setApprovalLoading(true);
     try {
       const approval = await airdropContract.isApproved(token);
@@ -124,32 +135,60 @@ const Form = ({ tokenType }) => {
     // }
   };
 
+  const checkERC20Allowance = async () => {
+    setApprovalLoading(true);
+    try {
+      const allowance = await airdropContract.checkAllowance(token);
+      allowance.toString() >= erc20Sum && allowance.toString() > 0
+        ? setIsApproved(true)
+        : setIsApproved(false);
+      setIsValidContract(true);
+      setApprovalLoading(false);
+    } catch (error) {
+      setAlert('Please check that token address is a valid ERC20 contract');
+      setIsValidContract(false);
+      setApprovalLoading(false);
+    }
+  };
+
   const changeApprovalStatus = async (status) => {
     if (!defaultAccount) return setAlert('Please connect your wallet first');
     if (chain.name === 'Unsupported')
       return setAlert('Current network is not supported');
-    setApprovalLoading(true);
-    try {
-      const transactionResponse = await tokenContract.setApprovalForAll(
-        airdropContractAddress,
-        status
+    if (tokenType === 'erc20' && erc20Sum === 0 && !isApproved)
+      return setAlert(
+        'Please enter the recipient addresses with the amounts to send'
       );
+    setApprovalLoading(true);
+    const amount = status === true ? erc20Sum : 0;
+    try {
+      const transactionResponse =
+        tokenType !== 'erc20'
+          ? await tokenContract.setApprovalForAll(
+              airdropContractAddress,
+              status
+            )
+          : await tokenContract.approve(
+              airdropContractAddress,
+              ethers.utils.parseEther(amount.toString())
+            );
       await minedListener(transactionResponse, provider);
-      const approval = await airdropContract.isApproved(token);
+      let approval;
+      if (tokenType === 'erc20') {
+        const allowance = await airdropContract.checkAllowance(token);
+        if (allowance.toString() > 0) approval = true;
+        setErc20Sum(amount);
+      } else approval = await airdropContract.isApproved(token);
       setIsApproved(approval);
       setAlert(
-        approval ? 'Approval is successful' : 'Approval is removed',
+        approval
+          ? tokenType !== 'erc20'
+            ? 'Approval is successful'
+            : `${erc20Sum} tokens approved for sending`
+          : 'Approval is removed',
         'success'
       );
       setApprovalLoading(false);
-      // const checkApproval = setInterval(async () => {
-      //   const approval = await airdropContract.isApproved(token);
-      //   if (approval !== isApproved) {
-      //     setIsApproved(approval);
-      //     setApprovalLoading(false);
-      //     clearInterval(checkApproval);
-      //   }
-      // }, 1000);
     } catch (error) {
       setAlert('Something went wrong');
       setApprovalLoading(false);
@@ -158,24 +197,32 @@ const Form = ({ tokenType }) => {
 
   const checkData = () => {
     if (addressList) {
+      if (simple) {
+        if (
+          !simpleDrop.amount ||
+          (tokenType === 'erc1155' && !simpleDrop.tokenId)
+        ) {
+          setUploadLoading(false);
+          return setAlert('Please fill in all fields');
+        }
+      }
       parseAddressList(addressList);
     } else setAlert('Enter at least 1 address');
   };
 
   const sendToken = async () => {
     if (!ethers.utils.isAddress(token))
-      return setAlert('Please enter valid NFT contract address');
-    if (!isApproved) return setAlert('Please approve before submit');
-    if (!isChecked) return setAlert('Please validate data first');
+      return setAlert('Please enter valid token contract address');
+    if (!isApproved) return setAlert('Please approve before sending');
+    if (!isChecked) return setAlert('Please validate input first');
     if (chain.name === 'Unsupported')
       return setAlert('Current network is not supported');
 
     setSendLoading(true);
 
     const { addresses, ids, amounts } = drop;
-
     const timestamp = Math.floor(Date.now() / 1000);
-    const { until } = await airdropContract.subscribers(defaultAccount);
+    const until = await airdropContract.subscribers(defaultAccount);
 
     let fee = txFee.ethereum;
 
@@ -189,9 +236,9 @@ const Form = ({ tokenType }) => {
           }
         : {};
 
-    if (tokenType === '721') {
+    if (tokenType === 'erc721') {
       try {
-        const transactionResponse = await airdropContract.airdrop721(
+        const transactionResponse = await airdropContract.airdropERC721(
           token,
           addresses,
           ids,
@@ -208,9 +255,9 @@ const Form = ({ tokenType }) => {
       }
     }
 
-    if (tokenType === '1155') {
+    if (tokenType === 'erc1155') {
       try {
-        const transactionResponse = await airdropContract.airdrop1155(
+        const transactionResponse = await airdropContract.airdropERC1155(
           token,
           addresses,
           ids,
@@ -224,6 +271,28 @@ const Form = ({ tokenType }) => {
         setAlert(
           'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
         );
+        setSendLoading(false);
+      }
+    }
+
+    if (tokenType === 'erc20') {
+      const parsedAmounts = amounts.map((amount) =>
+        ethers.utils.parseEther(amount.toString())
+      );
+      const parsedSumAMount = ethers.utils.parseEther(erc20Sum.toString());
+      try {
+        const transactionResponse = await airdropContract.airdropERC20(
+          token,
+          addresses,
+          parsedAmounts,
+          parsedSumAMount,
+          data
+        );
+        await minedListener(transactionResponse, provider);
+        setAlert('Airdrop successfully finished', 'success');
+        setSendLoading(false);
+      } catch (error) {
+        setAlert('Something went wrong.');
         setSendLoading(false);
       }
     }
@@ -250,10 +319,20 @@ const Form = ({ tokenType }) => {
 
     setListError(corruptedData);
 
+    if (
+      (tokenType === 'erc721' && drop.addresses.length > 600) ||
+      (tokenType === 'erc1155' && drop.addresses.length > 1500) ||
+      (tokenType === 'erc20' && drop.addresses.length > 400)
+    )
+      setLengthError(true);
+
     if (simple) {
       setDrop({
         addresses,
-        ids: Array(addresses.length).fill(simpleDrop.tokenId),
+        ids:
+          tokenType === 'erc1155'
+            ? Array(addresses.length).fill(simpleDrop.tokenId)
+            : [],
         amounts: Array(addresses.length).fill(simpleDrop.amount),
       });
     } else setDrop({ addresses, ids, amounts });
@@ -263,9 +342,22 @@ const Form = ({ tokenType }) => {
     for (let i = 0; i < addresses.length; i++) {
       dataField += simple
         ? addresses[i] + '\n'
-        : tokenType === '721'
+        : tokenType === 'erc721'
         ? addresses[i] + ',' + ids[i] + '\n'
+        : tokenType === 'erc20'
+        ? addresses[i] + ',' + amounts[i] + '\n'
         : addresses[i] + ',' + ids[i] + ',' + amounts[i] + '\n';
+    }
+
+    if (tokenType === 'erc20') {
+      let sumAmount;
+      if (simple) {
+        sumAmount = addresses.length * simpleDrop.amount;
+      } else {
+        const amount = amounts.map((am) => Number(am));
+        sumAmount = amount.reduce((x, y) => x + y);
+      }
+      setErc20Sum(sumAmount);
     }
 
     setAddressList(dataField);
@@ -337,7 +429,7 @@ const Form = ({ tokenType }) => {
         <div className='form-element'>
           <TextField
             color='success'
-            label='NFT contract address'
+            label='Token contract address'
             value={token}
             onChange={(e) => {
               setToken(e.target.value);
@@ -352,60 +444,71 @@ const Form = ({ tokenType }) => {
           <div className='form-element'>
             <Button
               variant='contained'
-              disabled={approvalLoading || !isValidContract}
+              disabled={!defaultAccount || approvalLoading || !isValidContract}
               onClick={() => changeApprovalStatus(!isApproved)}
               fullWidth
             >
-              {approvalLoading ? (
-                <CircularProgress size={24} color='secondary' />
-              ) : isValidContract ? (
-                isApproved ? (
-                  'Remove Approval'
+              {defaultAccount ? (
+                approvalLoading ? (
+                  <CircularProgress size={24} color='secondary' />
+                ) : isValidContract ? (
+                  isApproved ? (
+                    'Remove Approval'
+                  ) : (
+                    'Approve'
+                  )
                 ) : (
-                  'Approve'
+                  'Not a valid token contract'
                 )
               ) : (
-                'Not a valid NFT contract'
+                'Please connect wallet'
               )}
             </Button>
           </div>
         )}
-        {simple && tokenType === '1155' && (
-          <>
-            <div className='form-element'>
-              <TextField
-                color='success'
-                label='Token ID'
-                value={simpleDrop.tokenId}
-                onChange={(e) => {
-                  setSimpleDrop({ ...simpleDrop, tokenId: e.target.value });
-                }}
-                type='text'
-                variant='outlined'
-                autoComplete='do-not-autofill'
-                fullWidth
-              />
-            </div>
-            <div className='form-element'>
-              <TextField
-                color='success'
-                label='Amount'
-                value={simpleDrop.amount}
-                onChange={(e) => {
-                  setSimpleDrop({ ...simpleDrop, amount: e.target.value });
-                }}
-                type='text'
-                variant='outlined'
-                autoComplete='do-not-autofill'
-                fullWidth
-              />
-            </div>
-          </>
+        {simple && tokenType === 'erc1155' && (
+          <div className='form-element'>
+            <TextField
+              color='success'
+              label='Token ID'
+              value={simpleDrop.tokenId}
+              onChange={(e) => {
+                setSimpleDrop({ ...simpleDrop, tokenId: e.target.value });
+                isChecked && setIsChecked(false);
+              }}
+              type='text'
+              variant='outlined'
+              autoComplete='do-not-autofill'
+              fullWidth
+            />
+          </div>
         )}
-        {tokenType === '1155' && (
+        {simple && (
+          <div className='form-element'>
+            <TextField
+              color='success'
+              label='Amount'
+              value={simpleDrop.amount}
+              onChange={(e) => {
+                setSimpleDrop({ ...simpleDrop, amount: e.target.value });
+                isChecked && setIsChecked(false);
+              }}
+              type='text'
+              variant='outlined'
+              autoComplete='do-not-autofill'
+              fullWidth
+            />
+          </div>
+        )}
+        {tokenType !== 'erc721' && (
           <div className='form-element'>
             <span onClick={() => setSimple(!simple)} className='text pointer'>
-              Switch to {simple ? 'standard mode' : 'single ID mode'}
+              Switch to{' '}
+              {simple
+                ? 'standard mode'
+                : `${
+                    tokenType === 'erc1155' ? 'single ID' : 'same amount'
+                  } mode`}
             </span>
           </div>
         )}
@@ -425,7 +528,8 @@ const Form = ({ tokenType }) => {
             onChange={textfieldChange}
             autoComplete='do-not-autofill'
             multiline
-            rows={5}
+            minRows={drop.addresses.length <= 5 ? 5 : drop.addresses.length}
+            maxRows={15}
             fullWidth
           />
         </div>
@@ -480,6 +584,32 @@ const Form = ({ tokenType }) => {
             </Alert>
           </Fade>
         )}
+        {lengthError && (
+          <Fade in={true} {...{ timeout: 1000 }}>
+            <Alert
+              severity='info'
+              variant='filled'
+              className='form-element'
+              action={
+                <IconButton
+                  aria-label='close'
+                  color='inherit'
+                  size='small'
+                  onClick={() => {
+                    setLengthError(false);
+                  }}
+                >
+                  <CloseIcon fontSize='inherit' />
+                </IconButton>
+              }
+            >
+              You have entered too many addresses for one transaction. We can't
+              guarantee it will be successfully mined by the blockchain. Please
+              try not to exceed 400 addresses for ERC-20, 600 addresses for
+              ERC-721 and 1500 addresses for ERC-1155.
+            </Alert>
+          </Fade>
+        )}
         <div className='form-element button-group'>
           <div className='upload-button'>
             <Button
@@ -530,11 +660,13 @@ const Form = ({ tokenType }) => {
             {!isChecked ? (
               'Validate input'
             ) : !defaultAccount ? (
-              loading === 'account' || sendLoading ? (
+              loading === 'account' ? (
                 <CircularProgress color='secondary' size={24} />
               ) : (
                 'Connect wallet'
               )
+            ) : sendLoading ? (
+              <CircularProgress color='secondary' size={24} />
             ) : (
               'Send'
             )}

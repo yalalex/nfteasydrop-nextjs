@@ -7,7 +7,7 @@
   {
     "id": 2,
     "question": "How many NFTs can I send in one transaction?",
-    "answer": "The current Ethereum block limit size should allow you to send up to 600 ERC-721 or up to 1750 ERC-1155 tokens at a time."
+    "answer": "The current Ethereum block limit size should allow you to send to up to 600 addresses for ERC-721 or to up to 1500 addresses for ERC-1155 at a time. You can also use our dApp for sending ERC-20 tokens not exceeding 400 addresses for one transaction."
   },
   {
     "id": 3,
@@ -17,7 +17,7 @@
   {
     "id": 4,
     "question": "What are the fees for using the dApp?",
-    "answer": "Our rates are among the lowest on the market. We currently charge 0.05 ETH (80 MATIC for Polygon and 0.3 BNB for Binance Smart Chain) for single airdrop and our subscription plans start from just 0.25 ETH."
+    "answer": "Our rates are the lowest on the market. We currently charge 0.03 ETH (60 MATIC for Polygon and 0.2 BNB for Binance Smart Chain) for single airdrop and our subscription plans start from just 0.15 ETH."
   },
   {
     "id": 5,
@@ -27,7 +27,7 @@
   {
     "id": 6,
     "question": "What is the contract address?",
-    "answer": "Our contract address is 0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6."
+    "answer": "Our contract address is 0x02f2CEC66630bEB9B2C64a09b67FCEFC85B8c0f1."
   },
   {
     "id": 7,

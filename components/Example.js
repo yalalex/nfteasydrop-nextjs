@@ -53,7 +53,19 @@ const Example = ({ closeModal, modalStatus }) => {
               <div>0xbDA5747bFD65F08deb54cb465eB87D40e51B197E,1,1</div>
               <div>0xdD2FD4581271e230360230F9337D5c0430Bf44C0,3,1</div>
             </Paper>
-            <div className='title'>ERC-1155 single ID*: address</div>
+            <div className='title'>ERC-20: address,amount</div>
+            <Paper
+              elevation={3}
+              className='paper'
+              sx={{ fontSize: { xs: 12, sm: 14 } }}
+            >
+              <div>0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec,100</div>
+              <div>0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097,200</div>
+              <div>0xcd3B766CCDd6AE721141F452C550Ca635964ce71,1000</div>
+            </Paper>
+            <div className='title'>
+              ERC-1155 single ID* / ERC-20 same amount**: address
+            </div>
             <Paper
               elevation={3}
               className='paper'
@@ -66,6 +78,9 @@ const Example = ({ closeModal, modalStatus }) => {
             <div className='footnote'>
               *ERC-1155 single ID mode is best for the case when you want to
               send NFT tokens with same ID and amount to all recipients
+              <br />
+              **ERC-20 same amount mode is best for the case when you want to
+              send same amount of tokens to all recipients
             </div>
           </div>
         </DialogContent>

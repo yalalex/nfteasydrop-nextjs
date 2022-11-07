@@ -27,7 +27,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 const Home = () => {
-  const [tokenType, setTokenType] = useState('721');
+  const [tokenType, setTokenType] = useState('erc721');
 
   const handleChange = (e) => {
     setTokenType(e.target.value);
@@ -57,8 +57,8 @@ const Home = () => {
               exclusive
               onChange={handleChange}
             >
-              <ToggleButton value='721'>ERC-721</ToggleButton>
-              <ToggleButton value='1155'>ERC-1155</ToggleButton>
+              <ToggleButton value='erc721'>ERC-721</ToggleButton>
+              <ToggleButton value='erc1155'>ERC-1155</ToggleButton>
             </StyledToggleButtonGroup>
             <Form tokenType={tokenType} />
           </div>

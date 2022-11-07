@@ -23,7 +23,7 @@ export const csvToArray = (str, type, simple) => {
           // .filter((value) => value !== '')
           .map((value) => value.trim());
 
-        if (type === '721') {
+        if (type === 'erc721') {
           if (
             values.length === 2 &&
             ethers.utils.isAddress(values[0]) &&
@@ -34,7 +34,7 @@ export const csvToArray = (str, type, simple) => {
           } else return corruptedRows.push(row);
         }
 
-        if (type === '1155') {
+        if (type === 'erc1155') {
           if (simple) {
             if (values.length === 1 && ethers.utils.isAddress(values[0]))
               addresses.push(values[0]);
@@ -48,6 +48,21 @@ export const csvToArray = (str, type, simple) => {
             addresses.push(values[0]);
             ids.push(values[1]);
             amounts.push(values[2]);
+          } else return corruptedRows.push(row);
+        }
+
+        if (type === 'erc20') {
+          if (simple) {
+            if (values.length === 1 && ethers.utils.isAddress(values[0]))
+              addresses.push(values[0]);
+            else return corruptedRows.push(row);
+          } else if (
+            values.length === 2 &&
+            ethers.utils.isAddress(values[0]) &&
+            isPositiveInteger(values[1])
+          ) {
+            addresses.push(values[0]);
+            amounts.push(values[1]);
           } else return corruptedRows.push(row);
         }
       });

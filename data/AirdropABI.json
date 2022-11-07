@@ -1,8 +1,53 @@
 [
   {
     "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "name": "AlreadySubscribed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ArraysHaveDifferentLength",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InsufficientAllowance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InsufficientBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotSubscribed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotSubscribedOrInsufficientValue",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TokenNotApproved",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "Unauthorized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ValueIsLessThanMinimumFee",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddress",
+    "type": "error"
   },
   {
     "anonymous": false,
@@ -26,7 +71,32 @@
         "type": "uint256"
       }
     ],
-    "name": "Airdrop1155",
+    "name": "AirdropERC1155",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "AirdropERC20",
     "type": "event"
   },
   {
@@ -51,7 +121,7 @@
         "type": "uint256"
       }
     ],
-    "name": "Airdrop721",
+    "name": "AirdropERC721",
     "type": "event"
   },
   {
@@ -105,6 +175,10 @@
     "type": "event"
   },
   {
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -145,7 +219,35 @@
         "type": "uint256[]"
       }
     ],
-    "name": "airdrop1155",
+    "name": "airdropERC1155",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_to",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amount",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "airdropERC20",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -168,13 +270,38 @@
         "type": "uint256[]"
       }
     ],
-    "name": "airdrop721",
+    "name": "airdropERC721",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "checkAllowance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
     "name": "checkBalance",
     "outputs": [
       {
@@ -184,6 +311,26 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "contractBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -329,13 +476,8 @@
     "name": "subscribers",
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "subscribed",
-        "type": "bool"
-      },
-      {
         "internalType": "uint256",
-        "name": "until",
+        "name": "",
         "type": "uint256"
       }
     ],
