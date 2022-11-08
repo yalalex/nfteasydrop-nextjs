@@ -84,7 +84,6 @@ const Form = ({ tokenType }) => {
       setTokenContract(tempTokenContract);
       setIsChecked(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, signer]);
 
   useEffect(() => {
@@ -102,14 +101,12 @@ const Form = ({ tokenType }) => {
     if (airdropContract && ethers.utils.isAddress(token)) {
       tokenType !== 'erc20' ? checkNFTApproval() : checkERC20Allowance();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultAccount, token]);
 
   useEffect(() => {
     if (airdropContract && ethers.utils.isAddress(token)) {
       checkERC20Allowance();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [erc20Sum]);
 
   const checkNFTApproval = async () => {
