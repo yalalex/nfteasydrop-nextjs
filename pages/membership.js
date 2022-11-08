@@ -36,7 +36,7 @@ const Subscribe = () => {
         value: ethers.utils.parseEther(plan),
       });
       await minedListener(transactionResponse, provider);
-      setAlert('Subscription is successful', 'success');
+      setAlert('Membership purchase is successful', 'success');
       setLoading(false);
     } catch (error) {
       if (error.code === -32000)
@@ -54,13 +54,14 @@ const Subscribe = () => {
     <>
       <Head>
         <title>
-          NFT Easy Drop - send your tokens to multiple addresses | Subscribe
+          NFT Easy Drop - send your tokens to multiple addresses | Membership
         </title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>
           <Typography variant='h5' component='h2'>
-            Subscription allows you to send NFT tokens using our dApp for free*
+            Membership allows you to send NFT tokens using our dApp for free for
+            the selected period of time*
             <br />
             No limit to the amount of transactions!
           </Typography>
@@ -103,7 +104,7 @@ const Subscribe = () => {
                           : setPlan(selection.price)
                       }
                     >
-                      {selection.price === plan ? 'Subscribe' : 'Select'}
+                      {selection.price === plan ? 'Purchase' : 'Select'}
                     </Button>
                   </div>
                 </Card>
@@ -111,7 +112,7 @@ const Subscribe = () => {
             ))}
           </Grid>
           <div className='sub-note'>
-            Please note that subscription is currently supported only for
+            Please note that membership option is currently supported only for
             transactions made on Ethereum Mainnet <br />
             *You will still have to pay network fees
           </div>
