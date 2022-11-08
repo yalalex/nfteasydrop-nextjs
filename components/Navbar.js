@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 import { truncate } from '../utils/truncate';
 
-import { airdropContractAddress, chainList, langList } from '../config';
+import { chainList, langList } from '../config';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -99,7 +99,7 @@ const Navbar = () => {
         <ListItem>
           <div className='drawer-icons'>
             <a
-              href={`https://etherscan.io/address/${airdropContractAddress}`}
+              href='https://etherscan.io/address/0x02f2cec66630beb9b2c64a09b67fcefc85b8c0f1'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -196,7 +196,7 @@ const Navbar = () => {
               <List sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
                 <ListItem disablePadding>
                   <a
-                    href={`https://etherscan.io/address/${airdropContractAddress}`}
+                    href='https://etherscan.io/address/0x02f2cec66630beb9b2c64a09b67fcefc85b8c0f1'
                     target='_blank'
                     rel='noopener noreferrer'
                     className='icon-container'
