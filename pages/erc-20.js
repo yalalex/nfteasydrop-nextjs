@@ -19,8 +19,7 @@ const Home = () => {
           </Typography>
           <br />
           <Typography variant='h6' component='h2' sx={{ marginTop: -2 }}>
-            Our dApp now allows you to airdrop ERC-20 tokens to multiple
-            addresses
+            Our dApp now allows you to send ERC-20 tokens to multiple addresses
           </Typography>
           <div className='switcher'>
             <Form tokenType={'erc20'} />
