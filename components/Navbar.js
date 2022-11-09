@@ -38,10 +38,10 @@ const drawerWidth = 240;
 
 const links = [
   // { id: 1, path: '/', title: 'Home' },
-  { id: 2, path: '/membership', title: 'Membership' },
+  { id: 2, path: '/vip-pass', title: 'VIP Pass' },
   { id: 3, path: '/tutorial', title: 'Tutorial' },
   { id: 4, path: '/faq', title: 'FAQ' },
-  { id: 5, path: '/erc20', title: 'ERC20' },
+  { id: 5, path: '/erc-20', title: 'ERC-20' },
 ];
 
 const Navbar = () => {

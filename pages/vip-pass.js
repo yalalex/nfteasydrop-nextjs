@@ -36,7 +36,7 @@ const Subscribe = () => {
         value: ethers.utils.parseEther(plan),
       });
       await minedListener(transactionResponse, provider);
-      setAlert('Membership purchase is successful', 'success');
+      setAlert('VIP Pass purchase is successful', 'success');
       setLoading(false);
     } catch (error) {
       if (error.code === -32000)
@@ -54,14 +54,14 @@ const Subscribe = () => {
     <>
       <Head>
         <title>
-          NFT Easy Drop - send your tokens to multiple addresses | Membership
+          NFT Easy Drop - send your tokens to multiple addresses | VIP Pass
         </title>
       </Head>
       <Fade in={true} {...{ timeout: 1000 }}>
         <div className='page-container'>
           <Typography variant='h5' component='h2'>
-            Membership allows you to send NFT tokens using our dApp for free for
-            the selected period of time*
+            VIP Pass allows you to send NFTs and ERC-20 tokens using our dApp
+            for free for the selected period of time*
             <br />
             No limit to the amount of transactions!
           </Typography>
@@ -112,8 +112,8 @@ const Subscribe = () => {
             ))}
           </Grid>
           <div className='sub-note'>
-            Please note that membership option is currently supported only for
-            transactions made on Ethereum Mainnet <br />
+            Please note that VIP Pass is currently available only on Ethereum
+            Mainnet <br />
             *You will still have to pay network fees
           </div>
         </div>
