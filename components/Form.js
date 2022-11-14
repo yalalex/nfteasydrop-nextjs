@@ -317,9 +317,9 @@ const Form = ({ tokenType }) => {
     setListError(corruptedData);
 
     if (
-      (tokenType === 'erc721' && drop.addresses.length > 600) ||
-      (tokenType === 'erc1155' && drop.addresses.length > 1500) ||
-      (tokenType === 'erc20' && drop.addresses.length > 400)
+      (tokenType === 'erc721' && addresses.length > 600) ||
+      (tokenType === 'erc1155' && addresses.length > 1500) ||
+      (tokenType === 'erc20' && addresses.length > 400)
     )
       setLengthError(true);
 
