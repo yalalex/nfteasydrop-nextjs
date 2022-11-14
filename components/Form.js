@@ -246,7 +246,7 @@ const Form = ({ tokenType }) => {
         setSendLoading(false);
       } catch (error) {
         setAlert(
-          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
+          'Something went wrong. Please check you are the owner of all NFTs you are trying to send and have enough funds in your account'
         );
         setSendLoading(false);
       }
@@ -266,22 +266,22 @@ const Form = ({ tokenType }) => {
         setSendLoading(false);
       } catch (error) {
         setAlert(
-          'Something went wrong. Please check you are the owner of all NFT tokens you are trying to send and have enough funds in your account'
+          'Something went wrong. Please check you are the owner of all NFTs you are trying to send and have enough funds in your account'
         );
         setSendLoading(false);
       }
     }
 
     if (tokenType === 'erc20') {
-      const parsedAmounts = amounts.map((amount) =>
-        ethers.utils.parseEther(amount.toString())
-      );
+      // const parsedAmounts = amounts.map((amount) =>
+      //   ethers.utils.parseEther(amount.toString())
+      // );
       const parsedSumAMount = ethers.utils.parseEther(erc20Sum.toString());
       try {
         const transactionResponse = await airdropContract.airdropERC20(
           token,
           addresses,
-          parsedAmounts,
+          amounts,
           parsedSumAMount,
           data
         );
@@ -336,15 +336,15 @@ const Form = ({ tokenType }) => {
 
     let dataField = '';
 
-    for (let i = 0; i < addresses.length; i++) {
+    addresses.forEach((address, i) => {
       dataField += simple
-        ? addresses[i] + '\n'
+        ? address + '\n'
         : tokenType === 'erc721'
-        ? addresses[i] + ',' + ids[i] + '\n'
+        ? address + ',' + ids[i] + '\n'
         : tokenType === 'erc20'
-        ? addresses[i] + ',' + amounts[i] + '\n'
-        : addresses[i] + ',' + ids[i] + ',' + amounts[i] + '\n';
-    }
+        ? address + ',' + amounts[i] + '\n'
+        : address + ',' + ids[i] + ',' + amounts[i] + '\n';
+    });
 
     if (tokenType === 'erc20') {
       let sumAmount;
@@ -499,7 +499,10 @@ const Form = ({ tokenType }) => {
         )}
         {tokenType !== 'erc721' && (
           <div className='form-element'>
-            <span onClick={() => setSimple(!simple)} className='text pointer'>
+            <span
+              onClick={() => setSimple(simple ? false : true)}
+              className='text pointer'
+            >
               Switch to{' '}
               {simple
                 ? 'standard mode'
