@@ -13,14 +13,16 @@ export const csvToArray = (str, type, simple) => {
   return new Promise((res, rej) => {
     try {
       const rowsRaw = str
-        .slice(0)
+        // .slice(0)
         .split('\n')
         .filter((value) => value !== '');
       const rows = [...new Set(rowsRaw)];
       rows.forEach((row) => {
         const values = row
           .split(',')
-          // .filter((value) => value !== '')
+          .filter((value) => {
+            if (value !== '\r' && value !== '') return value;
+          })
           .map((value) => value.trim());
 
         if (type === 'erc721') {
