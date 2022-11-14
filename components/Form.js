@@ -318,7 +318,7 @@ const Form = ({ tokenType }) => {
 
     if (
       (tokenType === 'erc721' && addresses.length > 600) ||
-      (tokenType === 'erc1155' && addresses.length > 1500) ||
+      (tokenType === 'erc1155' && addresses.length > 800) ||
       (tokenType === 'erc20' && addresses.length > 400)
     )
       setLengthError(true);
@@ -603,7 +603,7 @@ const Form = ({ tokenType }) => {
               You have entered too many addresses for one transaction. We can't
               guarantee it will be successfully mined by the blockchain. Please
               try not to exceed 400 addresses for ERC-20, 600 addresses for
-              ERC-721 and 1500 addresses for ERC-1155.
+              ERC-721 and 800 addresses for ERC-1155.
             </Alert>
           </Fade>
         )}
