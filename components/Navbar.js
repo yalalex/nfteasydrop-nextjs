@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 import { truncate } from '../utils/truncate';
 
-import { airdropContractAddress, chainList, langList } from '../config';
+import { airdropContractAddress, chainList } from '../config';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -55,10 +55,6 @@ const Navbar = () => {
     if (!defaultAccount) return setAlert('Please connect your wallet first');
     changeChain(newChainId);
   };
-
-  // const switchLang = (newLangId) => {
-  //   dispatch(changeLang(newLangId));
-  // };
 
   const connect = () => {
     if (defaultAccount) return;
@@ -159,7 +155,6 @@ const Navbar = () => {
           <Link href='/'>
             <IconButton
               color='secondary'
-              // edge='start'
               size='medium'
               aria-label='NFT Easy Drop'
               sx={{ display: { xs: 'none', sm: 'block' } }}
@@ -279,16 +274,6 @@ const Navbar = () => {
                   truncate(defaultAccount)
                 )}
               </Button>
-              {/* {lang && (
-              <Box className='last-button' sx={{ mt: { sm: 0.3, md: 1 } }}>
-                <Dropdown
-                  array={langList}
-                  current={lang}
-                  select={switchLang}
-                  btnWidth={64}
-                />
-              </Box>
-            )} */}
             </div>
           </Box>
         </Toolbar>

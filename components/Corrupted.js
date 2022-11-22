@@ -44,17 +44,6 @@ const CorruptedData = ({ data, closeModal, modalStatus }) => {
                 </Paper>
               </>
             )}
-            {/* {data.wrongValuesNumber && data.wrongValuesNumber.length > 0 && (
-              <>
-                <div className='title'>Rows with wrong number of values: </div>
-
-                <Paper className='paper'>
-                  {data.wrongValuesNumber.map((row, i) => (
-                    <div key={i}>{row}</div>
-                  ))}
-                </Paper>
-              </>
-            )} */}
           </div>
         </DialogContent>
       </div>

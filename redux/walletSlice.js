@@ -10,7 +10,7 @@ export const walletSlice = createSlice({
     signer: null,
     chain: chainList[0],
     airdropContract: null,
-    lang: langList[0],
+    // lang: langList[0],
     loading: '',
     alert: null,
   },

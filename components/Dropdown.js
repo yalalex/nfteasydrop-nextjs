@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 
 import Image from 'next/image';
 
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-// import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Button, CircularProgress } from '@mui/material';
 
 const Dropdown = ({
@@ -40,7 +38,6 @@ const Dropdown = ({
           color='primary'
           size='small'
           variant='contained'
-          // endIcon={!visible ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
           disabled={loading}
           startIcon={
             !loading ? (

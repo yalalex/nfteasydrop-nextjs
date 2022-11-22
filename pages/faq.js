@@ -1,31 +1,10 @@
 import Head from 'next/head';
 
-import Q from '../components/Q';
+import QA from '../components/QA';
 
 import { Container, Typography, Fade } from '@mui/material';
 
 import faq from '../data/faq.json';
-
-// export const getStaticProps = async () => {
-//   try {
-//     const response = await fetch(`${process.env.API_HOST}/faq`);
-//     const data = await response.json();
-
-//     if (!data) {
-//       return {
-//         notFound: true,
-//       };
-//     }
-
-//     return {
-//       props: { faq: data },
-//     };
-//   } catch {
-//     return {
-//       props: { faq: null },
-//     };
-//   }
-// };
 
 const Faq = () => {
   return (
@@ -48,7 +27,7 @@ const Faq = () => {
             }}
           >
             {faq.map((q) => (
-              <Q key={q.id} q={q} />
+              <QA key={q.id} q={q} />
             ))}
           </Container>
         </div>

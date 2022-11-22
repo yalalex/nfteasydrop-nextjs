@@ -1,7 +1,6 @@
 export const airdropContractAddress =
   '0x02f2cec66630beb9b2c64a09b67fcefc85b8c0f1';
-// '0xB075c951eF5860B1a93816032C909836A06D10af'; // TEST
-// '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6';  // V1 MAINNET
+// '0x705bbe23ed7bdf8acc4e87012fcbdd2be76900f6'; // V1 MAINNET
 // '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // HARDHAT
 
 export const owner = '0xCFBFFD83BEB90Cda1CA205c49A7e4E3B127567e8';

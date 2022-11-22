@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { connectWalletHandler, setAlert } from '../redux/funcs';
 
 import CorruptedData from './Corrupted';
-import Example from './Example';
+import Examples from './Examples';
 
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
@@ -121,15 +121,6 @@ const Form = ({ tokenType }) => {
       setIsValidContract(false);
       setApprovalLoading(false);
     }
-    // try {
-    //   const uri = await tokenContract.uri(tokenId);
-    //   const info = await axios.get(uri);
-    //   const imgPath = info.data.image.slice(7);
-    //   const image = `https://ipfs.io/ipfs/${imgPath}`;
-    //   setImg(image); //SET_IMAGE
-    // } catch (error) {
-    //   setAlert('Can not get token image');
-    // }
   };
 
   const checkERC20Allowance = async () => {
@@ -273,9 +264,6 @@ const Form = ({ tokenType }) => {
     }
 
     if (tokenType === 'erc20') {
-      // const parsedAmounts = amounts.map((amount) =>
-      //   ethers.utils.parseEther(amount.toString())
-      // );
       const parsedSumAMount = ethers.utils.parseEther(erc20Sum.toString());
       try {
         const transactionResponse = await airdropContract.airdropERC20(
@@ -418,7 +406,7 @@ const Form = ({ tokenType }) => {
         closeModal={() => setErrorModal(false)}
         modalStatus={errorModal}
       />
-      <Example
+      <Examples
         closeModal={() => setExampleModal(false)}
         modalStatus={exampleModal}
       />
@@ -512,18 +500,12 @@ const Form = ({ tokenType }) => {
             </span>
           </div>
         )}
-        {/* <div>
-          <img src={img} alt='' />
-        </div> */}
         <div className='form-element'>
           <TextField
             color='success'
             label={`List of recipient addresses ${
               rowCount > 0 ? '(' + rowCount + ')' : ''
             }`}
-            // label={`List of recipient addresses ${
-            //   rowCount === 0 ? 'separated by comma' : ''
-            // } ${rowCount > 0 ? '(' + rowCount + ')' : ''}`}
             value={addressList}
             onChange={textfieldChange}
             autoComplete='do-not-autofill'

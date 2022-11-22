@@ -7,7 +7,7 @@ import {
   Divider,
 } from '@mui/material';
 
-const Q = ({ q }) => {
+const QA = ({ q }) => {
   return (
     <Accordion sx={{ my: 2, borderRadius: 1 }}>
       <AccordionSummary
@@ -33,4 +33,4 @@ const Q = ({ q }) => {
   );
 };
 
-export default Q;
+export default QA;

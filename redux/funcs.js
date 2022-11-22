@@ -83,7 +83,7 @@ export const setAlert = (message, type = 'info') => {
   setTimeout(() => dispatch(alert(null)), 5000);
 };
 
-export const changeLang = (newLangId) => {
-  const newLang = langList.find((lang) => lang.id === newLangId);
-  return newLang;
-};
+// export const changeLang = (newLangId) => {
+//   const newLang = langList.find((lang) => lang.id === newLangId);
+//   return newLang;
+// };

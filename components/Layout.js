@@ -14,8 +14,6 @@ const Layout = ({ children }) => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       const { ethereum } = window;
 
-      // ethereum.on('connect', chainChangedHandler);
-
       ethereum.on('accountsChanged', (accounts) =>
         dispatch(accountChangedHandler(accounts[0]))
       );
@@ -26,7 +24,6 @@ const Layout = ({ children }) => {
 
       return () => ethereum.removeAllListeners();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
