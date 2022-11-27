@@ -6,7 +6,7 @@
   },
   {
     "id": 2,
-    "question": "How many NFTs can I send in one transaction?",
+    "question": "How many NFTs can I send with a single transaction?",
     "answer": "You should be able to send to up to 600 addresses for ERC-721 or to up to 800 addresses for ERC-1155 at a time. You can also use our dApp for sending ERC-20 tokens not exceeding 400 addresses for one transaction."
   },
   {

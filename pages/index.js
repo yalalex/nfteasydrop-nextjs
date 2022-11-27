@@ -47,7 +47,7 @@ const Home = () => {
           </Typography>
           <br />
           <Typography variant='h6' component='h2' sx={{ marginTop: -2 }}>
-            Our dApp allows you to send NFTs to multiple addresses in just one
+            Our dApp allows you to send NFTs to multiple addresses with a single
             transaction
           </Typography>
           <div className='switcher'>
