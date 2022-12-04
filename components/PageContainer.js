@@ -18,16 +18,16 @@ const PageContainer = ({ title, description, subnote, children }) => {
           <br />
           {description.h2 && (
             <Typography variant='h6' sx={{ marginTop: -2 }}>
-              {description.h2.map((line) => (
-                <div key={line}>{line}</div>
+              {description.h2.map((line, i) => (
+                <div key={i}>{line}</div>
               ))}
             </Typography>
           )}
           {children}
           {subnote && (
             <div className='sub-note'>
-              {subnote.map((line) => (
-                <div key={line}>{line}</div>
+              {subnote.map((line, i) => (
+                <div key={i}>{line}</div>
               ))}
             </div>
           )}

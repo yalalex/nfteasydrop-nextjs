@@ -23,10 +23,18 @@ export const chainList = [
   { id: '0x5', name: 'Goerli', icon: '/chains/rinkeby.svg' },
 ];
 
-export const links = {
+export const internalLinks = [
+  // { id: 1, path: '/', title: 'Home' },
+  { id: 2, path: '/vip-pass', title: 'VIP Pass' },
+  { id: 3, path: '/tutorial', title: 'Tutorial' },
+  { id: 4, path: '/faq', title: 'FAQ' },
+  { id: 5, path: '/erc-20', title: 'ERC-20' },
+];
+
+export const externalLinks = {
+  etherscan: `https://etherscan.io/address/${airdropContractAddress}`,
   twitter: 'https://twitter.com/nfteasydrop',
   telegram: 'https://t.me/nfteasydrop',
-  etherscan: `https://etherscan.io/address/${airdropContractAddress}`,
 };
 
 // export const langList = [

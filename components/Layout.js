@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Alert from './Alert';
-import Navbar from './Navbar';
+import Navbar from './Navbar/Navbar';
 
 import { chainChangedHandler, accountChangedHandler } from '../redux/funcs';
 

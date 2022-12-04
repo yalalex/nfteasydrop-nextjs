@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 import PageContainer from '../components/PageContainer';
 import TutorialStep from '../components/TutorialStep';
 
-import { links } from '../config';
+import { externalLinks } from '../config';
 
 import howtouse from '../data/howtouse.json';
 
@@ -44,11 +44,19 @@ const Tutorial = () => {
           <li>
             In case you have any questions regarding use of our dApp feel free
             to contact us on{' '}
-            <a href={links.twitter} target='_blank' rel='noopener noreferrer'>
+            <a
+              href={externalLinks.twitter}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               Twitter
             </a>{' '}
             or{' '}
-            <a href={links.telegram} target='_blank' rel='noopener noreferrer'>
+            <a
+              href={externalLinks.telegram}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               Telegram
             </a>
             .
