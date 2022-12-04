@@ -2,11 +2,17 @@ import { Close } from '@mui/icons-material';
 
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 
-import Example from './Example';
+import ModalContent from './ModalContent';
 
 import { examples } from '../data/examples';
 
-const Examples = ({ closeModal, modalStatus }) => {
+const Modal = ({
+  closeModal,
+  modalStatus,
+  title,
+  example = true,
+  data = examples,
+}) => {
   return (
     <Dialog
       open={modalStatus}
@@ -18,7 +24,7 @@ const Examples = ({ closeModal, modalStatus }) => {
     >
       <div className='dialog-container'>
         <DialogTitle className='title-container'>
-          <div className='title'>Data structure example</div>
+          <div className='title'>{title}</div>
           <div className='button-container'>
             <IconButton
               aria-label='close'
@@ -31,16 +37,18 @@ const Examples = ({ closeModal, modalStatus }) => {
         </DialogTitle>
         <DialogContent dividers={true} className='content'>
           <div>
-            {examples.map((ex) => (
-              <Example key={ex.title} example={ex} />
+            {data.map((content, i) => (
+              <ModalContent key={i} content={content} />
             ))}
-            <div className='footnote'>
-              *ERC-1155 single ID mode is best for the case when you want to
-              send NFTs with same ID and amount to all recipients
-              <br />
-              **ERC-20 same amount mode is best for the case when you want to
-              send same amount of tokens to all recipients
-            </div>
+            {example && (
+              <div className='footnote'>
+                *ERC-1155 single ID mode is best for the case when you want to
+                send NFTs with same ID and amount to all recipients
+                <br />
+                **ERC-20 same amount mode is best for the case when you want to
+                send same amount of tokens to all recipients
+              </div>
+            )}
           </div>
         </DialogContent>
       </div>
@@ -48,4 +56,4 @@ const Examples = ({ closeModal, modalStatus }) => {
   );
 };
 
-export default Examples;
+export default Modal;

@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { connectWalletHandler, setAlert } from '../redux/funcs';
 
-import CorruptedData from './Corrupted';
-import Examples from './Examples';
+import Modal from './Modal';
 
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
@@ -401,14 +400,16 @@ const Form = ({ tokenType }) => {
       className='form-container'
       sx={{ p: { xs: 2, sm: 6 } }}
     >
-      <CorruptedData
+      <Modal
         data={listError}
         closeModal={() => setErrorModal(false)}
         modalStatus={errorModal}
+        title='Removed Rows'
       />
-      <Examples
+      <Modal
         closeModal={() => setExampleModal(false)}
         modalStatus={exampleModal}
+        title='Data structure example'
       />
       <form onSubmit={exec} className='form'>
         <div className='form-element'>
