@@ -1,9 +1,17 @@
 import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 
-import { Fade, Typography } from '@mui/material';
+import PageContainer from '../components/PageContainer';
+
+const title =
+  'NFT Easy Drop - send your tokens to multiple addresses | Not found';
+const description = {
+  h2: [
+    'This page is not found.',
+    'You will be redirected to the main page in a few seconds...',
+  ],
+};
 
 const Error = () => {
   const router = useRouter();
@@ -15,17 +23,7 @@ const Error = () => {
   }, [router]);
 
   return (
-    <>
-      <Head>
-        <title>Not found</title>
-      </Head>
-      <Fade in={true} {...{ timeout: 1000 }}>
-        <Typography variant='h5' component='h2' className='not-found'>
-          This page is not found. <br />
-          You will be redirected to the main page in a few seconds...
-        </Typography>
-      </Fade>
-    </>
+    <PageContainer title={title} description={description}></PageContainer>
   );
 };
 

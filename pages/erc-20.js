@@ -1,35 +1,21 @@
-import Head from 'next/head';
+import PageContainer from '../components/PageContainer';
 
 import Form from '../components/Form';
 
-import { Fade, Typography } from '@mui/material';
+const title = 'NFT Easy Drop - send your tokens to multiple addresses | ERC-20';
+const description = {
+  h1: 'New feature!',
+  h2: ['Our dApp now allows you to send ERC-20 tokens to multiple addresses*'],
+};
+const subnote = ['*Please note this feature is still in beta'];
 
 const Home = () => {
   return (
-    <>
-      <Head>
-        <title>
-          NFT Easy Drop - send your tokens to multiple addresses | ERC-20
-        </title>
-      </Head>
-      <Fade in={true} {...{ timeout: 1000 }}>
-        <div className='page-container'>
-          <Typography variant='h3' component='h1'>
-            New feature!
-          </Typography>
-          <br />
-          <Typography variant='h6' component='h2' sx={{ marginTop: -2 }}>
-            Our dApp now allows you to send ERC-20 tokens to multiple addresses*
-          </Typography>
-          <div className='switcher'>
-            <Form tokenType={'erc20'} />
-          </div>
-          <div className='sub-note'>
-            *Please note this feature is still in beta
-          </div>
-        </div>
-      </Fade>
-    </>
+    <PageContainer title={title} description={description} subnote={subnote}>
+      <div className='switcher'>
+        <Form tokenType={'erc20'} />
+      </div>
+    </PageContainer>
   );
 };
 

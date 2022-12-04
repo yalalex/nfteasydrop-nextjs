@@ -1,15 +1,10 @@
 import { useState } from 'react';
 
-import Head from 'next/head';
+import PageContainer from '../components/PageContainer';
 
 import Form from '../components/Form';
 
-import {
-  ToggleButtonGroup,
-  ToggleButton,
-  Fade,
-  Typography,
-} from '@mui/material';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
 
@@ -26,6 +21,14 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   },
 }));
 
+const title = 'NFT Easy Drop - send your tokens to multiple addresses | Home';
+const description = {
+  h1: 'Welcome to NFT Easy Drop',
+  h2: [
+    'Our dApp allows you to send NFTs to multiple addresses with a single transaction',
+  ],
+};
+
 const Home = () => {
   const [tokenType, setTokenType] = useState('erc721');
 
@@ -34,37 +37,20 @@ const Home = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>
-          NFT Easy Drop - send your tokens to multiple addresses | Home
-        </title>
-      </Head>
-      <Fade in={true} {...{ timeout: 1000 }}>
-        <div className='page-container'>
-          <Typography variant='h3' component='h1'>
-            Welcome to NFT Easy Drop
-          </Typography>
-          <br />
-          <Typography variant='h6' component='h2' sx={{ marginTop: -2 }}>
-            Our dApp allows you to send NFTs to multiple addresses with a single
-            transaction
-          </Typography>
-          <div className='switcher'>
-            <StyledToggleButtonGroup
-              color='primary'
-              value={tokenType}
-              exclusive
-              onChange={handleChange}
-            >
-              <ToggleButton value='erc721'>ERC-721</ToggleButton>
-              <ToggleButton value='erc1155'>ERC-1155</ToggleButton>
-            </StyledToggleButtonGroup>
-            <Form tokenType={tokenType} />
-          </div>
-        </div>
-      </Fade>
-    </>
+    <PageContainer title={title} description={description}>
+      <div className='switcher'>
+        <StyledToggleButtonGroup
+          color='primary'
+          value={tokenType}
+          exclusive
+          onChange={handleChange}
+        >
+          <ToggleButton value='erc721'>ERC-721</ToggleButton>
+          <ToggleButton value='erc1155'>ERC-1155</ToggleButton>
+        </StyledToggleButtonGroup>
+        <Form tokenType={tokenType} />
+      </div>
+    </PageContainer>
   );
 };
 
