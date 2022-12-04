@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 import { truncate } from '../utils/truncate';
 
-import { airdropContractAddress, chainList } from '../config';
+import { chainList, links as externalLinks } from '../config';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -68,6 +68,8 @@ const Navbar = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const { etherscan, twitter, telegram } = externalLinks;
+
   const drawer = (
     <Box onClick={handleDrawerToggle} className='drawer'>
       <Link href='/'>
@@ -94,11 +96,7 @@ const Navbar = () => {
         ))}
         <ListItem>
           <div className='drawer-icons'>
-            <a
-              href={`https://etherscan.io/address/${airdropContractAddress}`}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
+            <a href={etherscan} target='_blank' rel='noopener noreferrer'>
               <IconButton
                 size='large'
                 color='secondary'
@@ -107,11 +105,7 @@ const Navbar = () => {
                 <Image src='/icons/ether.svg' height='24' width='24' alt='' />
               </IconButton>
             </a>
-            <a
-              href='https://twitter.com/nfteasydrop'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
+            <a href={twitter} target='_blank' rel='noopener noreferrer'>
               <IconButton
                 size='large'
                 color='secondary'
@@ -120,11 +114,7 @@ const Navbar = () => {
                 <TwitterIcon />
               </IconButton>
             </a>
-            <a
-              href='https://t.me/nfteasydrop'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
+            <a href={telegram} target='_blank' rel='noopener noreferrer'>
               <IconButton
                 size='large'
                 color='secondary'
@@ -191,7 +181,7 @@ const Navbar = () => {
               <List sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
                 <ListItem disablePadding>
                   <a
-                    href={`https://etherscan.io/address/${airdropContractAddress}`}
+                    href={etherscan}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='icon-container'
@@ -214,7 +204,7 @@ const Navbar = () => {
                 </ListItem>
                 <ListItem disablePadding>
                   <a
-                    href='https://twitter.com/nfteasydrop'
+                    href={twitter}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='icon-container'
@@ -230,7 +220,7 @@ const Navbar = () => {
                 </ListItem>
                 <ListItem disablePadding>
                   <a
-                    href='https://t.me/nfteasydrop'
+                    href={telegram}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='icon-container'

@@ -23,8 +23,14 @@ export const chainList = [
   { id: '0x5', name: 'Goerli', icon: '/chains/rinkeby.svg' },
 ];
 
-export const langList = [
-  { id: 1, name: 'en', icon: '/langs/en.svg' },
-  { id: 2, name: 'cn', icon: '/langs/cn.svg' },
-  { id: 3, name: 'ru', icon: '/langs/ru.svg' },
-];
+export const links = {
+  twitter: 'https://twitter.com/nfteasydrop',
+  telegram: 'https://t.me/nfteasydrop',
+  etherscan: `https://etherscan.io/address/${airdropContractAddress}`,
+};
+
+// export const langList = [
+//   { id: 1, name: 'en', icon: '/langs/en.svg' },
+//   { id: 2, name: 'cn', icon: '/langs/cn.svg' },
+//   { id: 3, name: 'ru', icon: '/langs/ru.svg' },
+// ];

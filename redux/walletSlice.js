@@ -28,9 +28,9 @@ export const walletSlice = createSlice({
       state.chain = action.payload;
       state.loading = false;
     },
-    lang: (state, action) => {
-      state.lang = action.payload;
-    },
+    // lang: (state, action) => {
+    //   state.lang = action.payload;
+    // },
     alert: (state, action) => {
       state.alert = action.payload;
       state.loading = false;

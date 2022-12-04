@@ -10,13 +10,13 @@ export default class MyDocument extends Document {
         <Head>
           <meta
             name='description'
-            content='This tool allows you to airdrop your ERC-721 and ERC-1155 tokens to multiple recipients in one transaction'
+            content='This tool allows you to airdrop your ERC-721 and ERC-1155 tokens to multiple recipients with one transaction'
             key='desc'
           />
           <meta property='og:title' content='NFT Easy Drop' />
           <meta
             property='og:description'
-            content='Send your ERC-721 and ERC-1155 tokens to multiple addresses in one transaction'
+            content='Send your ERC-721, ERC-1155 and ERC-20 tokens to multiple addresses with one transaction'
           />
           <meta
             property='og:image'
