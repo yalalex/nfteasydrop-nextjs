@@ -65,7 +65,7 @@ const NavbarDrawer = ({ handleDrawerToggle, mobileOpen, icons }) => {
             <ListItem>
               <div className='drawer-icons'>
                 {icons.map((icon, i) => (
-                  <ExternalLink icon={icon} drawer={mobileOpen} i={i} />
+                  <ExternalLink key={i} icon={icon} drawer={mobileOpen} i={i} />
                 ))}
               </div>
             </ListItem>
