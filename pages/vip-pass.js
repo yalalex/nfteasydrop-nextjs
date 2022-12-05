@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 
 import { changeChain, setAlert } from '../redux/funcs';
 
-import PageContainer from '../components/PageContainer';
-
 import { ethers } from 'ethers';
 
 import { Button, Card, Grid, Typography } from '@mui/material';
+
+import PageContainer from '../components/Layout/PageContainer';
 
 import { minedListener } from '../utils/mined-listener';
 

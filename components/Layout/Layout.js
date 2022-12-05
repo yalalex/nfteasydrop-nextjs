@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Alert from './Alert';
-import Navbar from './Navbar/Navbar';
+import Navbar from '../Navbar/Navbar';
 
-import { chainChangedHandler, accountChangedHandler } from '../redux/funcs';
+import { chainChangedHandler, accountChangedHandler } from '../../redux/funcs';
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();

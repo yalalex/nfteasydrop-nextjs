@@ -5,28 +5,27 @@ import { useSelector } from 'react-redux';
 import { ethers } from 'ethers';
 
 import InfoIcon from '@mui/icons-material/Info';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   Button,
   TextField,
   IconButton,
   Paper,
   Tooltip,
-  Alert,
-  Fade,
   CircularProgress,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { tooltipClasses } from '@mui/material/Tooltip';
 
-import { csvToArray } from '../utils/convert-csv';
-import { minedListener } from '../utils/mined-listener';
+import { csvToArray } from '../../utils/convert-csv';
+import { minedListener } from '../../utils/mined-listener';
 
-import { airdropContractAddress, txFee } from '../config';
+import { airdropContractAddress, txFee } from '../../config';
 
-import { connectWalletHandler, setAlert } from '../redux/funcs';
+import { connectWalletHandler, setAlert } from '../../redux/funcs';
 
-import Modal from './Modal';
+import Modal from '../Modal/Modal';
+import FormError from './FormError';
+import FormInput from './FormInput';
 
 const tokenAbi = [
   'function setApprovalForAll(address operator, bool approved)',
@@ -284,7 +283,6 @@ const Form = ({ tokenType }) => {
     const until = await airdropContract.subscribers(defaultAccount);
 
     let fee = txFee.ethereum;
-
     if (chain.id === '0x89') fee = txFee.polygon;
     if (chain.id === '0x38') fee = txFee.bsc;
 
@@ -433,20 +431,13 @@ const Form = ({ tokenType }) => {
         title='Data structure example'
       />
       <form onSubmit={exec} className='form'>
-        <div className='form-element'>
-          <TextField
-            color='success'
-            label='Token contract address'
-            value={token}
-            onChange={(e) => {
-              setToken(e.target.value);
-            }}
-            type='text'
-            variant='outlined'
-            autoComplete='do-not-autofill'
-            fullWidth
-          />
-        </div>
+        <FormInput
+          label='Token contract address'
+          value={token}
+          fn={(e) => {
+            setToken(e.target.value);
+          }}
+        />
         {ethers.utils.isAddress(token) && (
           <div className='form-element'>
             <Button
@@ -474,38 +465,24 @@ const Form = ({ tokenType }) => {
           </div>
         )}
         {simple && tokenType === 'erc1155' && (
-          <div className='form-element'>
-            <TextField
-              color='success'
-              label='Token ID'
-              value={simpleDrop.tokenId}
-              onChange={(e) => {
-                setSimpleDrop({ ...simpleDrop, tokenId: e.target.value });
-                isChecked && setIsChecked(false);
-              }}
-              type='text'
-              variant='outlined'
-              autoComplete='do-not-autofill'
-              fullWidth
-            />
-          </div>
+          <FormInput
+            label='Token ID'
+            value={simpleDrop.tokenId}
+            fn={(e) => {
+              setSimpleDrop({ ...simpleDrop, tokenId: e.target.value });
+              isChecked && setIsChecked(false);
+            }}
+          />
         )}
         {simple && (
-          <div className='form-element'>
-            <TextField
-              color='success'
-              label='Amount'
-              value={simpleDrop.amount}
-              onChange={(e) => {
-                setSimpleDrop({ ...simpleDrop, amount: e.target.value });
-                isChecked && setIsChecked(false);
-              }}
-              type='text'
-              variant='outlined'
-              autoComplete='do-not-autofill'
-              fullWidth
-            />
-          </div>
+          <FormInput
+            label='Amount'
+            value={simpleDrop.amount}
+            fn={(e) => {
+              setSimpleDrop({ ...simpleDrop, amount: e.target.value });
+              isChecked && setIsChecked(false);
+            }}
+          />
         )}
         {tokenType !== 'erc721' && (
           <div className='form-element'>
@@ -538,81 +515,40 @@ const Form = ({ tokenType }) => {
           />
         </div>
         {successAlert && (
-          <Fade in={true} {...{ timeout: 1000 }}>
-            <Alert
-              severity='success'
-              variant='filled'
-              className='form-element'
-              action={
-                <IconButton
-                  aria-label='close'
-                  color='inherit'
-                  size='small'
-                  onClick={() => {
-                    setSuccessAlert(false);
-                  }}
-                >
-                  <CloseIcon fontSize='inherit' />
-                </IconButton>
-              }
-            >
-              {`${drop.addresses.length} addresses were successfully added`}
-            </Alert>
-          </Fade>
+          <FormError
+            severity='success'
+            fn={() => {
+              setSuccessAlert(false);
+            }}
+          >
+            {`${drop.addresses.length} addresses were successfully added`}
+          </FormError>
         )}
         {listError.length > 0 && (
-          <Fade in={true} {...{ timeout: 1000 }}>
-            <Alert
-              severity='info'
-              variant='filled'
-              className='form-element'
-              action={
-                <IconButton
-                  aria-label='close'
-                  color='inherit'
-                  size='small'
-                  onClick={() => {
-                    setListError([]);
-                  }}
-                >
-                  <CloseIcon fontSize='inherit' />
-                </IconButton>
-              }
-            >
-              We have found and removed {listError.length} rows containing
-              invalid values. Click{' '}
-              <span className='link' onClick={() => setErrorModal(true)}>
-                here
-              </span>{' '}
-              to view them
-            </Alert>
-          </Fade>
+          <FormError
+            fn={() => {
+              setListError([]);
+            }}
+          >
+            We have found and removed {listError.length} rows containing invalid
+            values. Click{' '}
+            <span className='link' onClick={() => setErrorModal(true)}>
+              here
+            </span>{' '}
+            to view them
+          </FormError>
         )}
         {lengthError && (
-          <Fade in={true} {...{ timeout: 1000 }}>
-            <Alert
-              severity='info'
-              variant='filled'
-              className='form-element'
-              action={
-                <IconButton
-                  aria-label='close'
-                  color='inherit'
-                  size='small'
-                  onClick={() => {
-                    setLengthError(false);
-                  }}
-                >
-                  <CloseIcon fontSize='inherit' />
-                </IconButton>
-              }
-            >
-              You have entered too many addresses for one transaction. We can't
-              guarantee it will be successfully mined by the blockchain. Please
-              try not to exceed 400 addresses for ERC-20, 600 addresses for
-              ERC-721 and 800 addresses for ERC-1155.
-            </Alert>
-          </Fade>
+          <FormError
+            fn={() => {
+              setLengthError(false);
+            }}
+          >
+            You have entered too many addresses for one transaction. We can't
+            guarantee it will be successfully mined by the blockchain. Please
+            try not to exceed 400 addresses for ERC-20, 600 addresses for
+            ERC-721 and 800 addresses for ERC-1155
+          </FormError>
         )}
         <div className='form-element button-group'>
           <div className='upload-button'>

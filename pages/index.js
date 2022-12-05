@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
-import PageContainer from '../components/PageContainer';
-
-import Form from '../components/Form';
+import PageContainer from '../components/Layout/PageContainer';
+import Form from '../components/Form/Form';
 
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 

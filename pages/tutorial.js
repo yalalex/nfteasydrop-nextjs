@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/Layout/PageContainer';
 import TutorialStep from '../components/TutorialStep';
 
 import { externalLinks } from '../config';

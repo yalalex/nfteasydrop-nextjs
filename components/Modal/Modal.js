@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 
 import ModalContent from './ModalContent';
 
-import { examples } from '../data/examples';
+import { examples } from '../../data/examples';
 
 const Modal = ({
   closeModal,

@@ -1,8 +1,7 @@
-import PageContainer from '../components/PageContainer';
-
-import QA from '../components/QA';
-
 import { Container } from '@mui/material';
+
+import PageContainer from '../components/Layout/PageContainer';
+import QA from '../components/QA';
 
 import faq from '../data/faq.json';
 

@@ -1,6 +1,5 @@
-import PageContainer from '../components/PageContainer';
-
-import Form from '../components/Form';
+import PageContainer from '../components/Layout/PageContainer';
+import Form from '../components/Form/Form';
 
 const title = 'NFT Easy Drop - send your tokens to multiple addresses | ERC-20';
 const description = {

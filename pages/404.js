@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/Layout/PageContainer';
 
 const title =
   'NFT Easy Drop - send your tokens to multiple addresses | Not found';
