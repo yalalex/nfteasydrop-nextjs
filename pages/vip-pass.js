@@ -52,15 +52,13 @@ const Subscribe = () => {
       setAlert('VIP Pass purchase is successful', 'success');
       setLoading(false);
     } catch (error) {
-      if (error.code === -32000)
-        setAlert(
-          'You have insufficient funds in your wallet for completing this transaction'
-        );
-      else if (error.code === 4001)
-        setAlert('Please switch to Ethereum Mainnet to subscribe');
-      else setAlert('Please make sure you have enough funds in your account');
+      setAlert(
+        error.code === 'INSUFFICIENT_FUNDS'
+          ? 'Please make sure you have enough funds in your account'
+          : 'Something went wrong'
+      );
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
