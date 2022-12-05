@@ -36,7 +36,7 @@ export const connectWalletHandler = async () => {
     dispatch(setSigner());
     dispatch(accountChangedHandler(account, false));
   } catch (err) {
-    setAlert('Something went wrong. Please try again');
+    setAlert('Something went wrong. Please check your Metamask');
   }
 };
 
@@ -52,7 +52,7 @@ const setChainId = async () => {
     const id = '0x' + chainId.toString(16);
     dispatch(chainChangedHandler(id));
   } catch (err) {
-    setAlert('Something went wrong. Please try again');
+    setAlert('Something went wrong. Please check your Metamask');
   }
 };
 
@@ -67,7 +67,7 @@ export const changeChain = async (newChainId) => {
     } catch (err) {
       if (err.code === 4902) {
         setAlert(`Please add ${chainDetector(newChainId).name} to MetaMask`);
-      } else setAlert('Something went wrong. Please try again');
+      } else setAlert('Something went wrong. Please check your Metamask');
     }
   }
 };

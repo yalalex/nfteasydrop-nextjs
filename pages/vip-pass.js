@@ -40,7 +40,7 @@ const Subscribe = () => {
   const subscribe = async () => {
     if (!defaultAccount) return setAlert('Please connect your wallet');
     if (chain.id !== '0x1' && chain.id !== '0x5') {
-      setAlert('Please switch to Ethereum Mainnet to subscribe');
+      setAlert('Please switch to Ethereum Mainnet to purchase VIP pass');
       return changeChain('0x1');
     }
     setLoading(true);

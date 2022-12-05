@@ -16,24 +16,25 @@ export const walletSlice = createSlice({
   },
   reducers: {
     connect: (state, action) => {
-      state.provider = action.payload.provider;
-      state.signer = action.payload.signer;
-      state.airdropContract = action.payload.contract;
-      state.loading = false;
+      const { provider, signer, contract } = action.payload;
+      state.provider = provider;
+      state.signer = signer;
+      state.airdropContract = contract;
+      state.loading = '';
     },
     account: (state, action) => {
       state.defaultAccount = action.payload;
     },
     chain: (state, action) => {
       state.chain = action.payload;
-      state.loading = false;
+      state.loading = '';
     },
     // lang: (state, action) => {
     //   state.lang = action.payload;
     // },
     alert: (state, action) => {
       state.alert = action.payload;
-      state.loading = false;
+      state.loading = '';
     },
     loading: (state, action) => {
       state.loading = action.payload;
