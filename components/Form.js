@@ -107,6 +107,11 @@ const Form = ({ tokenType }) => {
     }
   }, [erc20Sum]);
 
+  const connect = () => {
+    if (window.ethereum && window.ethereum.isMetaMask) connectWalletHandler();
+    else setAlert('Please install MetaMask browser extension to interact');
+  };
+
   const checkNFTApproval = async () => {
     setApprovalLoading(true);
     try {
@@ -213,6 +218,67 @@ const Form = ({ tokenType }) => {
     setRowCount(addresses.length);
   };
 
+  const setDropData = async (addresses, ids, amounts) => {
+    if (simple) {
+      setDrop({
+        addresses,
+        ids:
+          tokenType === 'erc1155'
+            ? Array(addresses.length).fill(simpleDrop.tokenId)
+            : [],
+        amounts: Array(addresses.length).fill(simpleDrop.amount),
+      });
+    } else setDrop({ addresses, ids, amounts });
+
+    if (tokenType === 'erc20') {
+      let sumAmount;
+      if (simple) {
+        sumAmount = addresses.length * simpleDrop.amount;
+      } else {
+        const amount = amounts.map((am) => Number(am));
+        sumAmount = amount.reduce((x, y) => x + y);
+      }
+      setErc20Sum(sumAmount);
+    }
+  };
+
+  const parseAddressList = async (text) => {
+    setUploadLoading(true);
+    setSuccessAlert(false);
+    setIsChecked(false);
+    setDrop({ addresses: [], ids: [], amounts: [] });
+    setListError([]);
+
+    const [data, corruptedData] = await csvToArray(text, tokenType, simple);
+
+    const [addresses, ids, amounts] = data;
+
+    if (!addresses.length) {
+      setUploadLoading(false);
+      return setAlert('Please enter valid data for selected token type');
+    }
+
+    setAddressList('');
+    setRowCount(0);
+
+    setListError(corruptedData);
+
+    if (
+      (tokenType === 'erc721' && addresses.length > 600) ||
+      (tokenType === 'erc1155' && addresses.length > 800) ||
+      (tokenType === 'erc20' && addresses.length > 400)
+    )
+      setLengthError(true);
+
+    fillDataField(addresses, ids, amounts);
+
+    setDropData(addresses, ids, amounts);
+
+    setIsChecked(true);
+    if (addresses.length) setSuccessAlert(true);
+    setUploadLoading(false);
+  };
+
   const prepareDrop = async () => {
     const timestamp = Math.floor(Date.now() / 1000);
     const until = await airdropContract.subscribers(defaultAccount);
@@ -310,67 +376,6 @@ const Form = ({ tokenType }) => {
     if (tokenType === 'erc20') dropERC20(dropData);
   };
 
-  const parseAddressList = async (text) => {
-    setUploadLoading(true);
-    setSuccessAlert(false);
-    setIsChecked(false);
-    setDrop({ addresses: [], ids: [], amounts: [] });
-    setListError([]);
-
-    const [data, corruptedData] = await csvToArray(text, tokenType, simple);
-
-    const [addresses, ids, amounts] = data;
-
-    if (!addresses.length) {
-      setUploadLoading(false);
-      return setAlert('Please enter valid data for selected token type');
-    }
-
-    setAddressList('');
-    setRowCount(0);
-
-    setListError(corruptedData);
-
-    if (
-      (tokenType === 'erc721' && addresses.length > 600) ||
-      (tokenType === 'erc1155' && addresses.length > 800) ||
-      (tokenType === 'erc20' && addresses.length > 400)
-    )
-      setLengthError(true);
-
-    if (simple) {
-      setDrop({
-        addresses,
-        ids:
-          tokenType === 'erc1155'
-            ? Array(addresses.length).fill(simpleDrop.tokenId)
-            : [],
-        amounts: Array(addresses.length).fill(simpleDrop.amount),
-      });
-    } else setDrop({ addresses, ids, amounts });
-
-    if (tokenType === 'erc20') {
-      let sumAmount;
-      if (simple) {
-        sumAmount = addresses.length * simpleDrop.amount;
-      } else {
-        const amount = amounts.map((am) => Number(am));
-        sumAmount = amount.reduce((x, y) => x + y);
-      }
-      setErc20Sum(sumAmount);
-    }
-
-    fillDataField(addresses, ids, amounts);
-    setIsChecked(true);
-    if (addresses.length) setSuccessAlert(true);
-    setUploadLoading(false);
-  };
-
-  const connect = () => {
-    if (window.ethereum && window.ethereum.isMetaMask) connectWalletHandler();
-    else setAlert('Please install MetaMask browser extension to interact');
-  };
-
   const clear = () => {
     setAddressList('');
     setRowCount(0);
@@ -390,11 +395,6 @@ const Form = ({ tokenType }) => {
     isChecked && setIsChecked(false);
   };
 
-  const exec = (e) => {
-    e.preventDefault();
-    !isChecked ? checkData() : defaultAccount ? sendTokens() : connect();
-  };
-
   const handleFileOnSubmit = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -407,6 +407,11 @@ const Form = ({ tokenType }) => {
       fileReader.readAsText(file);
     }
     e.target.value = null;
+  };
+
+  const exec = (e) => {
+    e.preventDefault();
+    !isChecked ? checkData() : defaultAccount ? sendTokens() : connect();
   };
 
   return (
