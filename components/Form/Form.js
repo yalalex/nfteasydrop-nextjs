@@ -567,10 +567,9 @@ const Form = ({ tokenType }) => {
               <input type='file' accept='.csv, .txt' hidden />
             </Button>
           </div>
-          <div className='example' onClick={() => setExampleModal(true)}>
+          <div className='example'>
             <LightTooltip
               title='Show Example'
-              className='example'
               onClick={() => setExampleModal(true)}
             >
               <IconButton size='medium' color='secondary'>
