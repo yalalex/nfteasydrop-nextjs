@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { connectWalletHandler, setAlert } from '../redux/funcs';
 
-import Modal from './Modal';
+import { ethers } from 'ethers';
 
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
-
 import {
   Button,
   TextField,
@@ -18,16 +16,17 @@ import {
   Fade,
   CircularProgress,
 } from '@mui/material';
-
-import { ethers } from 'ethers';
+import { styled } from '@mui/material/styles';
+import { tooltipClasses } from '@mui/material/Tooltip';
 
 import { csvToArray } from '../utils/convert-csv';
 import { minedListener } from '../utils/mined-listener';
 
 import { airdropContractAddress, txFee } from '../config';
 
-import { styled } from '@mui/material/styles';
-import { tooltipClasses } from '@mui/material/Tooltip';
+import { connectWalletHandler, setAlert } from '../redux/funcs';
+
+import Modal from './Modal';
 
 const tokenAbi = [
   'function setApprovalForAll(address operator, bool approved)',
@@ -197,7 +196,104 @@ const Form = ({ tokenType }) => {
     } else setAlert('Enter at least 1 address');
   };
 
-  const sendToken = async () => {
+  const fillDataField = (addresses, ids, amounts) => {
+    let dataField = '';
+
+    addresses.forEach((address, i) => {
+      dataField += simple
+        ? address + '\n'
+        : tokenType === 'erc721'
+        ? address + ',' + ids[i] + '\n'
+        : tokenType === 'erc20'
+        ? address + ',' + amounts[i] + '\n'
+        : address + ',' + ids[i] + ',' + amounts[i] + '\n';
+    });
+
+    setAddressList(dataField);
+    setRowCount(addresses.length);
+  };
+
+  const prepareDrop = async () => {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const until = await airdropContract.subscribers(defaultAccount);
+
+    let fee = txFee.ethereum;
+
+    if (chain.id === '0x89') fee = txFee.polygon;
+    if (chain.id === '0x38') fee = txFee.bsc;
+
+    const dropData =
+      Number(until) < timestamp
+        ? {
+            value: ethers.utils.parseEther(fee),
+          }
+        : {};
+
+    return dropData;
+  };
+
+  const dropERC721 = async (dropData) => {
+    const { addresses, ids } = drop;
+    try {
+      const transactionResponse = await airdropContract.airdropERC721(
+        token,
+        addresses,
+        ids,
+        dropData
+      );
+      await minedListener(transactionResponse, provider);
+      setAlert('Airdrop successfully finished', 'success');
+      setSendLoading(false);
+    } catch (error) {
+      setAlert(
+        'Something went wrong. Please check you are the owner of all NFTs you are trying to send and have enough funds in your account'
+      );
+      setSendLoading(false);
+    }
+  };
+
+  const dropERC1155 = async (dropData) => {
+    const { addresses, ids, amounts } = drop;
+    try {
+      const transactionResponse = await airdropContract.airdropERC1155(
+        token,
+        addresses,
+        ids,
+        amounts,
+        dropData
+      );
+      await minedListener(transactionResponse, provider);
+      setAlert('Airdrop successfully finished', 'success');
+      setSendLoading(false);
+    } catch (error) {
+      setAlert(
+        'Something went wrong. Please check you are the owner of all NFTs you are trying to send and have enough funds in your account'
+      );
+      setSendLoading(false);
+    }
+  };
+
+  const dropERC20 = async (dropData) => {
+    const { addresses, amounts } = drop;
+    const parsedSumAMount = ethers.utils.parseEther(erc20Sum.toString());
+    try {
+      const transactionResponse = await airdropContract.airdropERC20(
+        token,
+        addresses,
+        amounts,
+        parsedSumAMount,
+        dropData
+      );
+      await minedListener(transactionResponse, provider);
+      setAlert('Airdrop successfully finished', 'success');
+      setSendLoading(false);
+    } catch (error) {
+      setAlert('Something went wrong.');
+      setSendLoading(false);
+    }
+  };
+
+  const sendTokens = async () => {
     if (!ethers.utils.isAddress(token))
       return setAlert('Please enter valid token contract address');
     if (!isApproved) return setAlert('Please approve before sending');
@@ -207,79 +303,11 @@ const Form = ({ tokenType }) => {
 
     setSendLoading(true);
 
-    const { addresses, ids, amounts } = drop;
-    const timestamp = Math.floor(Date.now() / 1000);
-    const until = await airdropContract.subscribers(defaultAccount);
+    const dropData = prepareDrop();
 
-    let fee = txFee.ethereum;
-
-    if (chain.id === '0x89') fee = txFee.polygon;
-    if (chain.id === '0x38') fee = txFee.bsc;
-
-    const data =
-      Number(until) < timestamp
-        ? {
-            value: ethers.utils.parseEther(fee),
-          }
-        : {};
-
-    if (tokenType === 'erc721') {
-      try {
-        const transactionResponse = await airdropContract.airdropERC721(
-          token,
-          addresses,
-          ids,
-          data
-        );
-        await minedListener(transactionResponse, provider);
-        setAlert('Airdrop successfully finished', 'success');
-        setSendLoading(false);
-      } catch (error) {
-        setAlert(
-          'Something went wrong. Please check you are the owner of all NFTs you are trying to send and have enough funds in your account'
-        );
-        setSendLoading(false);
-      }
-    }
-
-    if (tokenType === 'erc1155') {
-      try {
-        const transactionResponse = await airdropContract.airdropERC1155(
-          token,
-          addresses,
-          ids,
-          amounts,
-          data
-        );
-        await minedListener(transactionResponse, provider);
-        setAlert('Airdrop successfully finished', 'success');
-        setSendLoading(false);
-      } catch (error) {
-        setAlert(
-          'Something went wrong. Please check you are the owner of all NFTs you are trying to send and have enough funds in your account'
-        );
-        setSendLoading(false);
-      }
-    }
-
-    if (tokenType === 'erc20') {
-      const parsedSumAMount = ethers.utils.parseEther(erc20Sum.toString());
-      try {
-        const transactionResponse = await airdropContract.airdropERC20(
-          token,
-          addresses,
-          amounts,
-          parsedSumAMount,
-          data
-        );
-        await minedListener(transactionResponse, provider);
-        setAlert('Airdrop successfully finished', 'success');
-        setSendLoading(false);
-      } catch (error) {
-        setAlert('Something went wrong.');
-        setSendLoading(false);
-      }
-    }
+    if (tokenType === 'erc721') dropERC721(dropData);
+    if (tokenType === 'erc1155') dropERC1155(dropData);
+    if (tokenType === 'erc20') dropERC20(dropData);
   };
 
   const parseAddressList = async (text) => {
@@ -321,18 +349,6 @@ const Form = ({ tokenType }) => {
       });
     } else setDrop({ addresses, ids, amounts });
 
-    let dataField = '';
-
-    addresses.forEach((address, i) => {
-      dataField += simple
-        ? address + '\n'
-        : tokenType === 'erc721'
-        ? address + ',' + ids[i] + '\n'
-        : tokenType === 'erc20'
-        ? address + ',' + amounts[i] + '\n'
-        : address + ',' + ids[i] + ',' + amounts[i] + '\n';
-    });
-
     if (tokenType === 'erc20') {
       let sumAmount;
       if (simple) {
@@ -344,8 +360,7 @@ const Form = ({ tokenType }) => {
       setErc20Sum(sumAmount);
     }
 
-    setAddressList(dataField);
-    setRowCount(addresses.length);
+    fillDataField(addresses, ids, amounts);
     setIsChecked(true);
     if (addresses.length) setSuccessAlert(true);
     setUploadLoading(false);
@@ -377,7 +392,7 @@ const Form = ({ tokenType }) => {
 
   const exec = (e) => {
     e.preventDefault();
-    !isChecked ? checkData() : defaultAccount ? sendToken() : connect();
+    !isChecked ? checkData() : defaultAccount ? sendTokens() : connect();
   };
 
   const handleFileOnSubmit = (e) => {
