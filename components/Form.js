@@ -402,6 +402,7 @@ const Form = ({ tokenType }) => {
     >
       <Modal
         data={listError}
+        example={false}
         closeModal={() => setErrorModal(false)}
         modalStatus={errorModal}
         title='Removed Rows'

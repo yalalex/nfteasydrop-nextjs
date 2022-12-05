@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 
-const ModalContent = ({ content, example = true }) => {
+const ModalContent = ({ content, example }) => {
   return (
     <>
       <div className='title'>
@@ -11,9 +11,9 @@ const ModalContent = ({ content, example = true }) => {
         className='paper'
         sx={{ fontSize: { xs: 12, sm: 14 } }}
       >
-        {content.data.map((line, i) => (
-          <div key={i}>{line}</div>
-        ))}
+        {example
+          ? content.data.map((line, i) => <div key={i}>{line}</div>)
+          : content.map((line, i) => <div key={i}>{line}</div>)}
       </Paper>
     </>
   );

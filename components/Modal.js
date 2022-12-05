@@ -37,9 +37,13 @@ const Modal = ({
         </DialogTitle>
         <DialogContent dividers={true} className='content'>
           <div>
-            {data.map((content, i) => (
-              <ModalContent key={i} content={content} />
-            ))}
+            {example ? (
+              data.map((content, i) => (
+                <ModalContent key={i} content={content} example={example} />
+              ))
+            ) : (
+              <ModalContent content={data} example={example} />
+            )}
             {example && (
               <div className='footnote'>
                 *ERC-1155 single ID mode is best for the case when you want to
