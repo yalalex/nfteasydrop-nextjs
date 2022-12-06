@@ -46,7 +46,7 @@ const Dropdown = ({
                 priority={true}
                 height={20}
                 width={20}
-                alt=''
+                alt={current.name}
               />
             ) : null
           }
@@ -78,7 +78,12 @@ const Dropdown = ({
               >
                 <div className='selection'>
                   <div>
-                    <Image src={option.icon} height={20} width={20} alt='' />
+                    <Image
+                      src={option.icon}
+                      height={20}
+                      width={20}
+                      alt={option.name}
+                    />
                   </div>
                   <div>{option.name.toUpperCase()}</div>
                 </div>

@@ -41,7 +41,7 @@ const NavbarDrawer = ({ handleDrawerToggle, mobileOpen, icons }) => {
         <Box onClick={handleDrawerToggle} className='drawer'>
           <Link href='/'>
             <IconButton size='large' color='primary' aria-label='NFT Easy Drop'>
-              <Image src={logo} height={45} width={109} alt='' />
+              <Image src={logo} height={45} width={109} alt='NFT Easy Drop' />
             </IconButton>
           </Link>
           <Divider />

@@ -28,24 +28,17 @@ const Navbar = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const icons = useMemo(
-    () => [
-      !mobileOpen ? (
-        <Image
-          src='/icons/ether.svg'
-          priority={true}
-          width='100%'
-          height='100%'
-          alt=''
-        />
-      ) : (
-        <Image src='/icons/ether.svg' height='24' width='24' alt='' />
-      ),
-      <TwitterIcon />,
-      <TelegramIcon />,
-    ],
-    [mobileOpen]
-  );
+  const icons = [
+    <Image
+      src='/icons/ether.svg'
+      priority={true}
+      width='24'
+      height='24'
+      alt=''
+    />,
+    <TwitterIcon />,
+    <TelegramIcon />,
+  ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -78,7 +71,7 @@ const Navbar = () => {
                 priority={true}
                 height={45}
                 width={109}
-                alt=''
+                alt='NFT Easy Drop'
               />
             </IconButton>
           </Link>
